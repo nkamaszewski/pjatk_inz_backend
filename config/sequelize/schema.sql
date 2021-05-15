@@ -1,0 +1,1 @@
+CREATE SCHEMA IF NOT EXISTS 'pjatk_inz_db';
