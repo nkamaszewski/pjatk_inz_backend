@@ -5,8 +5,8 @@ const Position = require('../../model/sequelize/Position');
 
 
 module.exports = () => {
-	Division.hasMany(Department, { as: 'divisionDepartment', foreignKey: { name: 'idDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Department.belongsTo(Division, { as: 'divisionDepartment', foreignKey: { name: 'idDivision', allowNull: false } });
+	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'idDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Department.belongsTo(Division, { as: 'divisionDepartments', foreignKey: { name: 'idDivision', allowNull: false } });
 
 
 	let allDivisions, allDepartments;

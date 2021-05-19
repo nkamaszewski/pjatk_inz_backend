@@ -1,7 +1,7 @@
 const Division = require('../../model/sequelize/Division');
 const Department = require('../../model/sequelize/Department');
 
-exports.getDivisiony = () => {
+exports.getDivisions = () => {
     return Division.findAll();
 };
 
@@ -13,6 +13,22 @@ exports.createDivision = (newDivisionData) => {
 
 exports.deleteDivision = (divisionId) => {
     return Division.destroy({
-        where: { _id: divisionId }
+        where: { IdDivision: divisionId }
     });
 };
+
+exports.updateDivision = (divisionId, data) => {
+    const Name = data.Name;
+    return Division.update(data, { where: { IdDivision: divisionId } });
+}
+
+exports.getDivisionById = (divId) => {
+    return Division.findByPk(divId,
+        {
+            include: [{
+                model: Department,
+                as: 'divisionDepartments'
+            }]
+        });
+};
+
