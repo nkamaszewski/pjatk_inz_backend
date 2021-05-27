@@ -18,7 +18,7 @@ exports.deletePosition = (positionId) => {
 };
 
 exports.updatePosition = (positionId, data) => {
-    const Name = data.Name;
+    const name = data.Name;
     return Position.update(data, { where: { IdPosition: positionId } });
 }
 

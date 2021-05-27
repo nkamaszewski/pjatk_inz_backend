@@ -10,6 +10,8 @@ const divApiRouter = require('./routes/api/DivisionApiRoute');
 const depApiRouter = require('./routes/api/DepartmentApiRoute');
 const posApiRouter = require('./routes/api/PositionApiRoute');
 const empApiRouter = require('./routes/api/EmploymentApiRoute');
+const subApiRouter = require('./routes/api/SubjectApiRoute');
+const topApiRouter = require('./routes/api/TopicApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
 sequelizeInit()
@@ -35,6 +37,8 @@ app.use('/api/divisions', divApiRouter);
 app.use('/api/departments', depApiRouter);
 app.use('/api/positions', posApiRouter);
 app.use('/api/employments', empApiRouter);
+app.use('/api/subjects', subApiRouter);
+app.use('/api/topics', topApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

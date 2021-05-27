@@ -3,6 +3,8 @@ const Division = require('../../model/sequelize/Division');
 const Department = require('../../model/sequelize/Department');
 const Position = require('../../model/sequelize/Position');
 const Employment = require('../../model/sequelize/Employment');
+const Subject = require('../../model/sequelize/Subject');
+const Topic = require('../../model/sequelize/Topic');
 
 
 module.exports = () => {
@@ -14,6 +16,9 @@ module.exports = () => {
 
 	Department.hasMany(Employment, { as: 'departmentEmployments', foreignKey: { name: 'IdDepartment', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Employment.belongsTo(Department, { as: 'employmentsDepartment', foreignKey: { name: 'IdDepartment', allowNull: false } });
+
+	Subject.hasMany(Topic, { as: 'subjectTopics', foreignKey: { name: 'IdSubject', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Topic.belongsTo(Subject, { as: 'topicsSubject', foreignKey: { name: 'IdSubject', allowNull: false } });
 
 
 	let allDivisions, allDepartments;

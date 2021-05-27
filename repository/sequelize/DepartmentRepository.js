@@ -25,7 +25,8 @@ exports.deleteDepartment = (departmentId) => {
 };
 
 exports.updateDepartment = (departmentId, data) => {
-    const Name = data.Name;
+    const name = data.Name;
+    const idDivision = data.IdDivision;
     return Department.update(data, { where: { IdDepartment: departmentId } });
 }
 

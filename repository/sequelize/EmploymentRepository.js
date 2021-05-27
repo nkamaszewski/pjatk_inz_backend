@@ -29,7 +29,11 @@ exports.deleteEmployment = (employmentId) => {
 };
 
 exports.updateEmployment = (employmentId, data) => {
-    const Name = data.Name;
+    const dateFrom = data.DateFrom;
+    const dateTo = data.DateTo;
+    const idDepartment = data.IdDepartment;
+    const idPosition = data.idPosition;
+    const idPerson = data.idPerson;
     return Employment.update(data, { where: { IdEmployment: employmentId } });
 }
 
