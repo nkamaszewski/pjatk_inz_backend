@@ -6,14 +6,15 @@ exports.getDepartments = () => {
         attributes: ['IdDepartment', 'Name', 'IdDivision'],
         include: [{
             model: Division,
-            as: 'divisionDepartments'
+            as: 'departmentsDivision'
         }]
     });
 };
 
 exports.createDepartment = (newDepartmentData) => {
     return Department.create({
-        Name: newDepartmentData.Name
+        Name: newDepartmentData.Name,
+        IdDivision: newDepartmentData.IdDivision
     });
 };
 

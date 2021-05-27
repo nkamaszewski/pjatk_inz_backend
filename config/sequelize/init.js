@@ -2,11 +2,18 @@ const sequelize = require('./sequelize');
 const Division = require('../../model/sequelize/Division');
 const Department = require('../../model/sequelize/Department');
 const Position = require('../../model/sequelize/Position');
+const Employment = require('../../model/sequelize/Employment');
 
 
 module.exports = () => {
-	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'idDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Department.belongsTo(Division, { as: 'divisionDepartments', foreignKey: { name: 'idDivision', allowNull: false } });
+	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'IdDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Department.belongsTo(Division, { as: 'departmentsDivision', foreignKey: { name: 'IdDivision', allowNull: false } });
+
+	Position.hasMany(Employment, { as: 'positionEmployments', foreignKey: { name: 'IdPosition', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Employment.belongsTo(Position, { as: 'emplymentPosition', foreignKey: { name: 'IdPosition', allowNull: false } });
+
+	Department.hasMany(Employment, { as: 'departmentEmployments', foreignKey: { name: 'IdDepartment', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Employment.belongsTo(Department, { as: 'employmentsDepartment', foreignKey: { name: 'IdDepartment', allowNull: false } });
 
 
 	let allDivisions, allDepartments;
@@ -35,8 +42,8 @@ module.exports = () => {
 		.then(departments => {
 			if (!departments || departments.length == 0) {
 				return Department.bulkCreate([
-					{ Name: 'Wydział Księgowości', idDivision: 1 },
-					{ Name: 'Płatności i refundacji', idDivision: 1 }
+					{ Name: 'Wydział Księgowości', IdDivision: 1 },
+					{ Name: 'Płatności i refundacji', IdDivision: 1 }
 				])
 				// .then(() => {
 				// 	return Division.findAll();

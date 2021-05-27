@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../../config/sequelize/sequelize');
 
 const Division = sequelize.define('Division', {
-    idDivision: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
+    IdDivision: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
     Name: { type: Sequelize.STRING, allowNull: false },
 }, {
     timestamps: false,
