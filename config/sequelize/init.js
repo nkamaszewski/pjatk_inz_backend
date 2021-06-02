@@ -7,6 +7,8 @@ const Subject = require('../../model/sequelize/Subject');
 const Topic = require('../../model/sequelize/Topic');
 const Participation = require('../../model/sequelize/Participation');
 const Questionnaire = require('../../model/sequelize/Questionnaire');
+const Room = require('../../model/sequelize/Room');
+const Meeting = require('../../model/sequelize/Meeting');
 
 module.exports = () => {
 	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'IdDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
@@ -23,6 +25,9 @@ module.exports = () => {
 
 	Participation.hasMany(Questionnaire, { as: 'participationQuestionnaires', foreignKey: { name: 'IdParticipation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Questionnaire.belongsTo(Participation, { as: 'questionnairesParticipation', foreignKey: { name: 'IdParticipation', allowNull: false } });
+
+	Room.hasMany(Meeting, { as: 'roomMeeting', foreignKey: { name: 'IdRoom', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Meeting.belongsTo(Room, { as: 'MeetingsRoom', foreignKey: { name: 'IdRoom', allowNull: false } });
 
 
 	let allDivisions, allDepartments;
