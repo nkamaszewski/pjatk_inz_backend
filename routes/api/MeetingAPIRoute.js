@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 
-const roomApiController = require('../../api/RoomAPI');
-router.get('/', roomApiController.getRooms);
-router.get('/:roomId', roomApiController.getRoomById);
+const meetApiController = require('../../api/MeetingAPI');
+router.get('/', meetApiController.getMeetings);
+router.get('/:meetId', meetApiController.getMeetingById);
 
-router.post('/', roomApiController.createRoom);
-router.put('/:roomId', roomApiController.updateRoom);
-router.delete('/:roomId', roomApiController.deleteRoom);
+router.post('/', meetApiController.createMeeting);
+router.put('/:meetId', meetApiController.updateMeeting);
+router.delete('/:meetId', meetApiController.deleteMeeting);
 module.exports = router;

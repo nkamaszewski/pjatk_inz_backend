@@ -7,7 +7,13 @@ exports.getRooms = () => {
 
 exports.createRoom = (newRoomData) => {
     return Room.create({
-        Room: newRoomData.Room
+        Name: newRoomData.Name,
+        Area: newRoomData.Area,
+        CapacitySet1: newRoomData.CapacitySet1,
+        CapacitySet2: newRoomData.CapacitySet2,
+        CapacitySet3: newRoomData.CapacitySet3,
+        CapacitySet4: newRoomData.CapacitySet4,
+
     });
 };
 
@@ -18,7 +24,12 @@ exports.deleteRoom = (roomId) => {
 };
 
 exports.updateRoom = (roomId, data) => {
-    const room = data.Room;
+    const name = data.Room;
+    const area = data.Area;
+    const capacitySet1 = data.CapacitySet1;
+    const capacitySet2 = data.CapacitySet2;
+    const capacitySet3 = data.CapacitySet3;
+    const capacitySet4 = data.CapacitySet4;
     return Room.update(data, { where: { IdRoom: roomId } });
 }
 // do poprawy
@@ -27,7 +38,7 @@ exports.getRoomById = (roomId) => {
         {
             include: [{
                 model: Meeting,
-                as: 'roomMeetings'
+                as: 'roomMeeting'
             }]
         });
 };
