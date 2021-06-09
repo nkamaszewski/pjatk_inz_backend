@@ -3,13 +3,6 @@ const Meeting = require('../../model/sequelize/Meeting');
 // do poprawy
 exports.getMeetings = () => {
     return Meeting.findAll();
-    // return Meeting.findAll({
-    //     attributes: ['IdMeeting', 'Meeting', 'IdRoom'],
-    //     include: [{
-    //         model: Room,
-    //         as: 'meetingsRoom'
-    //     }]
-    // });
 };
 
 exports.createMeeting = (newMeetingData) => {
