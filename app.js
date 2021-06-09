@@ -16,6 +16,8 @@ const partiApiRouter = require('./routes/api/ParticipationApiRoute');
 const questApiRouter = require('./routes/api/QuestionnaireApiRoute');
 const questisApiRouter = require('./routes/api/QuestionnaireIssueApiRoute');
 const issueApiRouter = require('./routes/api/IssueApiRoute');
+const roomApiRouter = require('./routes/api/RoomApiRoute');
+const meetApiRouter = require('./routes/api/MeetingApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
 sequelizeInit()
@@ -47,6 +49,8 @@ app.use('/api/participations', partiApiRouter);
 app.use('/api/questionnaires', questApiRouter);
 app.use('/api/questionnaireissues', questisApiRouter);
 app.use('/api/issues', issueApiRouter);
+app.use('/api/rooms', roomApiRouter);
+app.use('/api/meetings', meetApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
