@@ -37,8 +37,8 @@ module.exports = () => {
 	Room.hasMany(Meeting, { as: 'roomMeeting', foreignKey: { name: 'IdRoom', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Meeting.belongsTo(Room, { as: 'MeetingsRoom', foreignKey: { name: 'IdRoom', allowNull: false } });
 
-	University.hasMany(Study, { as: 'univesityStudy', foreignKey: { name: 'IdUnivesity', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Study.belongsTo(University, { as: 'studyUniversity', foreignKey: { name: 'IdUnivesity', allowNull: false } });
+	University.hasMany(Study, { as: 'univesityStudy', foreignKey: { name: 'IdUniversity', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Study.belongsTo(University, { as: 'studyUniversity', foreignKey: { name: 'IdUniversity', allowNull: false } });
 
 
 	let allDivisions, allDepartments;
