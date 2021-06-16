@@ -11,6 +11,8 @@ const QuestionnaireIssue = require('../../model/sequelize/QuestionnaireIssue');
 const Issue = require('../../model/sequelize/Issue');
 const Room = require('../../model/sequelize/Room');
 const Meeting = require('../../model/sequelize/Meeting');
+const University = require('../../model/sequelize/University');
+const Study = require('../../model/sequelize/Study');
 
 module.exports = () => {
 	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'IdDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
