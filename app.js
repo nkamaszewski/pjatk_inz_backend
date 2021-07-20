@@ -21,6 +21,8 @@ const roomApiRouter = require('./routes/api/RoomApiRoute');
 const meetApiRouter = require('./routes/api/MeetingApiRoute');
 const univApiRouter = require('./routes/api/UniversityApiRoute');
 const studApiRouter = require('./routes/api/StudyApiRoute');
+const comApiRouter = require('./routes/api/CompanyApiRoute');
+const trnApiRouter = require('./routes/api/TrainingApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
 sequelizeInit().catch((err) => {
@@ -59,8 +61,10 @@ app.use('/api/questionnaireissues', questisApiRouter);
 app.use('/api/issues', issueApiRouter);
 app.use('/api/rooms', roomApiRouter);
 app.use('/api/meetings', meetApiRouter);
-app.use('/api/universitys', univApiRouter);
-app.use('/api/studys', studApiRouter);
+app.use('/api/universities', univApiRouter);
+app.use('/api/studies', studApiRouter);
+app.use('/api/companies', comApiRouter);
+app.use('/api/trainings', trnApiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

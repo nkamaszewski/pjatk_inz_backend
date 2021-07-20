@@ -14,6 +14,10 @@ const Meeting = require('../../model/sequelize/Meeting');
 const University = require('../../model/sequelize/University');
 const Study = require('../../model/sequelize/Study');
 
+const Company = require('../../model/sequelize/Company');
+const Training = require('../../model/sequelize/Training');
+
+
 module.exports = () => {
 	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'IdDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Department.belongsTo(Division, { as: 'departmentsDivision', foreignKey: { name: 'IdDivision', allowNull: false } });
@@ -41,6 +45,9 @@ module.exports = () => {
 
 	University.hasMany(Study, { as: 'univesityStudy', foreignKey: { name: 'IdUniversity', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Study.belongsTo(University, { as: 'studyUniversity', foreignKey: { name: 'IdUniversity', allowNull: false } });
+
+	Company.hasMany(Training, { as: 'companyTrainings', foreignKey: { name: 'IdCompany', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Training.belongsTo(Company, { as: 'trainingCompany', foreignKey: { name: 'IdCompany', allowNull: false } });
 
 
 	let allDivisions, allDepartments;
