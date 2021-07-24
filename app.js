@@ -28,6 +28,7 @@ const emplApiRouter = require('./routes/api/EmployeeApiRoute');
 const coachApiRouter = require('./routes/api/CoachApiRoute');
 const empGroupApiRouter = require('./routes/api/EmployeeGroupApiRoute');
 const groupApiRouter = require('./routes/api/GroupApiRoute');
+const eduApiRouter = require('./routes/api/EducationApiRoute');
 
 
 const sequelizeInit = require('./config/sequelize/init');
@@ -76,6 +77,7 @@ app.use('/api/employees', emplApiRouter);
 app.use('/api/coaches', coachApiRouter);
 app.use('/api/employeegroups', empGroupApiRouter);
 app.use('/api/groups', groupApiRouter);
+app.use('/api/education', eduApiRouter);
 
 
 // catch 404 and forward to error handler
