@@ -16,6 +16,11 @@ const Study = require('../../model/sequelize/Study');
 
 const Company = require('../../model/sequelize/Company');
 const Training = require('../../model/sequelize/Training');
+const Person = require('../../model/sequelize/Person');
+const Employee = require('../../model/sequelize/Employee');
+const Coach = require('../../model/sequelize/Coach');
+const EmployeeGroup = require('../../model/sequelize/EmployeeGroup');
+const Group = require('../../model/sequelize/Group');
 
 
 module.exports = () => {
@@ -49,6 +54,23 @@ module.exports = () => {
 	Company.hasMany(Training, { as: 'companyTrainings', foreignKey: { name: 'IdCompany', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Training.belongsTo(Company, { as: 'trainingCompany', foreignKey: { name: 'IdCompany', allowNull: false } });
 
+	Person.hasOne(Employee, { as: 'personEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Employee.belongsTo(Person, { as: 'employeePerson', foreignKey: { name: 'IdPerson', allowNull: false } });
+
+	Person.hasOne(Coach, { as: 'personCoach', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Coach.belongsTo(Person, { as: 'coachPerson', foreignKey: { name: 'IdPerson', allowNull: false } });
+
+	Coach.hasMany(Training, { as: 'coachTrainings', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Training.belongsTo(Coach, { as: 'trainingCoach', foreignKey: { name: 'IdPerson', allowNull: false } });
+
+	Employee.hasMany(EmployeeGroup, { as: 'employeeEmployeeGroup', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	EmployeeGroup.belongsTo(Employee, { as: 'employeeGroupEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+
+	Group.hasMany(EmployeeGroup, { as: 'groupEmployeeGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	EmployeeGroup.belongsTo(Group, { as: 'employeeGroupGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+
+	Group.hasMany(Meeting, { as: 'groupMeeting', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Meeting.belongsTo(Group, { as: 'meetingGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 
 	let allDivisions, allDepartments;
 	return sequelize
@@ -87,3 +109,50 @@ module.exports = () => {
 			}
 		});
 };
+
+/*
+-- Person
+INSERT INTO `pjatk_inz_db`.`person` (`FirstName`, `LastName`, `Email`, `Phone`) VALUES ('Adam', 'Nowak', 'an@wp.pl', '123456789');
+INSERT INTO `pjatk_inz_db`.`person` (`FirstName`, `LastName`, `Email`, `Phone`) VALUES ('Jan', 'Kowalski', 'jk@op.pl', '432143211');
+INSERT INTO `pjatk_inz_db`.`person` (`FirstName`, `LastName`, `Email`, `Phone`) VALUES ('Stefan', 'Konieczny', 'sk@op.pl', '999888333');
+
+-- Employee
+INSERT INTO `pjatk_inz_db`.`employee` (`IdPerson`, `Pesel`, `Password`) VALUES ('1', '87051106545', 'jakieshaslo');
+INSERT INTO `pjatk_inz_db`.`employee` (`IdPerson`, `Pesel`, `Password`) VALUES ('2', '980312', 'aabbccdd');
+
+-- Coach
+INSERT INTO `pjatk_inz_db`.`coach` (`IdPerson`, `JobTitle`) VALUES ('3', 'dr');
+
+-- Group
+INSERT INTO `pjatk_inz_db`.`group` (`Name`, `NumberOfPerson`) VALUES ('21c', '14');
+INSERT INTO `pjatk_inz_db`.`group` (`Name`, `NumberOfPerson`) VALUES ('15d', '15');
+-- EmployeeGroup
+INSERT INTO `pjatk_inz_db`.`employeegroup` (`IdGroup`, `IdPerson`) VALUES ('1', '1');
+INSERT INTO `pjatk_inz_db`.`employeegroup` (`IdGroup`, `IdPerson`) VALUES ('1', '2');
+-- Company
+INSERT INTO `pjatk_inz_db`.`company` (`Name`, `City`, `PostalCode`, `Street`, `TIN`) VALUES ('ABC Edukacja', 'Warszawa', '01-234', 'Zielona', '1070005730');
+INSERT INTO `pjatk_inz_db`.`company` (`Name`, `City`, `PostalCode`, `Street`, `TIN`) VALUES ('Altkom', 'Warszawa', '01-123', 'Chłodna 51', '118-00-08-391');
+
+-- Subject
+INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('Ekonomiczne');
+INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('Informatyczne - programowanie');
+INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('Informatyczne - administracja');
+INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('BHP');
+
+-- Topic
+INSERT INTO `pjatk_inz_db`.`topic` (`Topic`, `IdSubject`) VALUES ('Node.js dla każdego', '2');
+INSERT INTO `pjatk_inz_db`.`topic` (`Topic`, `IdSubject`) VALUES ('Windows Server 2019', '3');
+INSERT INTO `pjatk_inz_db`.`topic` (`Topic`, `IdSubject`) VALUES ('Księgowość dla informatyków', '1');
+
+
+-- Education
+INSERT INTO `pjatk_inz_db`.`education` (`Price`, `PriceAccommodation`, `PriceTransit`) VALUES ('900', '0', '100');
+INSERT INTO `pjatk_inz_db`.`education` (`Price`, `PriceAccommodation`, `PriceTransit`) VALUES ('1000', '200', '100');
+
+-- Training
+INSERT INTO `pjatk_inz_db`.`training` (`IdEducation`, `IdTopic`, `IdCompany`, `IdPerson`, `DateFrom`) VALUES ('1', '1', '2', '3', '2021-09-09');
+
+
+
+
+*/

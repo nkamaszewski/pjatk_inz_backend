@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize = require('../../config/sequelize/sequelize');
 
 const Study = sequelize.define('Study', {
-    IdEducation: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
+    IdEducation: { type: Sequelize.INTEGER, autoIncrement: false, allowNull: false, primaryKey: true },
     FieldOfStudy: { type: Sequelize.STRING, allowNull: false },
     IdUniversity: { type: Sequelize.INTEGER, allowNull: false },
     IdMode: { type: Sequelize.INTEGER, allowNull: false },
