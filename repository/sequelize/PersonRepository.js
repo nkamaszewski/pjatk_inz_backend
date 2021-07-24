@@ -1,5 +1,4 @@
 const Person = require('../../model/sequelize/Person');
-// const Department = require('../../model/sequelize/Department');
 
 exports.getPersons = () => {
     return Person.findAll();
@@ -30,13 +29,7 @@ exports.updatePerson = (personId, data) => {
     return Person.update(data, { where: { IdPerson: personId } });
 }
 
-// exports.getPersonById = (perId) => {
-//     return Person.findByPk(perId,
-//         {
-//             include: [{
-//                 model: Department,
-//                 as: 'divisionDepartments'
-//             }]
-//         });
-// };
+exports.getPersonById = (perId) => {
+    return Person.findByPk(perId);
+};
 
