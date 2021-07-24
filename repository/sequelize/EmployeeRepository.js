@@ -9,34 +9,32 @@ exports.getEmployees = () => {
             as: 'employeePerson'
         }]
     });
-    // return Employee.findAll();
 
 };
 
-exports.createEmployee = (newEmployeeData) => {
+exports.createEmployee = (personId, newEmployeeData) => {
     return Employee.create({
-        IdPerson: newEmployeeData.IdPerson,
+        IdPerson: personId,
         Pesel: newEmployeeData.Pesel,
         Password: newEmployeeData.Password
     });
 };
 
-exports.deleteEmployee = (employeeId) => {
+exports.deleteEmployee = (personId) => {
     return Employee.destroy({
-        where: { IdEmployee: employeeId }
+        where: { IdPerson: personId }
     });
 };
 
-exports.updateEmployee = (employeeId, data) => {
-
+exports.updateEmployee = (personId, data) => {
     const IdPerson = data.IdPerson;
     const Pesel = data.Pesel;
     const Password = data.Password;
 
-    return Employee.update(data, { where: { IdEmployee: employeeId } });
+    return Employee.update(data, { where: { IdPerson: personId } });
 }
 
-exports.getEmployeeById = (empId) => {
-    return Employee.findByPk(empId);
+exports.getEmployeeById = (persId) => {
+    return Employee.findByPk(persId);
 };
 

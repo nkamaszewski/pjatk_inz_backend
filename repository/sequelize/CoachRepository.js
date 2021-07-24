@@ -9,33 +9,32 @@ exports.getCoachs = () => {
             as: 'coachPerson'
         }]
     });
-    // return Coach.findAll();
 
 };
 
-exports.createCoach = (newCoachData) => {
+exports.createCoach = (personId, newCoachData) => {
     return Coach.create({
-        IdPerson: newCoachData.IdPerson,
+        IdPerson: personId,
         JobTitle: newCoachData.JobTitle
     });
 };
 
-exports.deleteCoach = (coachId) => {
+exports.deleteCoach = (personId) => {
     return Coach.destroy({
-        where: { IdCoach: coachId }
+        where: { IdPerson: personId }
     });
 };
 
-exports.updateCoach = (coachId, data) => {
+exports.updateCoach = (personId, data) => {
 
     const IdPerson = data.IdPerson;
-    const Pesel = data.Pesel;
-    const Password = data.Password;
+    const JobTitle = data.JobTitle;
 
-    return Coach.update(data, { where: { IdCoach: coachId } });
+
+    return Coach.update(data, { where: { IdPerson: personId } });
 }
 
-exports.getCoachById = (coachId) => {
-    return Coach.findByPk(coachId);
+exports.getCoachById = (personId) => {
+    return Coach.findByPk(personId);
 };
 

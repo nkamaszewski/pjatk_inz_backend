@@ -25,7 +25,8 @@ exports.getEmployeeById = (req, res, next) => {
 };
 
 exports.createEmployee = (req, res, next) => {
-    EmployeeRepository.createEmployee(req.body)
+    const empId = req.params.empId;
+    EmployeeRepository.createEmployee(empId, req.body)
         .then(newObj => {
             res.status(201).json(newObj);
         })
