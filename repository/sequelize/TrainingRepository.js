@@ -1,8 +1,37 @@
-// const Division = require('../../model/sequelize/Division');
+const Education = require('../../model/sequelize/Education');
+const Coach = require('../../model/sequelize/Coach');
+const Person = require('../../model/sequelize/Person');
+
+const Topic = require('../../model/sequelize/Topic');
+const Company = require('../../model/sequelize/Company');
+
 const Training = require('../../model/sequelize/Training');
 
 exports.getTrainings = () => {
-    return Training.findAll();
+    return Training.findAll({
+        attributes: ['Internal', 'DateFrom'],
+        include: [{
+            model: Education,
+            as: 'trainingEducation'
+        },
+        {
+            model: Company,
+            as: 'trainingCompany'
+        },
+        {
+            model: Topic,
+            as: 'trainingTopic'
+        },
+        {
+            model: Coach,
+            as: 'trainingCoach',
+            include: [{
+                model: Person,
+                as: 'coachPerson'
+            }]
+        }
+        ]
+    });
 };
 
 exports.createTraining = (newTrainingData) => {

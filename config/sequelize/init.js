@@ -21,6 +21,8 @@ const Employee = require('../../model/sequelize/Employee');
 const Coach = require('../../model/sequelize/Coach');
 const EmployeeGroup = require('../../model/sequelize/EmployeeGroup');
 const Group = require('../../model/sequelize/Group');
+const Education = require('../../model/sequelize/Education');
+
 
 
 module.exports = () => {
@@ -62,6 +64,13 @@ module.exports = () => {
 
 	Coach.hasMany(Training, { as: 'coachTrainings', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Training.belongsTo(Coach, { as: 'trainingCoach', foreignKey: { name: 'IdPerson', allowNull: false } });
+
+	Topic.hasMany(Training, { as: 'topicTrainings', foreignKey: { name: 'IdTopic', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Training.belongsTo(Topic, { as: 'trainingTopic', foreignKey: { name: 'IdTopic', allowNull: false } });
+
+
+	Education.hasOne(Training, { as: 'educationTrainings', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' })
+	Training.belongsTo(Education, { as: 'trainingEducation', foreignKey: { name: 'IdEducation', allowNull: false } });
 
 	Employee.hasMany(EmployeeGroup, { as: 'employeeEmployeeGroup', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	EmployeeGroup.belongsTo(Employee, { as: 'employeeGroupEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
