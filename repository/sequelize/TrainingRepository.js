@@ -34,9 +34,9 @@ exports.getTrainings = () => {
     });
 };
 
-exports.createTraining = (newTrainingData) => {
+exports.createTraining = (eduId, newTrainingData) => {
     return Training.create({
-        IdEducation: newTrainingData.IdEducation,
+        IdEducation: eduId,
         IdTopic: newTrainingData.IdTopic,
         IdCompany: newTrainingData.IdCompany,
         IdPerson: newTrainingData.IdPerson,
@@ -45,13 +45,13 @@ exports.createTraining = (newTrainingData) => {
     });
 };
 
-exports.deleteTraining = (trainingId) => {
+exports.deleteTraining = (eduId) => {
     return Training.destroy({
-        where: { IdTraining: trainingId }
+        where: { IdEducation: eduId }
     });
 };
 
-exports.updateTraining = (trainingId, data) => {
+exports.updateTraining = (eduId, data) => {
     const name = data.Name;
     const idDivision = data.IdDivision;
 
@@ -62,10 +62,10 @@ exports.updateTraining = (trainingId, data) => {
     const Internal = data.Internat;
     const DateFrom = data.DateFrom;
 
-    return Training.update(data, { where: { IdTraining: trainingId } });
+    return Training.update(data, { where: { IdEducation: eduId } });
 }
 
-exports.getTrainingById = (trnId) => {
-    return Training.findByPk(trnId);
+exports.getTrainingById = (eduId) => {
+    return Training.findByPk(eduId);
 };
 

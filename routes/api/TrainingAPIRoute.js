@@ -3,9 +3,9 @@ const router = express.Router();
 
 const depApiController = require('../../api/TrainingAPI');
 router.get('/', depApiController.getTrainings);
-router.get('/:trnId', depApiController.getTrainingById);
+router.get('/:eduId', depApiController.getTrainingById);
 
-router.post('/', depApiController.createTraining);
-router.put('/:trnId', depApiController.updateTraining);
-router.delete('/:trnId', depApiController.deleteTraining);
+router.post('/:eduId', depApiController.createTraining);
+router.put('/:eduId', depApiController.updateTraining);
+router.delete('/:eduId', depApiController.deleteTraining);
 module.exports = router;

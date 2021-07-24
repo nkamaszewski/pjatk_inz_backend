@@ -11,12 +11,12 @@ exports.getTrainings = (req, res, next) => {
 };
 
 exports.getTrainingById = (req, res, next) => {
-    const trnId = req.params.trnId;
-    TrainingRepository.getTrainingById(trnId)
+    const eduId = req.params.eduId;
+    TrainingRepository.getTrainingById(eduId)
         .then(trn => {
             if (!trn) {
                 res.status(404).json({
-                    message: 'Training with id: ' + trnId + ' not found'
+                    message: 'Training with id: ' + eduId + ' not found'
                 })
             } else {
                 res.status(200).json(trn);
@@ -25,7 +25,9 @@ exports.getTrainingById = (req, res, next) => {
 };
 
 exports.createTraining = (req, res, next) => {
-    TrainingRepository.createTraining(req.body)
+    const eduId = req.params.eduId;
+
+    TrainingRepository.createTraining(eduId, req.body)
         .then(newObj => {
             res.status(201).json(newObj);
         })
@@ -38,8 +40,8 @@ exports.createTraining = (req, res, next) => {
 };
 
 exports.updateTraining = (req, res, next) => {
-    const trnId = req.params.trnId;
-    TrainingRepository.updateTraining(trnId, req.body)
+    const eduId = req.params.eduId;
+    TrainingRepository.updateTraining(eduId, req.body)
         .then(result => {
             res.status(200).json({ message: 'Training updated!', trn: result });
         })
@@ -52,8 +54,8 @@ exports.updateTraining = (req, res, next) => {
 };
 
 exports.deleteTraining = (req, res, next) => {
-    const trnId = req.params.trnId;
-    TrainingRepository.deleteTraining(trnId)
+    const eduId = req.params.eduId;
+    TrainingRepository.deleteTraining(eduId)
         .then(result => {
             res.status(200).json({ message: 'Removed Training', trn: result });
         })
