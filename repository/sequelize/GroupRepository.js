@@ -1,4 +1,3 @@
-// const Division = require('../../model/sequelize/Division');
 const Group = require('../../model/sequelize/Group');
 
 exports.getGroups = () => {
