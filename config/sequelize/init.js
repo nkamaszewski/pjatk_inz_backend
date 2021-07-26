@@ -22,6 +22,7 @@ const Coach = require('../../model/sequelize/Coach');
 const EmployeeGroup = require('../../model/sequelize/EmployeeGroup');
 const Group = require('../../model/sequelize/Group');
 const Education = require('../../model/sequelize/Education');
+const GraduateDegree = require('../../model/sequelize/GraduateDegree');
 
 
 
@@ -80,6 +81,9 @@ module.exports = () => {
 
 	Group.hasMany(Meeting, { as: 'groupMeeting', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Meeting.belongsTo(Group, { as: 'meetingGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+
+	GraduateDegree.hasMany(Study, { as: 'graduateDegreeStudys', foreignKey: { name: 'IdGraduateDegree', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Study.belongsTo(GraduateDegree, { as: 'studyssGraduateDegree', foreignKey: { name: 'IdGraduateDegree', allowNull: false } });
 
 	let allDivisions, allDepartments;
 	return sequelize
