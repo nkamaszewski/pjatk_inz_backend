@@ -31,6 +31,10 @@ const groupApiRouter = require('./routes/api/GroupApiRoute');
 const eduApiRouter = require('./routes/api/EducationApiRoute');
 const gradDegApiRouter = require('./routes/api/GraduateDegreeApiRoute');
 const studModApiRouter = require('./routes/api/StudyModeApiRoute');
+const appForReasonsApiRouter = require('./routes/api/ApplicationForReasonsApiRoute');
+const appForRefundApiRouter = require('./routes/api/ApplicationForRefundApiRoute');
+const reasForRefundApiRouter = require('./routes/api/ReasonForRefundApiRoute');
+const statusApiRouter = require('./routes/api/StatusApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
 sequelizeInit().catch((err) => {
@@ -81,6 +85,10 @@ app.use('/api/groups', groupApiRouter);
 app.use('/api/education', eduApiRouter);
 app.use('/api/graduatedegrees', gradDegApiRouter);
 app.use('/api/studymodess', studModApiRouter);
+app.use('/api/appforreasons', appForReasonsApiRouter);
+app.use('/api/appforrefund', appForRefundApiRouter);
+app.use('/api/reasforrefund', reasForRefundApiRouter);
+app.use('/api/status', statusApiRouter);
 
 
 // catch 404 and forward to error handler

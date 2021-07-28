@@ -24,6 +24,10 @@ const Group = require('../../model/sequelize/Group');
 const Education = require('../../model/sequelize/Education');
 const GraduateDegree = require('../../model/sequelize/GraduateDegree');
 const StudyMode = require('../../model/sequelize/StudyMode');
+const ApplicationForRefund = require('../../model/sequelize/ApplicationForRefund');
+const ReasonForRefund = require('../../model/sequelize/ReasonForRefund');
+const ApplicationForReasons = require('../../model/sequelize/ApplicationForReasons');
+const Status = require('../../model/sequelize/Status');
 
 
 
@@ -88,6 +92,20 @@ module.exports = () => {
 
 	StudyMode.hasMany(Study, { as: 'studyModeStudys', foreignKey: { name: 'IdStudyMode', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Study.belongsTo(StudyMode, { as: 'studyssStudyMode', foreignKey: { name: 'IdStudyMode', allowNull: false } });
+
+	Status.hasMany(ApplicationForRefund, { as: 'statusApplicationForRefunds', foreignKey: { name: 'IdStatus', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	ApplicationForRefund.belongsTo(Status, { as: 'applicationForRefundsStatus', foreignKey: { name: 'IdStatus', allowNull: false } });
+
+	Status.hasMany(ApplicationForReasons, { as: 'statusApplicationForReasons', foreignKey: { name: 'IdStatus', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	ApplicationForReasons.belongsTo(Status, { as: 'applicationForReasonsStatus', foreignKey: { name: 'IdStatus', allowNull: false } });
+	
+
+	ReasonForRefund.hasMany(ApplicationForReasons, { as: 'reasonForRefundApplicationForReasons', foreignKey: { name: 'IdReasonForRefund', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	ApplicationForReasons.belongsTo(ReasonForRefund, { as: 'applicationForReasonsReasonForRefund', foreignKey: { name: 'IdReasonForRefund', allowNull: false } });
+
+	ApplicationForRefund.hasMany(ApplicationForReasons, { as: 'applicationForRefundApplicationForReasons', foreignKey: { name: 'IdApplicationForRefund', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	ApplicationForReasons.belongsTo(ApplicationForRefund, { as: 'applicationForReasonsApplicationForRefund', foreignKey: { name: 'IdApplicationForRefund', allowNull: false } });
+	
 
 	let allDivisions, allDepartments;
 	return sequelize
