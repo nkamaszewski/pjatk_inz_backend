@@ -3,7 +3,7 @@ const sequelize = require('../../config/sequelize/sequelize');
 
 const ReasonForRefund = sequelize.define('ReasonForRefund', {
     IdReasonForRefund: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
-    Name: { type: Sequelize.String, allowNull: false }
+    Name: { type: Sequelize.STRING, allowNull: false }
 }, {
     timestamps: false,
     tableName: 'ReasonForRefund'
