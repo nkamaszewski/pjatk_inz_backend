@@ -35,6 +35,8 @@ const appForReasonsApiRouter = require('./routes/api/ApplicationForReasonsApiRou
 const appForRefundApiRouter = require('./routes/api/ApplicationForRefundApiRoute');
 const reasForRefundApiRouter = require('./routes/api/ReasonForRefundApiRoute');
 const statusApiRouter = require('./routes/api/StatusApiRoute');
+const offApiRouter = require('./routes/api/OfferApiRoute');
+const questOffApiRouter = require('./routes/api/QuestionnaireOfferApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
 sequelizeInit().catch((err) => {
@@ -89,6 +91,8 @@ app.use('/api/appforreasons', appForReasonsApiRouter);
 app.use('/api/appforrefund', appForRefundApiRouter);
 app.use('/api/reasforrefund', reasForRefundApiRouter);
 app.use('/api/status', statusApiRouter);
+app.use('/api/offer', offApiRouter);
+app.use('/api/offer', questOffApiRouter);
 
 
 // catch 404 and forward to error handler

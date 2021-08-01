@@ -28,6 +28,8 @@ const ApplicationForRefund = require('../../model/sequelize/ApplicationForRefund
 const ReasonForRefund = require('../../model/sequelize/ReasonForRefund');
 const ApplicationForReasons = require('../../model/sequelize/ApplicationForReasons');
 const Status = require('../../model/sequelize/Status');
+const Offer = require('../../model/sequelize/Offer');
+const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 
 
 
@@ -98,6 +100,12 @@ module.exports = () => {
 
 	Status.hasMany(ApplicationForReasons, { as: 'statusApplicationForReasons', foreignKey: { name: 'IdStatus', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	ApplicationForReasons.belongsTo(Status, { as: 'applicationForReasonsStatus', foreignKey: { name: 'IdStatus', allowNull: false } });
+
+	QuestionnaireOffer.hasMany(Offer, { as: 'questionnaireOfferOffer', foreignKey: { name: 'IdQuestionnaireOffer', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Offer.belongsTo(QuestionnaireOffer, { as: 'offerQuestionnaireOffer', foreignKey: { name: 'IdQuestionnaireOffer', allowNull: false } });
+
+	Employee.hasMany(QuestionnaireOffer, { as: 'employeeQuestionnarieOffer', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	QuestionnaireOffer.belongsTo(Employee, { as: 'questionnaireOfferEmployee', foreignKey: { name: 'IdPerson', allowNull: false } });
 	
 
 	ReasonForRefund.hasMany(ApplicationForReasons, { as: 'reasonForRefundApplicationForReasons', foreignKey: { name: 'IdReasonForRefund', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
