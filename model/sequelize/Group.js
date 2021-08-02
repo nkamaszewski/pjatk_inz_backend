@@ -8,6 +8,12 @@ const Group = sequelize.define('Group', {
 	IdEducation: { type: Sequelize.INTEGER, allowNull: true }
 }, {
 	timestamps: false,
-	tableName: 'Group'
+	tableName: 'Group',
+	indexes: [
+		{
+			name: 'idx_group_idEducation',
+			fields: ['IdEducation']
+		}
+	]
 });
 module.exports = Group;

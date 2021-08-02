@@ -10,6 +10,16 @@ const Company = sequelize.define('Company', {
 	TIN: { type: Sequelize.STRING, allowNull: false }
 }, {
 	timestamps: false,
-	tableName: 'Company'
+	tableName: 'Company',
+	indexes: [
+		{
+			name: 'idx_company_name',
+			fields: ['Name']
+		},
+		{
+			name: 'idx_company_TIN',
+			fields: ['TIN']
+		}
+	]
 });
 module.exports = Company;

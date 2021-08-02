@@ -7,6 +7,13 @@ const EmployeeGroup = sequelize.define('EmployeeGroup', {
     IdPerson: { type: Sequelize.INTEGER, allowNull: false }
 }, {
     timestamps: false,
-    tableName: 'EmployeeGroup'
+    tableName: 'EmployeeGroup',
+    indexes: [
+        {
+            name: 'idx_employeeGroup',
+            unique: true,
+            fields: ['IdGroup', 'IdPerson']
+        }
+    ]
 });
 module.exports = EmployeeGroup;

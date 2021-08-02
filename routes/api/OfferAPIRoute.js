@@ -3,7 +3,7 @@ const router = express.Router();
 
 const offApiController = require('../../api/OfferAPI');
 router.get('/', offApiController.getOffers);
-router.get('/:offId', meetApiController.getOfferById);
+// router.get('/:offId', meetApiController.getOfferById);
 
 router.post('/', offApiController.createOffer);
 router.put('/:offId', offApiController.updateOffer);

@@ -7,6 +7,16 @@ const Topic = sequelize.define('Topic', {
     IdSubject: { type: Sequelize.INTEGER, allowNull: false }
 }, {
     timestamps: false,
-    tableName: 'Topic'
+    tableName: 'Topic',
+    indexes: [
+        {
+            name: 'idx_topic_idSubiect',
+            fields: ['IdSubject']
+        },
+        {
+            name: 'idx_topic_topic',
+            fields: ['Topic']
+        }
+    ]
 });
 module.exports = Topic;

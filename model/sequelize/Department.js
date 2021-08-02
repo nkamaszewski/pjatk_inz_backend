@@ -7,6 +7,12 @@ const Department = sequelize.define('Department', {
     IdDivision: { type: Sequelize.INTEGER, allowNull: false },
 }, {
     timestamps: false,
-    tableName: 'Department'
+    tableName: 'Department',
+    indexes: [
+        {
+            name: 'idx_department_idDivision',
+            fields: ['IdDivision']
+        }
+    ]
 });
 module.exports = Department;

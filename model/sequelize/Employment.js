@@ -10,6 +10,20 @@ const Employment = sequelize.define('Employment', {
     IdPerson: { type: Sequelize.INTEGER, allowNull: false }
 }, {
     timestamps: false,
-    tableName: 'Employment'
+    tableName: 'Employment',
+    indexes: [
+        {
+            name: 'idx_employment_idDepartment',
+            fields: ['IdDepartment']
+        },
+        {
+            name: 'idx_employment_idPosition',
+            fields: ['IdPosition']
+        },
+        {
+            name: 'idx_employment_idPerson',
+            fields: ['IdPerson']
+        }
+    ]
 });
 module.exports = Employment;

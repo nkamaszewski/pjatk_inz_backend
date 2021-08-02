@@ -10,6 +10,20 @@ const Training = sequelize.define('Training', {
 	DateFrom: { type: Sequelize.DATE, allowNull: false }
 }, {
 	timestamps: false,
-	tableName: 'Training'
+	tableName: 'Training',
+	indexes: [
+		{
+			name: 'idx_training_idTopic',
+			fields: ['IdTopic']
+		},
+		{
+			name: 'idx_training_idCompany',
+			fields: ['IdCompany']
+		},
+		{
+			name: 'idx_training_idPerson',
+			fields: ['IdPerson']
+		}
+	]
 });
 module.exports = Training;

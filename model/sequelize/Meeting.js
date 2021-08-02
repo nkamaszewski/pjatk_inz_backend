@@ -9,6 +9,16 @@ const Meeting = sequelize.define('Meeting', {
 	IdRoom: { type: Sequelize.INTEGER, allowNull: true }
 }, {
 	timestamps: false,
-	tableName: 'Meeting'
+	tableName: 'Meeting',
+	indexes: [
+		{
+			name: 'idx_meeting_idGroup',
+			fields: ['IdGroup']
+		},
+		{
+			name: 'idx_meeting_idRoom',
+			fields: ['IdRoom']
+		}
+	]
 });
 module.exports = Meeting;
