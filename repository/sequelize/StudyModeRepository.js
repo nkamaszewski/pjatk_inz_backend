@@ -7,9 +7,9 @@ exports.getStudyModes = () => {
 };
 
 exports.createStudyMode = (newStudyModeData) => {
-    return StudyMode.create({
-        StudyMode: newStudyModeData.StudyMode
-    });
+    const {Name} =
+    newStudyModeData;
+  return StudyMode.create({Name});
 };
 
 exports.deleteStudyMode = (studyModeId) => {
