@@ -19,7 +19,7 @@ exports.deleteGraduateDegree = (graduateDegreeId) => {
 };
 
 exports.updateGraduateDegree = (graduateDegreeId, data) => {
-    const graduateDegree = data.GraduateDegree;
+    const Name = data.Name;
     return GraduateDegree.update(data, { where: { IdGraduateDegree: graduateDegreeId } });
 }
 
