@@ -8,6 +8,10 @@ exports.getEmployments = () => {
         include: [{
             model: Department,
             as: 'employmentsDepartment'
+        },
+        {
+            model: Position,
+            as: 'emplymentPosition'
         }]
     });
 };

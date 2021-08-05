@@ -12,9 +12,9 @@ exports.getEmployees = () => {
 
 };
 
-exports.createEmployee = (personId, newEmployeeData) => {
+exports.createEmployee = (newEmployeeData) => {
     return Employee.create({
-        IdPerson: personId,
+        IdPerson: newEmployeeData.IdPerson,
         Pesel: newEmployeeData.Pesel,
         Password: newEmployeeData.Password
     });
