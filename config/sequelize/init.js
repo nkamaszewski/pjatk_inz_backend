@@ -31,134 +31,361 @@ const Status = require('../../model/sequelize/Status');
 const Offer = require('../../model/sequelize/Offer');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 
-
-
 module.exports = () => {
-	Division.hasMany(Department, { as: 'divisionDepartments', foreignKey: { name: 'IdDivision', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Department.belongsTo(Division, { as: 'departmentsDivision', foreignKey: { name: 'IdDivision', allowNull: false } });
+  Division.hasMany(Department, {
+    as: 'divisionDepartments',
+    foreignKey: { name: 'IdDivision', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Department.belongsTo(Division, {
+    as: 'departmentsDivision',
+    foreignKey: { name: 'IdDivision', allowNull: false },
+  });
 
-	Position.hasMany(Employment, { as: 'positionEmployments', foreignKey: { name: 'IdPosition', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Employment.belongsTo(Position, { as: 'emplymentPosition', foreignKey: { name: 'IdPosition', allowNull: false } });
+  Position.hasMany(Employment, {
+    as: 'positionEmployments',
+    foreignKey: { name: 'IdPosition', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Employment.belongsTo(Position, {
+    as: 'emplymentPosition',
+    foreignKey: { name: 'IdPosition', allowNull: false },
+  });
 
-	Department.hasMany(Employment, { as: 'departmentEmployments', foreignKey: { name: 'IdDepartment', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Employment.belongsTo(Department, { as: 'employmentsDepartment', foreignKey: { name: 'IdDepartment', allowNull: false } });
+  Department.hasMany(Employment, {
+    as: 'departmentEmployments',
+    foreignKey: { name: 'IdDepartment', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Employment.belongsTo(Department, {
+    as: 'employmentsDepartment',
+    foreignKey: { name: 'IdDepartment', allowNull: false },
+  });
 
-	Subject.hasMany(Topic, { as: 'subjectTopics', foreignKey: { name: 'IdSubject', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Topic.belongsTo(Subject, { as: 'topicsSubject', foreignKey: { name: 'IdSubject', allowNull: false } });
+  Subject.hasMany(Topic, {
+    as: 'subjectTopics',
+    foreignKey: { name: 'IdSubject', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Topic.belongsTo(Subject, {
+    as: 'topicsSubject',
+    foreignKey: { name: 'IdSubject', allowNull: false },
+  });
 
-	Participation.hasMany(Questionnaire, { as: 'participationQuestionnaires', foreignKey: { name: 'IdParticipation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Questionnaire.belongsTo(Participation, { as: 'questionnairesParticipation', foreignKey: { name: 'IdParticipation', allowNull: false } });
+  Participation.hasMany(Questionnaire, {
+    as: 'participationQuestionnaires',
+    foreignKey: { name: 'IdParticipation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Questionnaire.belongsTo(Participation, {
+    as: 'questionnairesParticipation',
+    foreignKey: { name: 'IdParticipation', allowNull: false },
+  });
 
-	Questionnaire.hasMany(QuestionnaireIssue, { as: 'questionnaireQuestionnaireIssues', foreignKey: { name: 'IdQuestionnaire', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	QuestionnaireIssue.belongsTo(Questionnaire, { as: 'questionnaireissuesQuestionnaire', foreignKey: { name: 'IdQuestionnaire', allowNull: false } });
+  Questionnaire.hasMany(QuestionnaireIssue, {
+    as: 'questionnaireQuestionnaireIssues',
+    foreignKey: { name: 'IdQuestionnaire', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  QuestionnaireIssue.belongsTo(Questionnaire, {
+    as: 'questionnaireissuesQuestionnaire',
+    foreignKey: { name: 'IdQuestionnaire', allowNull: false },
+  });
 
-	Issue.hasMany(QuestionnaireIssue, { as: 'issuesQuestionnaireIssue', foreignKey: { name: 'IdIssue', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	QuestionnaireIssue.belongsTo(Issue, { as: 'questionnaireissuesIssue', foreignKey: { name: 'IdIssue', allowNull: false } });
+  Issue.hasMany(QuestionnaireIssue, {
+    as: 'issuesQuestionnaireIssue',
+    foreignKey: { name: 'IdIssue', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  QuestionnaireIssue.belongsTo(Issue, {
+    as: 'questionnaireissuesIssue',
+    foreignKey: { name: 'IdIssue', allowNull: false },
+  });
 
-	Room.hasMany(Meeting, { as: 'roomMeeting', foreignKey: { name: 'IdRoom', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Meeting.belongsTo(Room, { as: 'MeetingsRoom', foreignKey: { name: 'IdRoom', allowNull: false } });
+  Room.hasMany(Meeting, {
+    as: 'roomMeeting',
+    foreignKey: { name: 'IdRoom', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Meeting.belongsTo(Room, {
+    as: 'MeetingsRoom',
+    foreignKey: { name: 'IdRoom', allowNull: false },
+  });
 
-	University.hasMany(Study, { as: 'univesityStudy', foreignKey: { name: 'IdUniversity', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Study.belongsTo(University, { as: 'studyUniversity', foreignKey: { name: 'IdUniversity', allowNull: false } });
+  University.hasMany(Study, {
+    as: 'univesityStudy',
+    foreignKey: { name: 'IdUniversity', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Study.belongsTo(University, {
+    as: 'studyUniversity',
+    foreignKey: { name: 'IdUniversity', allowNull: false },
+  });
 
-	Company.hasMany(Training, { as: 'companyTrainings', foreignKey: { name: 'IdCompany', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Training.belongsTo(Company, { as: 'trainingCompany', foreignKey: { name: 'IdCompany', allowNull: false } });
+  Company.hasMany(Training, {
+    as: 'companyTrainings',
+    foreignKey: { name: 'IdCompany', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Training.belongsTo(Company, {
+    as: 'trainingCompany',
+    foreignKey: { name: 'IdCompany', allowNull: false },
+  });
 
-	Person.hasOne(Employee, { as: 'personEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Employee.belongsTo(Person, { as: 'employeePerson', foreignKey: { name: 'IdPerson', allowNull: false } });
+  Person.hasOne(Employee, {
+    as: 'personEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Employee.belongsTo(Person, {
+    as: 'employeePerson',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+  });
 
-	Person.hasOne(Coach, { as: 'personCoach', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Coach.belongsTo(Person, { as: 'coachPerson', foreignKey: { name: 'IdPerson', allowNull: false } });
+  Person.hasOne(Coach, {
+    as: 'personCoach',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Coach.belongsTo(Person, {
+    as: 'coachPerson',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+  });
 
-	Coach.hasMany(Training, { as: 'coachTrainings', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Training.belongsTo(Coach, { as: 'trainingCoach', foreignKey: { name: 'IdPerson', allowNull: false } });
+  Coach.hasMany(Training, {
+    as: 'coachTrainings',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Training.belongsTo(Coach, {
+    as: 'trainingCoach',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+  });
 
-	Topic.hasMany(Training, { as: 'topicTrainings', foreignKey: { name: 'IdTopic', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Training.belongsTo(Topic, { as: 'trainingTopic', foreignKey: { name: 'IdTopic', allowNull: false } });
+  Topic.hasMany(Training, {
+    as: 'topicTrainings',
+    foreignKey: { name: 'IdTopic', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Training.belongsTo(Topic, {
+    as: 'trainingTopic',
+    foreignKey: { name: 'IdTopic', allowNull: false },
+  });
 
+  Education.hasOne(Training, {
+    as: 'educationTrainings',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Training.belongsTo(Education, {
+    as: 'trainingEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+  });
 
-	Education.hasOne(Training, { as: 'educationTrainings', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' })
-	Training.belongsTo(Education, { as: 'trainingEducation', foreignKey: { name: 'IdEducation', allowNull: false } });
+  Employee.hasMany(EmployeeGroup, {
+    as: 'employeeEmployeeGroup',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  EmployeeGroup.belongsTo(Employee, {
+    as: 'employeeGroupEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
 
-	Employee.hasMany(EmployeeGroup, { as: 'employeeEmployeeGroup', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	EmployeeGroup.belongsTo(Employee, { as: 'employeeGroupEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+  Group.hasMany(EmployeeGroup, {
+    as: 'groupEmployeeGroup',
+    foreignKey: { name: 'IdGroup', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  EmployeeGroup.belongsTo(Group, {
+    as: 'employeeGroupGroup',
+    foreignKey: { name: 'IdGroup', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
 
-	Group.hasMany(EmployeeGroup, { as: 'groupEmployeeGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	EmployeeGroup.belongsTo(Group, { as: 'employeeGroupGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+  Group.hasMany(Meeting, {
+    as: 'groupMeeting',
+    foreignKey: { name: 'IdGroup', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Meeting.belongsTo(Group, {
+    as: 'meetingGroup',
+    foreignKey: { name: 'IdGroup', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
 
-	Group.hasMany(Meeting, { as: 'groupMeeting', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Meeting.belongsTo(Group, { as: 'meetingGroup', foreignKey: { name: 'IdGroup', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+  GraduateDegree.hasMany(Study, {
+    as: 'graduateDegreeStudys',
+    foreignKey: { name: 'IdGraduateDegree', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Study.belongsTo(GraduateDegree, {
+    as: 'studysGraduateDegree',
+    foreignKey: { name: 'IdGraduateDegree', allowNull: false },
+  });
 
-	GraduateDegree.hasMany(Study, { as: 'graduateDegreeStudys', foreignKey: { name: 'IdGraduateDegree', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Study.belongsTo(GraduateDegree, { as: 'studyssGraduateDegree', foreignKey: { name: 'IdGraduateDegree', allowNull: false } });
+  StudyMode.hasMany(Study, {
+    as: 'studyModeStudys',
+    foreignKey: { name: 'IdStudyMode', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Study.belongsTo(StudyMode, {
+    as: 'studysStudyMode',
+    foreignKey: { name: 'IdStudyMode', allowNull: false },
+  });
 
-	StudyMode.hasMany(Study, { as: 'studyModeStudys', foreignKey: { name: 'IdStudyMode', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Study.belongsTo(StudyMode, { as: 'studyssStudyMode', foreignKey: { name: 'IdStudyMode', allowNull: false } });
+  Status.hasMany(ApplicationForRefund, {
+    as: 'statusApplicationForRefunds',
+    foreignKey: { name: 'IdStatus', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationForRefund.belongsTo(Status, {
+    as: 'applicationForRefundsStatus',
+    foreignKey: { name: 'IdStatus', allowNull: false },
+  });
 
-	Status.hasMany(ApplicationForRefund, { as: 'statusApplicationForRefunds', foreignKey: { name: 'IdStatus', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	ApplicationForRefund.belongsTo(Status, { as: 'applicationForRefundsStatus', foreignKey: { name: 'IdStatus', allowNull: false } });
+  Status.hasMany(ApplicationForReasons, {
+    as: 'statusApplicationForReasons',
+    foreignKey: { name: 'IdStatus', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationForReasons.belongsTo(Status, {
+    as: 'applicationForReasonsStatus',
+    foreignKey: { name: 'IdStatus', allowNull: false },
+  });
 
-	Status.hasMany(ApplicationForReasons, { as: 'statusApplicationForReasons', foreignKey: { name: 'IdStatus', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	ApplicationForReasons.belongsTo(Status, { as: 'applicationForReasonsStatus', foreignKey: { name: 'IdStatus', allowNull: false } });
+  QuestionnaireOffer.hasMany(Offer, {
+    as: 'questionnaireOfferOffer',
+    foreignKey: { name: 'IdQuestionnaireOffer', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Offer.belongsTo(QuestionnaireOffer, {
+    as: 'offerQuestionnaireOffer',
+    foreignKey: { name: 'IdQuestionnaireOffer', allowNull: false },
+  });
 
-	QuestionnaireOffer.hasMany(Offer, { as: 'questionnaireOfferOffer', foreignKey: { name: 'IdQuestionnaireOffer', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Offer.belongsTo(QuestionnaireOffer, { as: 'offerQuestionnaireOffer', foreignKey: { name: 'IdQuestionnaireOffer', allowNull: false } });
+  Employee.hasMany(QuestionnaireOffer, {
+    as: 'employeeQuestionnarieOffer',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  QuestionnaireOffer.belongsTo(Employee, {
+    as: 'questionnaireOfferEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+  });
 
-	Employee.hasMany(QuestionnaireOffer, { as: 'employeeQuestionnarieOffer', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	QuestionnaireOffer.belongsTo(Employee, { as: 'questionnaireOfferEmployee', foreignKey: { name: 'IdPerson', allowNull: false } });
-	
+  ReasonForRefund.hasMany(ApplicationForReasons, {
+    as: 'reasonForRefundApplicationForReasons',
+    foreignKey: { name: 'IdReasonForRefund', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationForReasons.belongsTo(ReasonForRefund, {
+    as: 'applicationForReasonsReasonForRefund',
+    foreignKey: { name: 'IdReasonForRefund', allowNull: false },
+  });
 
-	ReasonForRefund.hasMany(ApplicationForReasons, { as: 'reasonForRefundApplicationForReasons', foreignKey: { name: 'IdReasonForRefund', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	ApplicationForReasons.belongsTo(ReasonForRefund, { as: 'applicationForReasonsReasonForRefund', foreignKey: { name: 'IdReasonForRefund', allowNull: false } });
+  ApplicationForRefund.hasMany(ApplicationForReasons, {
+    as: 'applicationForRefundApplicationForReasons',
+    foreignKey: { name: 'IdApplicationForRefund', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationForReasons.belongsTo(ApplicationForRefund, {
+    as: 'applicationForReasonsApplicationForRefund',
+    foreignKey: { name: 'IdApplicationForRefund', allowNull: false },
+  });
 
-	ApplicationForRefund.hasMany(ApplicationForReasons, { as: 'applicationForRefundApplicationForReasons', foreignKey: { name: 'IdApplicationForRefund', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	ApplicationForReasons.belongsTo(ApplicationForRefund, { as: 'applicationForReasonsApplicationForRefund', foreignKey: { name: 'IdApplicationForRefund', allowNull: false } });
+  Employee.hasMany(Participation, {
+    as: 'employeeParticipation',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Participation.belongsTo(Employee, {
+    as: 'participationEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
 
-	Employee.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Participation.belongsTo(Employee, { as: 'participationEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	
-	/*Education.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+  /*Education.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Participation.belongsTo(Education, { as: 'participationEmployee', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });*/
 
-	Education.hasOne(Study, { as: 'educationStudys', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' })
-	Study.belongsTo(Education, { as: 'studyEducation', foreignKey: { name: 'IdEducation', allowNull: false } });
+  Education.hasOne(Study, {
+    as: 'educationStudys',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Study.belongsTo(Education, {
+    as: 'studyEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+  });
 
-	let allDivisions, allDepartments;
-	return sequelize
-		.sync({ force: true })					//synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
-		.then(() => {
-			return Division.findAll();
-		})
-		.then(divisions => {
-			if (!divisions || divisions.length == 0) {
-				return Division.bulkCreate([
-					{ Name: 'Finansowy' },
-					{ Name: 'EFS' },
-				])
-					.then(() => {
-						return Division.findAll();
-					});
-			} else {
-				return divisions;
-			}
-		})
-		.then(divisions => {
-			allDivisions = divisions;
-			return Department.findAll();
-		})
-		.then(departments => {
-			if (!departments || departments.length == 0) {
-				return Department.bulkCreate([
-					{ Name: 'Wydział Księgowości', IdDivision: 1 },
-					{ Name: 'Płatności i refundacji', IdDivision: 1 }
-				])
-				// .then(() => {
-				// 	return Division.findAll();
-				// });
-			} else {
-				return departments;
-			}
-		});
+  let allDivisions, allDepartments;
+  return sequelize
+    .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+    .then(() => {
+      return Division.findAll();
+    })
+    .then((divisions) => {
+      if (!divisions || divisions.length == 0) {
+        return Division.bulkCreate([
+          { Name: 'Finansowy' },
+          { Name: 'EFS' },
+        ]).then(() => {
+          return Division.findAll();
+        });
+      } else {
+        return divisions;
+      }
+    })
+    .then((divisions) => {
+      allDivisions = divisions;
+      return Department.findAll();
+    })
+    .then((departments) => {
+      if (!departments || departments.length == 0) {
+        return Department.bulkCreate([
+          { Name: 'Wydział Księgowości', IdDivision: 1 },
+          { Name: 'Płatności i refundacji', IdDivision: 1 },
+        ]);
+        // .then(() => {
+        // 	return Division.findAll();
+        // });
+      } else {
+        return departments;
+      }
+    });
 };
 
 /*
