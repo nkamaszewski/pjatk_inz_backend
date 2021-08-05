@@ -25,9 +25,7 @@ exports.getCoachById = (req, res, next) => {
 };
 
 exports.createCoach = (req, res, next) => {
-    const coachId = req.params.coachId;
-
-    CoachRepository.createCoach(coachId, req.body)
+    CoachRepository.createCoach(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
         })

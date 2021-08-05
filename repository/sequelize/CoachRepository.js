@@ -12,9 +12,9 @@ exports.getCoachs = () => {
 
 };
 
-exports.createCoach = (personId, newCoachData) => {
+exports.createCoach = (newCoachData) => {
     return Coach.create({
-        IdPerson: personId,
+        IdPerson: newCoachData.IdPerson,
         JobTitle: newCoachData.JobTitle
     });
 };
