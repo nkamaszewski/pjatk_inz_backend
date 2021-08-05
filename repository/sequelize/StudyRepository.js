@@ -12,9 +12,9 @@ exports.getStudys = () => {
 };
 
 exports.createStudy = (newStudyData) => {
-    return Study.create({
-        Study: newStudyData.Study,
-        IdUniversity: newStudyData.IdUniversity
+    const {FieldOfStudy} = newStudyData;
+    return Study.create({FieldOfStudy
+        
     });
 };
 
@@ -25,8 +25,7 @@ exports.deleteStudy = (studyId) => {
 };
 
 exports.updateStudy = (studyId, data) => {
-    const study = data.Study;
-    const idUniversity = data.IdUniversity;
+    const FieldOfStudy = data.FieldOfStudy;
     return Study.update(data, { where: { IdStudy: studyId } });
 }
 
