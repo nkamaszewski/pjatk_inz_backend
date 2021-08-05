@@ -19,7 +19,7 @@ exports.deleteStudyMode = (studyModeId) => {
 };
 
 exports.updateStudyMode = (studyModeId, data) => {
-    const studyMode = data.StudyMode;
+    const Name = data.Name;
     return StudyMode.update(data, { where: { IdStudyMode: studyModeId } });
 }
 
