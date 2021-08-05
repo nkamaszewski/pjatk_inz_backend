@@ -34,9 +34,9 @@ exports.getTrainings = () => {
     });
 };
 
-exports.createTraining = (eduId, newTrainingData) => {
+exports.createTraining = (newTrainingData) => {
     return Training.create({
-        IdEducation: eduId,
+        IdEducation: newTrainingData.IdEducation,
         IdTopic: newTrainingData.IdTopic,
         IdCompany: newTrainingData.IdCompany,
         IdPerson: newTrainingData.IdPerson,

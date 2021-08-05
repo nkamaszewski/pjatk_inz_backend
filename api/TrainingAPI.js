@@ -25,9 +25,7 @@ exports.getTrainingById = (req, res, next) => {
 };
 
 exports.createTraining = (req, res, next) => {
-    const eduId = req.params.eduId;
-
-    TrainingRepository.createTraining(eduId, req.body)
+    TrainingRepository.createTraining(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
         })
