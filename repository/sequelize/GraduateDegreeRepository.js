@@ -7,9 +7,9 @@ exports.getGraduateDegrees = () => {
 };
 
 exports.createGraduateDegree = (newGraduateDegreeData) => {
-    return GraduateDegree.create({
-        GraduateDegree: newGraduateDegreeData.GraduateDegree
-    });
+    const {Name} =
+    newGraduateDegreeData;
+  return GraduateDegree.create({Name});
 };
 
 exports.deleteGraduateDegree = (graduateDegreeId) => {
