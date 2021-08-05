@@ -117,8 +117,8 @@ module.exports = () => {
 	Employee.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	Participation.belongsTo(Employee, { as: 'participationEmployee', foreignKey: { name: 'IdPerson', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
 	
-	Education.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Participation.belongsTo(Education, { as: 'participationEmployee', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	/*Education.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
+	Participation.belongsTo(Education, { as: 'participationEmployee', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });*/
 
 	Education.hasOne(Study, { as: 'educationStudys', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' })
 	Study.belongsTo(Education, { as: 'studyEducation', foreignKey: { name: 'IdEducation', allowNull: false } });
