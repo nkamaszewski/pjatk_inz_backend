@@ -92,7 +92,7 @@ app.use('/api/appforrefund', appForRefundApiRouter);
 app.use('/api/reasforrefund', reasForRefundApiRouter);
 app.use('/api/status', statusApiRouter);
 app.use('/api/offer', offApiRouter);
-app.use('/api/offer', questOffApiRouter);
+app.use('/api/questoffer', questOffApiRouter);
 
 
 // catch 404 and forward to error handler
