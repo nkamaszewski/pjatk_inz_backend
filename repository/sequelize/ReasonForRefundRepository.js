@@ -6,8 +6,10 @@ exports.getReasonForRefunds = () => {
 };
 
 exports.createReasonForRefund = (newReasonForRefundData) => {
+    const {IdReasonForRefund,Name} = newReasonForRefundData
     return ReasonForRefund.create({
-        ReasonForRefund: newReasonForRefundData.ReasonForRefund
+        IdReasonForRefund,
+        Name
     });
 };
 
@@ -18,7 +20,9 @@ exports.deleteReasonForFefund = (reasonForRefundId) => {
 };
 
 exports.updateReasonForRefund = (reasonForRefundId, data) => {
-    const reasonForRefund = data.ReasonForRefund;
+    const IdReasonForRefund = data.IdReasonForRefund;
+    const Name = data.Name;
+    
     return ReasonForRefund.update(data, { where: { IdReasonForRefund: reasonForRefundId } });
 }
 
