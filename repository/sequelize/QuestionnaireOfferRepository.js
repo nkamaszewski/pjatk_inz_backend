@@ -12,12 +12,14 @@ exports.getQuestionnaireOffers = () => {
 
 };
 
-exports.createQuestionnaireOffer = (questionnaireOfferId, newQuestionnaireOfferData) => {
-    return QuestionnaireOffer.create({
-        IdQuestionnaireOffer: questionnaireOfferId,
-        IdPerson: personId,
-        Year: newQuestionnaireOfferData.Year
-    });
+exports.createQuestionnaireOffer = (newQuestionnaireOfferData) => {
+    const { IdQuestionnaireOffer, Year, IdPerson } =
+    newQuestionnaireOfferData;
+  return QuestionnaireOffer.create({
+    IdQuestionnaireOffer, 
+    Year, 
+    IdPerson
+  });
 };
 
 exports.deleteQuestionnaireOffer = (questionnaireOfferId) => {
