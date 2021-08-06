@@ -40,7 +40,7 @@ exports.createTraining = (newTrainingData) => {
         IdTopic: newTrainingData.IdTopic,
         IdCompany: newTrainingData.IdCompany,
         IdPerson: newTrainingData.IdPerson,
-        Internal: newTrainingData.Internat,
+        Internal: newTrainingData.Internal,
         DateFrom: newTrainingData.DateFrom
     });
 };
