@@ -8,8 +8,10 @@ exports.getStatuss = () => {
 };
 
 exports.createStatus = (newStatusData) => {
+    const {IdStatus,Name} = newStatusData;
     return Status.create({
-        Status: newStatusData.Status
+        IdStatus,
+        Name
     });
 };
 
@@ -20,7 +22,8 @@ exports.deleteStatus = (statusId) => {
 };
 
 exports.updateStatus = (statusId, data) => {
-    const status = data.Status;
+    const IdStatus = data.IdStatus;
+    const Name = data.Name;
     return Status.update(data, { where: { IdStatus: statusId } });
 }
 
