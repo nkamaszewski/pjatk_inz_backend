@@ -5,11 +5,13 @@ exports.getOffers = () => {
 };
 
 exports.createOffer = (newOfferData) => {
+    const {IdOffer,Topic,Link,Price,IdQuestionnaireOffer} = newOfferData
     return Offer.create({
-        Topic: newOfferData.Topic,
-        Link: newOfferData.Link,
-        Price: newOfferData.Price
-        
+        IdOffer,
+        Topic,
+        Link,
+        Price,
+        IdQuestionnaireOffer
     });
 };
 
@@ -20,6 +22,7 @@ exports.deleteOffer = (offerId) => {
 };
 
 exports.updateOffer = (offerId, data) => {
+    const IdOffer = data.IdOffer;
     const Topic = data.Topic;
     const Link = data.Link;
     const Price = data.Price;
