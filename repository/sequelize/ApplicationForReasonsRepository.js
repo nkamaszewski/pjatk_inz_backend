@@ -11,8 +11,9 @@ exports.getApplicationForReasonss = () => {
 };
 
 exports.createApplicationForReasons = (newApplicationForReasonsData) => {
+    const { IdReasonForRefund,IdApplicationForRefund,IdStatus} = newApplicationForReasonsData
     return ApplicationForReasons.create({
-        ApplicationForReasons: newApplicationForReasonsData.ApplicationForReasons
+        IdReasonForRefund,IdApplicationForRefund,IdStatus
     });
 };
 
@@ -23,7 +24,11 @@ exports.deleteReasonForFefund = (applicationForReasonsId) => {
 };
 
 exports.updateApplicationForReasons = (applicationForReasonsId, data) => {
-    const ApplicationForReasons = data.ApplicationForReasons;
+
+    const IdReasonForRefund = data.IdReasonForRefund;
+    const IdApplicationForRefund = data.IdApplicationForRefund;
+    const IdStatus = data.IdStatus;
+
     return ApplicationForReasons.update(data, { where: { IdApplicationForReasons: applicationForReasonsId } });
 }
 
