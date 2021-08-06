@@ -30,6 +30,7 @@ const ApplicationForReasons = require('../../model/sequelize/ApplicationForReaso
 const Status = require('../../model/sequelize/Status');
 const Offer = require('../../model/sequelize/Offer');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
+const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 
 module.exports = () => {
   Division.hasMany(Department, {
@@ -349,6 +350,50 @@ module.exports = () => {
   Study.belongsTo(Education, {
     as: 'studyEducation',
     foreignKey: { name: 'IdEducation', allowNull: false },
+  });
+
+  Education.hasMany(ApplicationFor, {
+    as: 'educationApplicationFor',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationFor.belongsTo(Education, {
+    as: 'applicationForEducation',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+  });
+
+  Status.hasMany(ApplicationFor, {
+    as: 'statusApplicationFor',
+    foreignKey: { name: 'IdStatus', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationFor.belongsTo(Status, {
+    as: 'applicationForStatus',
+    foreignKey: { name: 'IdStatus', allowNull: false },
+  });
+
+  Education.hasOne(ApplicationFor, {
+    as: 'educationsApplicationFor',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationFor.belongsTo(Education, {
+    as: 'applicationsForEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+  });
+
+  ApplicationFor.hasOne(ApplicationForRefund, {
+    as: 'applicationForApplicationForRefund',
+    foreignKey: { name: 'IdApplicationFor', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationForRefund.belongsTo(ApplicationFor, {
+    as: 'applicationForRefundApplicationFor',
+    foreignKey: { name: 'IdApplicationFor', allowNull: false },
   });
 
   let allDivisions, allDepartments;
