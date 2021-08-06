@@ -5,8 +5,9 @@ exports.getApplicationForRefunds = () => {
 };
 
 exports.createApplicationForRefund = (newApplicationForRefundData) => {
+    const {IdApplicationForRefund,IdApplicationFor,IdStatus,DateOfSubmission} = newApplicationForRefundData
     return ApplicationForRefund.create({
-        ApplicationForRefund: newApplicationForRefundData.ApplicationForRefund
+        IdApplicationForRefund,IdApplicationFor,IdStatus,DateOfSubmission
     });
 };
 
@@ -17,7 +18,11 @@ exports.deleteReasonForFefund = (applicationForRefundId) => {
 };
 
 exports.updateApplicationForRefund = (applicationForRefundId, data) => {
-    const applicationForRefund = data.ApplicationForRefund;
+    const IdApplicationForRefund = data.IdApplicationForRefund;
+    const IdApplicationFor = data.IdApplicationFor;
+    const IdStatus = data.IdStatus;
+    const DateOfSubmission = data.DateOfSubmission;
+
     return ApplicationForRefund.update(data, { where: { IdApplicationForRefund: applicationForRefundId } });
 }
 
