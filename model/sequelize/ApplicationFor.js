@@ -8,6 +8,12 @@ const ApplicationFor = sequelize.define('ApplicationFor', {
     IdStatus: { type: Sequelize.INTEGER, allowNull: false }
 }, {
     timestamps: false,
-    tableName: 'ApplicationFor'
+    tableName: 'ApplicationFor',
+    indexes: [
+        {
+            name: 'idx_applicationFor_idStuatus',
+            fields: ['IdStatus']
+        }
+    ]
 });
 module.exports = ApplicationFor;

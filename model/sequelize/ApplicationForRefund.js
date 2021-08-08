@@ -8,6 +8,12 @@ const ApplicationForRefund = sequelize.define('ApplicationForRefund', {
     DateOfSubmission: { type: Sequelize.DATE, allowNull: false }
 }, {
     timestamps: false,
-    tableName: 'ApplicationForRefund'
+    tableName: 'ApplicationForRefund',
+    indexes: [
+        {
+            name: 'idx_applicationForRefund_idStuatus',
+            fields: ['IdStatus']
+        }
+    ]
 });
 module.exports = ApplicationForRefund;
