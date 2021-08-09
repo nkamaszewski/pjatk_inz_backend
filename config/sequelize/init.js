@@ -339,7 +339,7 @@ module.exports = () => {
   });
 
   /*Education.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-	Participation.belongsTo(Education, { as: 'participationEmployee', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });*/
+  Participation.belongsTo(Education, { as: 'participationEmployee', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });*/
 
   Education.hasOne(Study, {
     as: 'educationStudys',
@@ -424,58 +424,141 @@ module.exports = () => {
           { Name: 'Wydział Księgowości', IdDivision: 1 },
           { Name: 'Płatności i refundacji', IdDivision: 1 },
         ]);
-        // .then(() => {
-        // 	return Division.findAll();
-        // });
       } else {
         return departments;
       }
+    })
+    .then(() => {
+      return Person.findAll();
+    })
+    .then((persons) => {
+      if (!persons || persons.length == 0) {
+        return Person.bulkCreate([
+          { FirstName: 'Jan', LastName: 'Kowalski', Email: 'jk@wp.pl', Phone: '123234345' },
+          { FirstName: 'Leon', LastName: 'Zawodowiec', Email: 'lz@op.pl', Phone: '222333444' }
+        ]);
+      } else {
+        return persons;
+      }
+    })
+    .then(() => {
+      return Employee.findAll();
+    })
+    .then((employees) => {
+      if (!employees || employees.length == 0) {
+        return Employee.bulkCreate([
+          { IdPerson: '1', Pesel: '85041234567', Password: 'jakieshaslo' },
+          { IdPerson: '2', Pesel: '89010223457', Password: 'alamakota' },
+        ]);
+      } else {
+        return employees;
+      }
+    })
+    .then(() => {
+      return Coach.findAll();
+    })
+    .then((coachs) => {
+      if (!coachs || coachs.length == 0) {
+        return Coach.bulkCreate([
+          { IdPerson: '1', JobTitle: 'dr' },
+        ]);
+      } else {
+        return coachs;
+      }
+    })
+    .then(() => {
+      return Group.findAll();
+    })
+    .then((groups) => {
+      if (!groups || groups.length == 0) {
+        return Group.bulkCreate([
+          { Name: '21c', NumberOfPerson: '14' },
+          { Name: '14', NumberOfPerson: '12' }
+        ]);
+      } else {
+        return groups;
+      }
+    })
+    .then(() => {
+      return EmployeeGroup.findAll();
+    })
+    .then((employeegroups) => {
+      if (!employeegroups || employeegroups.length == 0) {
+        return EmployeeGroup.bulkCreate([
+          { IdGroup: '1', IdPerson: '2' },
+          { IdGroup: '2', IdPerson: '2' }
+        ]);
+      } else {
+        return employeegroups;
+      }
+    })
+    .then(() => {
+      return Company.findAll();
+    })
+    .then((companys) => {
+      if (!companys || companys.length == 0) {
+        return Company.bulkCreate([
+          { Name: 'ABC Edukacja', City: 'Warszawa', PostalCode: '12-232', Street: 'Złota', 'TIN': '123-321-22-33' },
+          { Name: 'Altkom', City: 'Warszawa', PostalCode: '11-223', Street: 'Wiejska', 'TIN': '333-321-22-33' }
+        ]);
+      } else {
+        return companys;
+      }
+    })
+    .then(() => {
+      return Subject.findAll();
+    })
+    .then((subjects) => {
+      if (!subjects || subjects.length == 0) {
+        return Subject.bulkCreate([
+          { Subject: 'Ekonomiczne' },
+          { Subject: 'Informatyczne' },
+          { Subject: 'BHP' },
+          { Subject: 'Prawne' }
+        ]);
+      } else {
+        return subjects;
+      }
+    })
+    .then(() => {
+      return Topic.findAll();
+    })
+    .then((topics) => {
+      if (!topics || topics.length == 0) {
+        return Topic.bulkCreate([
+          { Topic: 'Księgowość dla informatyków', IdSubject: 1 },
+          { Topic: 'Node.js dla każdego', IdSubject: 2 },
+          { Topic: 'React nie tylko dla orłów', IdSubject: 2 },
+          { Topic: 'Pierwsza pomoc', IdSubject: 3 },
+        ]);
+      } else {
+        return topics;
+      }
+    })
+    .then(() => {
+      return Education.findAll();
+    })
+    .then((educations) => {
+      if (!educations || educations.length == 0) {
+        return Education.bulkCreate([
+          { Price: '900', PriceAccommodation: 200, PriceTransit: 200 },
+          { Price: '1000', PriceAccommodation: 300, PriceTransit: 200 }
+        ]);
+      } else {
+        return educations;
+      }
+    })
+    .then(() => {
+      return Training.findAll();
+    })
+    .then((trainings) => {
+      if (!trainings || trainings.length == 0) {
+        return Training.bulkCreate([
+          { IdEducation: '1', IdTopic: 1, IdCompany: 1, IdPerson: 1, DateFrom: '2021-09-01' },
+          { IdEducation: '2', IdTopic: 2, IdCompany: 2, IdPerson: 1, DateFrom: '2021-08-19' }
+        ]);
+      } else {
+        return trainings;
+      }
     });
 };
-
-/*
--- Person
-INSERT INTO `pjatk_inz_db`.`person` (`FirstName`, `LastName`, `Email`, `Phone`) VALUES ('Adam', 'Nowak', 'an@wp.pl', '123456789');
-INSERT INTO `pjatk_inz_db`.`person` (`FirstName`, `LastName`, `Email`, `Phone`) VALUES ('Jan', 'Kowalski', 'jk@op.pl', '432143211');
-INSERT INTO `pjatk_inz_db`.`person` (`FirstName`, `LastName`, `Email`, `Phone`) VALUES ('Stefan', 'Konieczny', 'sk@op.pl', '999888333');
-
--- Employee
-INSERT INTO `pjatk_inz_db`.`employee` (`IdPerson`, `Pesel`, `Password`) VALUES ('1', '87051106545', 'jakieshaslo');
-INSERT INTO `pjatk_inz_db`.`employee` (`IdPerson`, `Pesel`, `Password`) VALUES ('2', '980312', 'aabbccdd');
-
--- Coach
-INSERT INTO `pjatk_inz_db`.`coach` (`IdPerson`, `JobTitle`) VALUES ('3', 'dr');
-
--- Group
-INSERT INTO `pjatk_inz_db`.`group` (`Name`, `NumberOfPerson`) VALUES ('21c', '14');
-INSERT INTO `pjatk_inz_db`.`group` (`Name`, `NumberOfPerson`) VALUES ('15d', '15');
--- EmployeeGroup
-INSERT INTO `pjatk_inz_db`.`employeegroup` (`IdGroup`, `IdPerson`) VALUES ('1', '1');
-INSERT INTO `pjatk_inz_db`.`employeegroup` (`IdGroup`, `IdPerson`) VALUES ('1', '2');
--- Company
-INSERT INTO `pjatk_inz_db`.`company` (`Name`, `City`, `PostalCode`, `Street`, `TIN`) VALUES ('ABC Edukacja', 'Warszawa', '01-234', 'Zielona', '1070005730');
-INSERT INTO `pjatk_inz_db`.`company` (`Name`, `City`, `PostalCode`, `Street`, `TIN`) VALUES ('Altkom', 'Warszawa', '01-123', 'Chłodna 51', '118-00-08-391');
-
--- Subject
-INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('Ekonomiczne');
-INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('Informatyczne - programowanie');
-INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('Informatyczne - administracja');
-INSERT INTO `pjatk_inz_db`.`subject` (`Subject`) VALUES ('BHP');
-
--- Topic
-INSERT INTO `pjatk_inz_db`.`topic` (`Topic`, `IdSubject`) VALUES ('Node.js dla każdego', '2');
-INSERT INTO `pjatk_inz_db`.`topic` (`Topic`, `IdSubject`) VALUES ('Windows Server 2019', '3');
-INSERT INTO `pjatk_inz_db`.`topic` (`Topic`, `IdSubject`) VALUES ('Księgowość dla informatyków', '1');
-
-
--- Education
-INSERT INTO `pjatk_inz_db`.`education` (`Price`, `PriceAccommodation`, `PriceTransit`) VALUES ('900', '0', '100');
-INSERT INTO `pjatk_inz_db`.`education` (`Price`, `PriceAccommodation`, `PriceTransit`) VALUES ('1000', '200', '100');
-
--- Training
-INSERT INTO `pjatk_inz_db`.`training` (`IdEducation`, `IdTopic`, `IdCompany`, `IdPerson`, `DateFrom`) VALUES ('1', '1', '2', '3', '2021-09-09');
-
-
-
-
-*/
