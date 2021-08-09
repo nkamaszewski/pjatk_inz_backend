@@ -41,3 +41,28 @@ exports.updateQuestionnaireOffer = (questionnaireOfferId, data) => {
 exports.getQuestionnaireOfferById = (questionnaireOfferId) => {
   return QuestionnaireOffer.findByPk(questionnaireOfferId);
 };
+
+// exports.getQuestionnaireOfferByEmpId = (empId) => {
+//   return Offer.findAll({
+//     attributes: ['IdOffer', 'Topic', 'Link', 'Price'],
+//     include: [
+//       {
+//         model: QuestionnaireOffer,
+//         as: 'offerQuestionnaireOffer',
+//         where: { IdPerson: empId }
+//       }
+//     ],
+//   });
+// };
+exports.getQuestionnaireOfferByEmpId = (empId) => {
+  return QuestionnaireOffer.findAll({
+    attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
+    include: [
+      {
+        model: Offer,
+        as: 'questionnaireOfferOffer'
+      }
+    ],
+    where: { IdPerson: empId }
+  });
+};

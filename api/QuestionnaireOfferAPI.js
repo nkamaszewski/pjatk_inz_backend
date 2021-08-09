@@ -11,12 +11,27 @@ exports.getQuestionnaireOffers = (req, res, next) => {
 };
 
 exports.getQuestionnaireOfferById = (req, res, next) => {
-  const questoffId = req.params.questoffId;
-  QuestionnaireOfferRepository.getQuestionnaireOfferById(questoffId).then(
+  const questOffId = req.params.questOffId;
+  QuestionnaireOfferRepository.getQuestionnaireOfferById(questOffId).then(
     (questoff) => {
       if (!questoff) {
         res.status(404).json({
-          message: 'Questionnaire Offer with id: ' + questoffId + ' not found',
+          message: 'Questionnaire Offer with id: ' + questOffId + ' not found',
+        });
+      } else {
+        res.status(200).json(questoff);
+      }
+    }
+  );
+};
+
+exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
+  const empId = req.params.empId;
+  QuestionnaireOfferRepository.getQuestionnaireOfferByEmpId(empId).then(
+    (questoff) => {
+      if (!questoff) {
+        res.status(404).json({
+          message: 'Questionnaire Offer with IdPerson: ' + empId + ' not found',
         });
       } else {
         res.status(200).json(questoff);
