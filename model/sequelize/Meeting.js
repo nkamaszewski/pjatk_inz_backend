@@ -17,7 +17,7 @@ const Meeting = sequelize.define('Meeting', {
 			isDate: {
 				msg: 'Pole powinno być prawidłową datą'
 			},
-			isGreaterThanFrom(value) {
+			isLessThanFrom(value) {
 				if (value <= this.From) {
 					throw new Error('Data końcowa musi być późniejsza niż początkowa');
 				}

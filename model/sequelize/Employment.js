@@ -17,7 +17,7 @@ const Employment = sequelize.define('Employment', {
             isDate: {
                 msg: 'Pole powinno być prawidłową datą'
             },
-            isGreaterThanFrom(value) {
+            isLessThanFrom(value) {
                 if (value !== null && value <= this.DateFrom) {
                     throw new Error('Data końcowa musi być późniejsza niż początkowa');
                 }
