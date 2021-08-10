@@ -3,8 +3,27 @@ const sequelize = require('../../config/sequelize/sequelize');
 
 const Employment = sequelize.define('Employment', {
     IdEmployment: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
-    DateFrom: { type: Sequelize.DATE, allowNull: false },
-    DateTo: { type: Sequelize.DATE, allowNull: true },
+    DateFrom: {
+        type: Sequelize.DATE, allowNull: false,
+        validate: {
+            isDate: {
+                msg: 'Pole powinno być prawidłową datą'
+            }
+        }
+    },
+    DateTo: {
+        type: Sequelize.DATE, allowNull: true,
+        validate: {
+            isDate: {
+                msg: 'Pole powinno być prawidłową datą'
+            },
+            isGreaterThanFrom(value) {
+                if (value !== null && value <= this.DateFrom) {
+                    throw new Error('Data końcowa musi być późniejsza niż początkowa');
+                }
+            }
+        }
+    },
     IdDepartment: { type: Sequelize.INTEGER, allowNull: false },
     IdPosition: { type: Sequelize.INTEGER, allowNull: false },
     IdPerson: { type: Sequelize.INTEGER, allowNull: false }
