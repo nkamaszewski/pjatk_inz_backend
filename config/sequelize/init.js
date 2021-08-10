@@ -398,7 +398,8 @@ module.exports = () => {
 
   let allDivisions, allDepartments;
   return sequelize
-    .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+    // .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+    .sync({ alter: true })
     .then(() => {
       return Division.findAll();
     })
@@ -542,7 +543,8 @@ module.exports = () => {
       if (!educations || educations.length == 0) {
         return Education.bulkCreate([
           { Price: '900', PriceAccommodation: 200, PriceTransit: 200 },
-          { Price: '1000', PriceAccommodation: 300, PriceTransit: 200 }
+          { Price: '1000', PriceAccommodation: 300, PriceTransit: 200 },
+          { Price: '3200', PriceAccommodation: 200, PriceTransit: 200 }
         ]);
       } else {
         return educations;
@@ -560,5 +562,99 @@ module.exports = () => {
       } else {
         return trainings;
       }
-    });
+    })
+    .then(() => {
+      return Position.findAll();
+    })
+    .then((positions) => {
+      if (!positions || positions.length == 0) {
+        return Position.bulkCreate([
+          { Name: 'Kierownik' },
+          { Name: 'Starszy specjalista' }
+        ]);
+      } else {
+        return positions;
+      }
+    })
+    .then(() => {
+      return Employment.findAll();
+    })
+    .then((employments) => {
+      if (!employments || employments.length == 0) {
+        return Employment.bulkCreate([
+          { DateFrom: '2018-01-01', IdDepartment: 1, IdPosition: 1, IdPerson: 1 },
+          { DateFrom: '2019-01-01', IdDepartment: 1, IdPosition: 2, IdPerson: 2 }
+        ]);
+      } else {
+        return employments;
+      }
+    })
+    .then(() => {
+      return University.findAll();
+    })
+    .then((universities) => {
+      if (!universities || universities.length == 0) {
+        return University.bulkCreate([
+          { Name: 'Polsko Japońska Akademia Technik Komputerowych', ShortName: 'PJATK', City: 'Warszawa', PostalCode: '01-123', Street: 'Koszykowa', Number: 86 },
+          { Name: 'Uniwersytet Warszawski', ShortName: 'UW', City: 'Warszawa', PostalCode: '01-123', Street: 'Nowy Świat', Number: 86 }
+        ]);
+      } else {
+        return universities;
+      }
+    })
+    .then(() => {
+      return University.findAll();
+    })
+    .then((universities) => {
+      if (!universities || universities.length == 0) {
+        return University.bulkCreate([
+          { Name: 'Polsko Japońska Akademia Technik Komputerowych', ShortName: 'PJATK', City: 'Warszawa', PostalCode: '01-123', Street: 'Koszykowa', Number: 86 },
+          { Name: 'Uniwersytet Warszawski', ShortName: 'UW', City: 'Warszawa', PostalCode: '01-123', Street: 'Nowy Świat', Number: 86 }
+        ]);
+      } else {
+        return universities;
+      }
+    })
+    .then(() => {
+      return GraduateDegree.findAll();
+    })
+    .then((degrees) => {
+      if (!degrees || degrees.length == 0) {
+        return GraduateDegree.bulkCreate([
+          { Name: 'Inżynierskie' },
+          { Name: 'Magisterskie' },
+          { Name: 'Licencjackie' }
+        ]);
+      } else {
+        return degrees;
+      }
+    })
+    .then(() => {
+      return StudyMode.findAll();
+    })
+    .then((modes) => {
+      if (!modes || modes.length == 0) {
+        return StudyMode.bulkCreate([
+          { Name: 'Dzienne' },
+          { Name: 'Zaoczne' },
+          { Name: 'Wieczorowe' },
+          { Name: 'Internetowe' }
+        ]);
+      } else {
+        return modes;
+      }
+    })
+    .then(() => {
+      return Study.findAll();
+    })
+    .then((studies) => {
+      if (!studies || studies.length == 0) {
+        return Study.bulkCreate([
+          { IdEducation: 3, FieldOfStudy: 'Informatyka', IdUniversity: 1, IdStudyMode: 1, IdGraduateDegree: 1 }
+        ]);
+      } else {
+        return studies;
+      }
+    })
+    ;
 };
