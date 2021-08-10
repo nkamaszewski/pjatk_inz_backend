@@ -30,17 +30,14 @@ exports.getApplicationFor = () => {
 };
 
 exports.createApplicationFor = (newApplicationForData) => {
-    const {IdAplicationFor,
-    DateOfSubmission,
-    IdEducation,
-    IdStatus,
-    Compatibility} = newApplicationForData
+  const { IdPerson, DateOfSubmission, IdEducation, IdStatus, Compatibility } =
+    newApplicationForData;
   return ApplicationFor.create({
-    IdAplicationFor,
+    IdPerson,
     DateOfSubmission,
     IdEducation,
     IdStatus,
-    Compatibility 
+    Compatibility,
   });
 };
 
@@ -51,14 +48,15 @@ exports.deleteApplicationFor = (applicationForId) => {
 };
 
 exports.updateApplicationFor = (applicationForId, data) => {
-    const IdApplicationFor = data.IdApplicationFor;
-    const DateOfSubmission = data.DateOfSubmission;
-    const IdEducation = data.IdEducation;
-    const IdStatus = data.IdStatus;
-    const Compatibility = data.Compatibility;
+  const IdApplicationFor = data.IdApplicationFor;
+  const DateOfSubmission = data.DateOfSubmission;
+  const IdEducation = data.IdEducation;
+  const IdStatus = data.IdStatus;
+  const Compatibility = data.Compatibility;
 
-  
-  return ApplicationFor.update(data, { where: { IdApplicationFor: applicationForId } });
+  return ApplicationFor.update(data, {
+    where: { IdApplicationFor: applicationForId },
+  });
 };
 
 exports.getApplicationForById = (appForId) => {
