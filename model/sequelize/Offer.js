@@ -13,7 +13,17 @@ const Offer = sequelize.define('Offer', {
 			}
 		}
 	},
-	Price: { type: Sequelize.DECIMAL, allowNull: false }
+	Price: {
+		type: Sequelize.DECIMAL, allowNull: false,
+		validate: {
+			notEmpty: {
+				msg: "Pole jest wymagane"
+			},
+			isNumeric: {
+				msg: 'Pole powinno zawierać liczbę'
+			}
+		}
+	}
 }, {
 	timestamps: false,
 	tableName: 'Offer'
