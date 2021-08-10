@@ -681,5 +681,20 @@ module.exports = () => {
         return offers;
       }
     })
+    .then(() => {
+      return Status.findAll();
+    })
+    .then((status) => {
+      if (!status || status.length == 0) {
+        return Status.bulkCreate([
+          { Name: 'Złożony' },
+          { Name: 'Rozpatrywany' },
+          { Name: 'Zatwierdzony' },
+          { Name: 'Odrzucony' }
+        ]);
+      } else {
+        return status;
+      }
+    })
     ;
 };

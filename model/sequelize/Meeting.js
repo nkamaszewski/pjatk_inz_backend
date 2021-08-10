@@ -3,7 +3,17 @@ const sequelize = require('../../config/sequelize/sequelize');
 
 const Meeting = sequelize.define('Meeting', {
 	IdMeeting: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
-	From: { type: Sequelize.DATE, allowNull: true },
+	From: {
+		type: Sequelize.DATE, allowNull: true, unique: true,
+		validate: {
+			notEmpty: {
+				msg: "Pole jest wymagane"
+			},
+			isDate: {
+				msg: 'Pole powinno zawierać prawidłową datę'
+			}
+		}
+	},
 	To: { type: Sequelize.DATE, allowNull: true },
 	IdGroup: { type: Sequelize.INTEGER, allowNull: true },
 	IdRoom: { type: Sequelize.INTEGER, allowNull: true }
