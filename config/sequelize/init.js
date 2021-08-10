@@ -656,5 +656,30 @@ module.exports = () => {
         return studies;
       }
     })
+    .then(() => {
+      return QuestionnaireOffer.findAll();
+    })
+    .then((qOffers) => {
+      if (!qOffers || qOffers.length == 0) {
+        return QuestionnaireOffer.bulkCreate([
+          { Year: '2021', IdPerson: 1 }
+        ]);
+      } else {
+        return qOffers;
+      }
+    })
+    .then(() => {
+      return Offer.findAll();
+    })
+    .then((offers) => {
+      if (!offers || offers.length == 0) {
+        return Offer.bulkCreate([
+          { Topic: 'React dla opornych', Link: 'https://coderslab.pl/pl/kurs/javascript-specialist-react-redux/o-kursie', Price: 2000, IdQuestionnaireOffer: 1 },
+          { Topic: 'JAVASCRIPT DEVELOPER', Link: 'https://coderslab.pl/pl/kurs/javascript-developer-react/o-kursie', Price: 1500, IdQuestionnaireOffer: 1 }
+        ]);
+      } else {
+        return offers;
+      }
+    })
     ;
 };
