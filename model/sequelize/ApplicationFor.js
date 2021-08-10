@@ -5,7 +5,7 @@ const ApplicationFor = sequelize.define('ApplicationFor', {
     IdApplicationFor: { type: Sequelize.INTEGER, autoIncrement: true, allowNull: false, primaryKey: true },
     DateOfSubmission: { type: Sequelize.DATE, allowNull: false },
     IdEducation: { type: Sequelize.INTEGER, allowNull: false },
-    Compatibility: { type: Sequelize.BOOLEAN, allowNull: false },
+    Compatibility: { type: Sequelize.BOOLEAN, allowNull: false, defaultValue: true },
     IdStatus: { type: Sequelize.INTEGER, allowNull: false }
 }, {
     timestamps: false,

@@ -30,9 +30,6 @@ const Room = sequelize.define('Room', {
 	CapacitySet2: {
 		type: Sequelize.INTEGER, allowNull: true,
 		validate: {
-			notEmpty: {
-				msg: "Pole jest wymagane"
-			},
 			isNumeric: {
 				msg: 'Pole powinno zawierać liczbę'
 			}
@@ -41,9 +38,6 @@ const Room = sequelize.define('Room', {
 	CapacitySet3: {
 		type: Sequelize.INTEGER, allowNull: true,
 		validate: {
-			notEmpty: {
-				msg: "Pole jest wymagane"
-			},
 			isNumeric: {
 				msg: 'Pole powinno zawierać liczbę'
 			}
@@ -52,9 +46,6 @@ const Room = sequelize.define('Room', {
 	CapacitySet4: {
 		type: Sequelize.INTEGER, allowNull: true,
 		validate: {
-			notEmpty: {
-				msg: "Pole jest wymagane"
-			},
 			isNumeric: {
 				msg: 'Pole powinno zawierać liczbę'
 			}

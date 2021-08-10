@@ -411,8 +411,8 @@ module.exports = () => {
 
   let allDivisions, allDepartments;
   return sequelize
-    // .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
-    .sync({ alter: true })
+    .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+    // .sync({ alter: true })
     .then(() => {
       return Division.findAll();
     })
@@ -720,6 +720,32 @@ module.exports = () => {
         ]);
       } else {
         return appsFor;
+      }
+    })
+    .then(() => {
+      return Room.findAll();
+    })
+    .then((rooms) => {
+      if (!rooms || rooms.length == 0) {
+        return Room.bulkCreate([
+          { Name: 'A1', Area: 25, CapacitySet1: 10, CapacitySet2: 12 },
+          { Name: 'A2', Area: 35, CapacitySet1: 14, CapacitySet2: 15 },
+          { Name: 'B1', Area: 40, CapacitySet1: 22, CapacitySet2: 25 }
+        ]);
+      } else {
+        return rooms;
+      }
+    })
+    .then(() => {
+      return Meeting.findAll();
+    })
+    .then((meetings) => {
+      if (!meetings || meetings.length == 0) {
+        return Meeting.bulkCreate([
+          { From: '2021-08-01 9:00', To: '2021-08-01 17:00', IdGroup: 1, IdRoom: 1 }
+        ]);
+      } else {
+        return meetings;
       }
     })
     ;
