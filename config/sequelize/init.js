@@ -396,6 +396,19 @@ module.exports = () => {
     foreignKey: { name: 'IdApplicationFor', allowNull: false },
   });
 
+  Employee.hasMany(ApplicationFor, {
+    as: 'employeeApplicationFor',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  ApplicationFor.belongsTo(Employee, {
+    as: 'applicationForEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+
   let allDivisions, allDepartments;
   return sequelize
     // .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
@@ -694,6 +707,19 @@ module.exports = () => {
         ]);
       } else {
         return status;
+      }
+    })
+    .then(() => {
+      return ApplicationFor.findAll();
+    })
+    .then((appsFor) => {
+      if (!appsFor || appsFor.length == 0) {
+        return ApplicationFor.bulkCreate([
+          { DateOfSubmission: '2021-08-01', IdEducation: 1, IdStatus: 1, Compability: 'true', IdPerson: 1 },
+          { DateOfSubmission: '2021-08-02', IdEducation: 2, IdStatus: 1, Compability: 'true', IdPerson: 2 }
+        ]);
+      } else {
+        return appsFor;
       }
     })
     ;

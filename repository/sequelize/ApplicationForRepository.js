@@ -1,29 +1,29 @@
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Education = require('../../model/sequelize/Education');
 const Status = require('../../model/sequelize/Status');
-const Person = require('../../model/sequelize/Person');
+const Employee = require('../../model/sequelize/Employee');
 
 exports.getApplicationFor = () => {
   return ApplicationFor.findAll({
     attributes: [
-      'IdAplicationFor',
+      'IdApplicationFor',
       'DateOfSubmission',
       'IdEducation',
       'IdStatus',
-      'Compatibility',
+      'Compatibility'
     ],
     include: [
       {
         model: Education,
-        as: 'applicationForEducation',
+        as: 'applicationForEducation'
       },
       {
         model: Status,
-        as: 'applicationForStatus',
+        as: 'applicationForStatus'
       },
       {
-        model: Person,
-        as: 'applicationForPerson',
+        model: Employee,
+        as: 'applicationForEmployee'
       },
     ],
   });
