@@ -71,7 +71,31 @@ const Meeting = sequelize.define('Meeting', {
 		}
 	},
 	IdGroup: { type: Sequelize.INTEGER, allowNull: true },
-	IdRoom: { type: Sequelize.INTEGER, allowNull: true }
+	IdRoom: {
+		type: Sequelize.INTEGER, allowNull: true,
+		validate: {
+			isCapacity(value, next) {
+				const idGroup = this.IdGroup;
+				let numberOfPerson = 0;
+				let capacity = 0;
+				sequelize.models.EmployeeGroup.findAndCountAll({
+					where: {
+						IdGroup: idGroup
+					}
+				})
+					.then(group => {
+						sequelize.models.Room.findByPk(value)
+							.then(room => {
+								if (room.CapacitySet1 < group.count)
+									next(new Error(`Liczba osób w grupie zbyt duża dla wybranej sali!`));
+								next();
+							})
+							.catch(next);
+					})
+					.catch((onError) => console.log(onError));
+			}
+		}
+	}
 }, {
 	timestamps: false,
 	tableName: 'Meeting',
