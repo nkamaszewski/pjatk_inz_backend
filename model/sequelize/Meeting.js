@@ -76,8 +76,6 @@ const Meeting = sequelize.define('Meeting', {
 		validate: {
 			isCapacity(value, next) {
 				const idGroup = this.IdGroup;
-				let numberOfPerson = 0;
-				let capacity = 0;
 				sequelize.models.EmployeeGroup.findAndCountAll({
 					where: {
 						IdGroup: idGroup
