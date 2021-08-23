@@ -9,7 +9,7 @@ const Training = require('../../model/sequelize/Training');
 
 exports.getTrainings = () => {
     return Training.findAll({
-        attributes: ['Internal', 'DateFrom'],
+        attributes: ['Internal', 'DateFrom', 'DateTo'],
         include: [{
             model: Education,
             as: 'trainingEducation'
@@ -41,7 +41,8 @@ exports.createTraining = (newTrainingData) => {
         IdCompany: newTrainingData.IdCompany,
         IdPerson: newTrainingData.IdPerson,
         Internal: newTrainingData.Internal,
-        DateFrom: newTrainingData.DateFrom
+        DateFrom: newTrainingData.DateFrom,
+        DateTo: newTrainingData.DateTo
     });
 };
 
@@ -61,6 +62,7 @@ exports.updateTraining = (eduId, data) => {
     const IdPerson = data.IdPerson;
     const Internal = data.Internat;
     const DateFrom = data.DateFrom;
+    const DateTo = data.DateTo;
 
     return Training.update(data, { where: { IdEducation: eduId } });
 }

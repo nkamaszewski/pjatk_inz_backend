@@ -3,6 +3,7 @@ const router = express.Router();
 
 const comApiController = require('../../api/CompanyAPI');
 router.get('/', comApiController.getCompanys);
+router.get('/owner', comApiController.getCompanyOwner);
 router.get('/:comId', comApiController.getCompanyById);
 
 router.post('/', comApiController.createCompany);

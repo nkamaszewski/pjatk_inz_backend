@@ -12,7 +12,8 @@ exports.createCompany = (newCompanyData) => {
         PostalCode: newCompanyData.PostalCode,
         Street: newCompanyData.Street,
         Number: newCompanyData.Number,
-        TIN: newCompanyData.TIN
+        TIN: newCompanyData.TIN,
+        Owner: newCompanyData.Owner
     });
 };
 
@@ -29,6 +30,8 @@ exports.updateCompany = (companyId, data) => {
     const street = data.Street;
     const number = data.Number;
     const TIN = data.TIN;
+    const owner = data.Owner;
+
 
     return Company.update(data, { where: { IdCompany: companyId } });
 }
@@ -37,3 +40,10 @@ exports.getCompanyById = (comId) => {
     return Company.findByPk(comId);
 };
 
+exports.getCompanyOwner = () => {
+    return Company.findAll({
+        where: {
+            Owner: true
+        }
+    });
+};

@@ -10,6 +10,16 @@ exports.getCompanys = (req, res, next) => {
         });
 };
 
+exports.getCompanyOwner = (req, res, next) => {
+    CompanyRepository.getCompanyOwner()
+        .then(coms => {
+            res.status(200).json(coms);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
 exports.getCompanyById = (req, res, next) => {
     const comId = req.params.comId;
     CompanyRepository.getCompanyById(comId)

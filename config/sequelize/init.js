@@ -32,6 +32,7 @@ const Offer = require('../../model/sequelize/Offer');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Role = require('../../model/sequelize/Role');
+const OtherEducation = require('../../model/sequelize/OtherEducation');
 
 module.exports = () => {
   Division.hasMany(Department, {
@@ -141,6 +142,17 @@ module.exports = () => {
   });
   Training.belongsTo(Company, {
     as: 'trainingCompany',
+    foreignKey: { name: 'IdCompany', allowNull: false },
+  });
+
+  Company.hasMany(OtherEducation, {
+    as: 'companyOtherEducation',
+    foreignKey: { name: 'IdCompany', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  OtherEducation.belongsTo(Company, {
+    as: 'otherEducationCompany',
     foreignKey: { name: 'IdCompany', allowNull: false },
   });
 
@@ -339,9 +351,6 @@ module.exports = () => {
     onDelete: 'CASCADE',
   });
 
-  /*Education.hasMany(Participation, { as: 'employeeParticipation', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });
-  Participation.belongsTo(Education, { as: 'participationEmployee', foreignKey: { name: 'IdEducation', allowNull: false }, constraints: true, onDelete: 'CASCADE' });*/
-
   Education.hasOne(Study, {
     as: 'educationStudys',
     foreignKey: { name: 'IdEducation', allowNull: false },
@@ -350,6 +359,18 @@ module.exports = () => {
   });
   Study.belongsTo(Education, {
     as: 'studyEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+  });
+
+
+  Education.hasOne(OtherEducation, {
+    as: 'educationOtherEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  OtherEducation.belongsTo(Education, {
+    as: 'otherEducationEducation',
     foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
@@ -540,7 +561,8 @@ module.exports = () => {
       if (!companys || companys.length == 0) {
         return Company.bulkCreate([
           { Name: 'ABC Edukacja', City: 'Warszawa', PostalCode: '12-232', Street: 'Złota', 'TIN': '123-321-22-33' },
-          { Name: 'Altkom', City: 'Warszawa', PostalCode: '11-223', Street: 'Wiejska', 'TIN': '333-321-22-33' }
+          { Name: 'Altkom', City: 'Warszawa', PostalCode: '11-223', Street: 'Wiejska', 'TIN': '333-321-22-33' },
+          { Name: 'Firma Testowa Sp. z o.o.', City: 'Warszawa', PostalCode: '11-111', Street: 'Złota', 'TIN': '333-321-22-33', Owner: true }
         ]);
       } else {
         return companys;
@@ -584,7 +606,8 @@ module.exports = () => {
         return Education.bulkCreate([
           { Price: '900', PriceAccommodation: 200, PriceTransit: 200 },
           { Price: '1000', PriceAccommodation: 300, PriceTransit: 200 },
-          { Price: '3200', PriceAccommodation: 200, PriceTransit: 200 }
+          { Price: '3200', PriceAccommodation: 200, PriceTransit: 200 },
+          { Price: '10200', PriceAccommodation: 0, PriceTransit: 0 }
         ]);
       } else {
         return educations;
@@ -596,8 +619,8 @@ module.exports = () => {
     .then((trainings) => {
       if (!trainings || trainings.length == 0) {
         return Training.bulkCreate([
-          { IdEducation: '1', IdTopic: 1, IdCompany: 1, IdPerson: 1, DateFrom: '2021-09-01' },
-          { IdEducation: '2', IdTopic: 2, IdCompany: 2, IdPerson: 1, DateFrom: '2021-08-19' }
+          { IdEducation: '1', IdTopic: 1, IdCompany: 1, IdPerson: 1, DateFrom: '2021-09-01', DateTo: '2021-09-01' },
+          { IdEducation: '2', IdTopic: 2, IdCompany: 2, IdPerson: 1, DateFrom: '2021-08-19', DateTo: '2021-08-21' }
         ]);
       } else {
         return trainings;
@@ -773,6 +796,18 @@ module.exports = () => {
         ]);
       } else {
         return meetings;
+      }
+    })
+    .then(() => {
+      return OtherEducation.findAll();
+    })
+    .then((oEdus) => {
+      if (!oEdus || oEdus.length == 0) {
+        return OtherEducation.bulkCreate([
+          { IdEducation: 4, Name: 'Aplikacja radcowska', IdCompany: 1 }
+        ]);
+      } else {
+        return oEdus;
       }
     })
 
