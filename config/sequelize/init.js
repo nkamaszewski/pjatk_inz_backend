@@ -31,6 +31,7 @@ const Status = require('../../model/sequelize/Status');
 const Offer = require('../../model/sequelize/Offer');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
+const Role = require('../../model/sequelize/Role');
 
 module.exports = () => {
   Division.hasMany(Department, {
@@ -409,6 +410,17 @@ module.exports = () => {
     onDelete: 'CASCADE',
   });
 
+  Role.hasMany(Employee, {
+    as: 'roleEmployee',
+    foreignKey: { name: 'IdRole', allowNull: false },
+  });
+  Employee.belongsTo(Role, {
+    as: 'employeeRole',
+    foreignKey: { name: 'IdRole', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+
   let allDivisions, allDepartments;
   return sequelize
     .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
@@ -440,6 +452,21 @@ module.exports = () => {
         ]);
       } else {
         return departments;
+      }
+    })
+    .then(() => {
+      return Role.findAll();
+    })
+    .then((role) => {
+      if (!role || role.length == 0) {
+        return Role.bulkCreate([
+          { Name: 'Pracownik' },
+          { Name: 'Kierownik' },
+          { Name: 'Dyrektor' },
+          { Name: 'Administrator HR' }
+        ]);
+      } else {
+        return role;
       }
     })
     .then(() => {
@@ -748,5 +775,6 @@ module.exports = () => {
         return meetings;
       }
     })
+
     ;
 };

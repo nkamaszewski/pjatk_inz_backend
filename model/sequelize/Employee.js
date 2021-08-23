@@ -18,7 +18,8 @@ const Employee = sequelize.define('Employee', {
             }
         }
     },
-    Password: { type: Sequelize.STRING, allowNull: false }
+    Password: { type: Sequelize.STRING, allowNull: false },
+    IdRole: { type: Sequelize.INTEGER, allowNull: false, defaultValue: '1' }
 }, {
     timestamps: false,
     tableName: 'Employee',

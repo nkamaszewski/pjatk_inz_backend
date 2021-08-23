@@ -38,6 +38,7 @@ const statusApiRouter = require('./routes/api/StatusApiRoute');
 const offApiRouter = require('./routes/api/OfferApiRoute');
 const questOffApiRouter = require('./routes/api/QuestionnaireOfferApiRoute');
 const appForApiRouter = require('./routes/api/ApplicationForApiRoute');
+const roleApiRouter = require('./routes/api/RoleApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
 sequelizeInit().catch((err) => {
@@ -95,6 +96,7 @@ app.use('/api/status', statusApiRouter);
 app.use('/api/offer', offApiRouter);
 app.use('/api/questoffer', questOffApiRouter);
 app.use('/api/appfor', appForApiRouter);
+app.use('/api/roles', roleApiRouter);
 
 
 // catch 404 and forward to error handler
