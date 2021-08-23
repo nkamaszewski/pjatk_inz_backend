@@ -6,8 +6,28 @@ const Training = sequelize.define('Training', {
 	IdTopic: { type: Sequelize.INTEGER, allowNull: false },
 	IdCompany: { type: Sequelize.INTEGER, allowNull: false },
 	IdPerson: { type: Sequelize.INTEGER, allowNull: false },
-	Internal: { type: Sequelize.INTEGER, allowNull: false, defaultValue: false },
-	DateFrom: { type: Sequelize.DATE, allowNull: false }
+	Internal: { type: Sequelize.INTEGER, allowNull: true, defaultValue: false },
+	DateFrom: {
+		type: Sequelize.DATE, allowNull: false,
+		validate: {
+			isDate: {
+				msg: 'Pole powinno być prawidłową datą'
+			}
+		}
+	},
+	DateTo: {
+		type: Sequelize.DATE, allowNull: false,
+		validate: {
+			isDate: {
+				msg: 'Pole powinno być prawidłową datą'
+			},
+			isLessThanFrom(value) {
+				if (value <= this.DateFrom) {
+					throw new Error(`Data końcowa musi być późniejsza niż początkowa`);
+				}
+			},
+		}
+	}
 }, {
 	timestamps: false,
 	tableName: 'Training',

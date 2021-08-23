@@ -618,8 +618,8 @@ module.exports = () => {
     .then((trainings) => {
       if (!trainings || trainings.length == 0) {
         return Training.bulkCreate([
-          { IdEducation: '1', IdTopic: 1, IdCompany: 1, IdPerson: 1, DateFrom: '2021-09-01' },
-          { IdEducation: '2', IdTopic: 2, IdCompany: 2, IdPerson: 1, DateFrom: '2021-08-19' }
+          { IdEducation: '1', IdTopic: 1, IdCompany: 1, IdPerson: 1, DateFrom: '2021-09-01', DateTo: '2021-09-01' },
+          { IdEducation: '2', IdTopic: 2, IdCompany: 2, IdPerson: 1, DateFrom: '2021-08-19', DateTo: '2021-08-21' }
         ]);
       } else {
         return trainings;
