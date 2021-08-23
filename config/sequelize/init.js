@@ -561,7 +561,8 @@ module.exports = () => {
       if (!companys || companys.length == 0) {
         return Company.bulkCreate([
           { Name: 'ABC Edukacja', City: 'Warszawa', PostalCode: '12-232', Street: 'Złota', 'TIN': '123-321-22-33' },
-          { Name: 'Altkom', City: 'Warszawa', PostalCode: '11-223', Street: 'Wiejska', 'TIN': '333-321-22-33' }
+          { Name: 'Altkom', City: 'Warszawa', PostalCode: '11-223', Street: 'Wiejska', 'TIN': '333-321-22-33' },
+          { Name: 'Firma Testowa Sp. z o.o.', City: 'Warszawa', PostalCode: '11-111', Street: 'Złota', 'TIN': '333-321-22-33', Owner: true }
         ]);
       } else {
         return companys;
