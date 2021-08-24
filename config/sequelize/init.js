@@ -224,6 +224,20 @@ module.exports = () => {
     onDelete: 'CASCADE',
   });
 
+
+  Employee.hasMany(Employment, {
+    as: 'employeeEmployment',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Employment.belongsTo(Employee, {
+    as: 'employmentEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+
   Group.hasMany(EmployeeGroup, {
     as: 'groupEmployeeGroup',
     foreignKey: { name: 'IdGroup', allowNull: false },
@@ -752,8 +766,9 @@ module.exports = () => {
         return Status.bulkCreate([
           { Name: 'Złożony' },
           { Name: 'Rozpatrywany' },
-          { Name: 'Zatwierdzony' },
-          { Name: 'Odrzucony' }
+          { Name: 'Odrzucony' },
+          { Name: 'Zatwierdzony - kierownik' },
+          { Name: 'Zatwierdzony - dyrektor' }
         ]);
       } else {
         return status;

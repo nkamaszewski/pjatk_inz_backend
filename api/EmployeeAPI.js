@@ -64,3 +64,45 @@ exports.deleteEmployee = (req, res, next) => {
             next(err);
         });
 };
+
+exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getQuestionnaireOfferByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'QuestionnaireOffer for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getApplicationForByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getApplicationForByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'ApplicationFor for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getParticipationByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getParticipationByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'Participations for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
