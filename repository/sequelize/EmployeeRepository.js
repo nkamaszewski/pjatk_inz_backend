@@ -1,3 +1,6 @@
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 const Person = require('../../model/sequelize/Person');
 const Employee = require('../../model/sequelize/Employee');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
@@ -5,6 +8,12 @@ const Offer = require('../../model/sequelize/Offer');
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Status = require('../../model/sequelize/Status');
 const Participation = require('../../model/sequelize/Participation');
+const Training = require('../../model/sequelize/Training');
+const Topic = require('../../model/sequelize/Topic');
+const Education = require('../../model/sequelize/Education');
+const Study = require('../../model/sequelize/Study');
+const OtherEducation = require('../../model/sequelize/OtherEducation');
+
 
 
 exports.getEmployees = () => {
@@ -72,6 +81,84 @@ exports.getApplicationsForByEmpId = (empId) => {
     });
 };
 
+exports.getAppStudiesByEmpId = (empId) => {
+    return ApplicationFor.findAll({
+        include: [
+            {
+                model: Status,
+                as: 'applicationForStatus'
+            }
+        ],
+        include: [
+            {
+                model: Education,
+                required: true,
+                as: 'applicationForEducation',
+                include: [{
+                    model: Study,
+                    required: true,
+                    as: 'educationStudy'
+                }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getAppTrainingsByEmpId = (empId) => {
+    return ApplicationFor.findAll({
+        include: [
+            {
+                model: Status,
+                as: 'applicationForStatus'
+            }
+        ],
+        include: [
+            {
+                model: Education,
+                required: true,
+                as: 'applicationForEducation',
+                include: [{
+                    model: Training,
+                    required: true,
+                    as: 'educationTraining',
+                    include: [
+                        {
+                            model: Topic,
+                            as: 'trainingTopic'
+                        }
+                    ]
+                }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getAppOthersByEmpId = (empId) => {
+    return ApplicationFor.findAll({
+        include: [
+            {
+                model: Status,
+                as: 'applicationForStatus'
+            }
+        ],
+        include: [
+            {
+                model: Education,
+                required: true,
+                as: 'applicationForEducation',
+                include: [{
+                    model: OtherEducation,
+                    required: true,
+                    as: 'educationOtherEducation'
+                }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
 exports.getParticipationsByEmpId = (empId) => {
     return Participation.findAll({
         attributes: ['DateOfRegistration', 'EndDate'],
@@ -79,3 +166,62 @@ exports.getParticipationsByEmpId = (empId) => {
     });
 };
 
+exports.getPartStudiesByEmpId = (empId) => {
+    return Participation.findAll({
+        include: [
+            {
+                model: Education,
+                required: true,
+                as: 'participationEducation',
+                include: [{
+                    model: Study,
+                    required: true,
+                    as: 'educationStudy'
+                }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getPartTrainingsByEmpId = (empId) => {
+    return Participation.findAll({
+        include: [
+            {
+                model: Education,
+                required: true,
+                as: 'participationEducation',
+                include: [{
+                    model: Training,
+                    required: true,
+                    as: 'educationTraining',
+                    include: [
+                        {
+                            model: Topic,
+                            as: 'trainingTopic'
+                        }
+                    ]
+                }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getPartOthersByEmpId = (empId) => {
+    return Participation.findAll({
+        include: [
+            {
+                model: Education,
+                required: true,
+                as: 'participationEducation',
+                include: [{
+                    model: OtherEducation,
+                    required: true,
+                    as: 'educationOtherEducation'
+                }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};

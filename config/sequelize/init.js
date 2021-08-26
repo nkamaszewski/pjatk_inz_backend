@@ -201,7 +201,7 @@ module.exports = () => {
   });
 
   Education.hasOne(Training, {
-    as: 'educationTrainings',
+    as: 'educationTraining',
     foreignKey: { name: 'IdEducation', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -390,7 +390,7 @@ module.exports = () => {
 
 
   Education.hasOne(Study, {
-    as: 'educationStudys',
+    as: 'educationStudy',
     foreignKey: { name: 'IdEducation', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -412,15 +412,15 @@ module.exports = () => {
     foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
-  Education.hasMany(ApplicationFor, {
+  Education.hasOne(ApplicationFor, {
     as: 'educationApplicationFor',
-    foreignKey: { name: 'IdPerson', allowNull: false },
+    foreignKey: { name: 'IdEducation', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
   });
   ApplicationFor.belongsTo(Education, {
     as: 'applicationForEducation',
-    foreignKey: { name: 'IdPerson', allowNull: false },
+    foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
   Status.hasMany(ApplicationFor, {
@@ -619,7 +619,8 @@ module.exports = () => {
           { Price: '900', PriceAccommodation: 200, PriceTransit: 200 },
           { Price: '1000', PriceAccommodation: 300, PriceTransit: 200 },
           { Price: '3200', PriceAccommodation: 0, PriceTransit: 0 },
-          { Price: '10200', PriceAccommodation: 0, PriceTransit: 0 }
+          { Price: '10200', PriceAccommodation: 0, PriceTransit: 0 },
+          { Price: '32200', PriceAccommodation: 0, PriceTransit: 0 }
         ]);
       } else {
         return educations;
@@ -705,19 +706,6 @@ module.exports = () => {
       }
     })
     .then(() => {
-      return University.findAll();
-    })
-    .then((universities) => {
-      if (!universities || universities.length == 0) {
-        return University.bulkCreate([
-          { Name: 'Polsko Japońska Akademia Technik Komputerowych', ShortName: 'PJATK', City: 'Warszawa', PostalCode: '01-123', Street: 'Koszykowa', Number: 86 },
-          { Name: 'Uniwersytet Warszawski', ShortName: 'UW', City: 'Warszawa', PostalCode: '01-123', Street: 'Nowy Świat', Number: 86 }
-        ]);
-      } else {
-        return universities;
-      }
-    })
-    .then(() => {
       return GraduateDegree.findAll();
     })
     .then((degrees) => {
@@ -752,7 +740,7 @@ module.exports = () => {
     .then((studies) => {
       if (!studies || studies.length == 0) {
         return Study.bulkCreate([
-          { IdEducation: 3, FieldOfStudy: 'Informatyka', IdUniversity: 1, IdStudyMode: 1, IdGraduateDegree: 1 }
+          { IdEducation: 5, FieldOfStudy: 'Informatyka', IdUniversity: 1, IdStudyMode: 1, IdGraduateDegree: 1 }
         ]);
       } else {
         return studies;
