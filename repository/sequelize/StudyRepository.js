@@ -40,13 +40,13 @@ exports.createStudy = (newStudyData) => {
 
 exports.deleteStudy = (studyId) => {
   return Study.destroy({
-    where: { IdStudy: studyId },
+    where: { IdEducation: studyId },
   });
 };
 
 exports.updateStudy = (studyId, data) => {
   const FieldOfStudy = data.FieldOfStudy;
-  return Study.update(data, { where: { IdStudy: studyId } });
+  return Study.update(data, { where: { IdEducation: studyId } });
 };
 
 exports.getStudyById = (studId) => {
