@@ -4,8 +4,16 @@ const Status = require('../../model/sequelize/Status');
 const Employee = require('../../model/sequelize/Employee');
 const Employment = require('../../model/sequelize/Employment');
 const Department = require('../../model/sequelize/Department');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
-exports.getApplicationFor = () => {
+exports.getApplicationFor = (params) => {
+  const { iddepartment, iddivision, idstatus } = params
+  const depId = iddepartment
+  const divId = iddivision
+  const statId = idstatus
+
+
   return ApplicationFor.findAll({
     attributes: [
       'IdApplicationFor',
@@ -17,15 +25,35 @@ exports.getApplicationFor = () => {
     include: [
       {
         model: Education,
+        required: true,
         as: 'applicationForEducation'
       },
       {
         model: Status,
-        as: 'applicationForStatus'
+        as: 'applicationForStatus',
+        where:
+          statId ? { IdStatus: statId } : {},
       },
       {
         model: Employee,
-        as: 'applicationForEmployee'
+        required: true,
+        as: 'applicationForEmployee',
+        include: [
+          {
+            model: Employment,
+            required: true,
+            as: 'employeeEmployment',
+            where:
+              depId ? { IdDepartment: depId, DateTo: null } : { DateTo: null },
+            include: [
+              {
+                model: Department,
+                required: true,
+                as: 'employmentsDepartment',
+                where:
+                  divId ? { IdDivision: divId } : {},
+              }]
+          }]
       },
     ],
   });
