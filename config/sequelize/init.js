@@ -365,7 +365,7 @@ module.exports = () => {
   });
 
   Employee.hasMany(Participation, {
-    as: 'employeeParticipation',
+    as: 'employeeParticipations',
     foreignKey: { name: 'IdPerson', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -376,6 +376,18 @@ module.exports = () => {
     constraints: true,
     onDelete: 'CASCADE',
   });
+
+  Education.hasMany(Participation, {
+    as: 'educationParticipations',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Participation.belongsTo(Education, {
+    as: 'participationEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+  });
+
 
   Education.hasOne(Study, {
     as: 'educationStudys',
@@ -794,7 +806,8 @@ module.exports = () => {
       if (!appsFor || appsFor.length == 0) {
         return ApplicationFor.bulkCreate([
           { DateOfSubmission: '2021-08-01', IdEducation: 1, IdStatus: 1, Compability: 'true', IdPerson: 1 },
-          { DateOfSubmission: '2021-08-02', IdEducation: 2, IdStatus: 1, Compability: 'true', IdPerson: 2 }
+          { DateOfSubmission: '2021-08-02', IdEducation: 2, IdStatus: 1, Compability: 'true', IdPerson: 2 },
+          { DateOfSubmission: '2021-09-01', IdEducation: 3, IdStatus: 5, Compability: 'true', IdPerson: 1 }
         ]);
       } else {
         return appsFor;
@@ -812,6 +825,18 @@ module.exports = () => {
         ]);
       } else {
         return rooms;
+      }
+    })
+    .then(() => {
+      return Participation.findAll();
+    })
+    .then((participations) => {
+      if (!participations || participations.length == 0) {
+        return Participation.bulkCreate([
+          { IdPerson: 1, IdEducation: 3, DateOfRegistration: '2021-08-02' }
+        ]);
+      } else {
+        return participations;
       }
     })
     .then(() => {

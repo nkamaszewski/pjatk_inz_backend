@@ -4,10 +4,10 @@ const Employee = require('../../model/sequelize/Employee');
 
 exports.getParticipations = () => {
     return Participation.findAll({
-        attributes: ['IdParticipation','IdPerson','IdEducation','DateOfRegistration', 'EndDate','CertificateOfCompletion' ],
+        attributes: ['IdParticipation', 'IdPerson', 'IdEducation', 'DateOfRegistration', 'EndDate', 'CertificateOfCompletion'],
         include: [{
             model: Employee,
-            as: 'employeesParticipation'
+            as: 'participationEmployee'
         }]
     });
 };
