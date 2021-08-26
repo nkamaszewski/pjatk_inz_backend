@@ -1,6 +1,6 @@
 const ApplicationForRepository = require('../repository/sequelize/ApplicationForRepository');
 
-exports.getApplicationFor= (req, res, next) => {
+exports.getApplicationFor = (req, res, next) => {
     ApplicationForRepository.getApplicationFor()
         .then(appFor => {
             res.status(200).json(appFor);
@@ -63,4 +63,35 @@ exports.deleteApplicationFor = (req, res, next) => {
             }
             next(err);
         });
+};
+
+exports.getApplicationForByDepId = (req, res, next) => {
+    const depId = req.params.depId;
+    ApplicationForRepository.getApplicationForByDepId(depId).then(
+        (appFor) => {
+            if (!appFor) {
+                res.status(404).json({
+                    message: 'Applications with IdDepartment: ' + depId + ' not found',
+                });
+            } else {
+                res.status(200).json(appFor);
+            }
+        }
+    );
+};
+
+
+exports.getApplicationForDivId = (req, res, next) => {
+    const divId = req.params.divId;
+    ApplicationForRepository.getApplicationForByDepId(divId).then(
+        (appFor) => {
+            if (!appFor) {
+                res.status(404).json({
+                    message: 'Applications with IdDivision: ' + divId + ' not found',
+                });
+            } else {
+                res.status(200).json(appFor);
+            }
+        }
+    );
 };

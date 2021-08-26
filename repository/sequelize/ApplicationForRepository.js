@@ -2,6 +2,8 @@ const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Education = require('../../model/sequelize/Education');
 const Status = require('../../model/sequelize/Status');
 const Employee = require('../../model/sequelize/Employee');
+const Employment = require('../../model/sequelize/Employment');
+const Department = require('../../model/sequelize/Department');
 
 exports.getApplicationFor = () => {
   return ApplicationFor.findAll({
@@ -61,4 +63,67 @@ exports.updateApplicationFor = (applicationForId, data) => {
 
 exports.getApplicationForById = (appForId) => {
   return ApplicationFor.findByPk(appForId);
+};
+
+
+exports.getApplicationForByDepId = (depId) => {
+  return ApplicationFor.findAll({
+    attributes: ['IdApplicationFor', 'DateOfSubmission'],
+    include: [
+      {
+        model: Employee,
+        as: 'applicationForEmployee',
+        include: [
+          {
+            model: Employment,
+            as: 'employeeEmployment',
+            where: {
+              IdDepartment: depId,
+              DateTo: null
+            }
+          }]
+      },
+    ],
+    include: [
+      {
+        model: Status,
+        as: 'applicationForStatus'
+      }
+    ],
+  });
+};
+
+exports.getApplicationForByDivId = (divId) => {
+  return ApplicationFor.findAll({
+    attributes: ['IdApplicationFor', 'DateOfSubmission'],
+    include: [
+      {
+        model: Employee,
+        as: 'applicationForEmployee',
+        include: [
+          {
+            model: Employment,
+            as: 'employeeEmployment',
+            where: {
+              DateTo: null
+            },
+            include: [
+              {
+                model: Department,
+                as: 'departmentEmployment',
+                where: {
+                  IdDivision: divId
+                }
+
+              }]
+          }]
+      },
+    ],
+    include: [
+      {
+        model: Status,
+        as: 'applicationForStatus'
+      }
+    ],
+  });
 };
