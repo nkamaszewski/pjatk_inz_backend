@@ -93,9 +93,94 @@ exports.getApplicationsForByEmpId = (req, res, next) => {
         });
 };
 
+exports.getAppStudiesByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getAppStudiesByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'ApplicationFor for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getAppTrainingsByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getAppTrainingsByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'ApplicationFor for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getAppOthersByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getAppOthersByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'ApplicationFor for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+
 exports.getParticipationsByEmpId = (req, res, next) => {
     const empId = req.params.empId;
     EmployeeRepository.getParticipationsByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'Participations for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getPartStudiesByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getPartStudiesByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'Participations for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getPartTrainingsByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getPartTrainingsByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'Participations for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};
+
+exports.getPartOthersByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getPartOthersByEmpId(empId)
         .then(emp => {
             if (!emp) {
                 res.status(404).json({

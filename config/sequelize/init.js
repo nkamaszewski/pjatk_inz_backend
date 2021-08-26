@@ -201,7 +201,7 @@ module.exports = () => {
   });
 
   Education.hasOne(Training, {
-    as: 'educationTrainings',
+    as: 'educationTraining',
     foreignKey: { name: 'IdEducation', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -387,7 +387,7 @@ module.exports = () => {
   });
 
   Education.hasOne(Study, {
-    as: 'educationStudys',
+    as: 'educationStudy',
     foreignKey: { name: 'IdEducation', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -408,15 +408,15 @@ module.exports = () => {
     foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
-  Education.hasMany(ApplicationFor, {
+  Education.hasOne(ApplicationFor, {
     as: 'educationApplicationFor',
-    foreignKey: { name: 'IdPerson', allowNull: false },
+    foreignKey: { name: 'IdEducation', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
   });
   ApplicationFor.belongsTo(Education, {
     as: 'applicationForEducation',
-    foreignKey: { name: 'IdPerson', allowNull: false },
+    foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
   Status.hasMany(ApplicationFor, {
