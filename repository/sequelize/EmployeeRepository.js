@@ -46,7 +46,7 @@ exports.getEmployeeById = (persId) => {
     return Employee.findByPk(persId);
 };
 
-exports.getQuestionnaireOfferByEmpId = (empId) => {
+exports.getQuestionnaireOffersByEmpId = (empId) => {
     return QuestionnaireOffer.findAll({
         attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
         include: [
@@ -59,7 +59,7 @@ exports.getQuestionnaireOfferByEmpId = (empId) => {
     });
 };
 
-exports.getApplicationForByEmpId = (empId) => {
+exports.getApplicationsForByEmpId = (empId) => {
     return ApplicationFor.findAll({
         attributes: ['IdApplicationFor', 'DateOfSubmission'],
         include: [
@@ -72,7 +72,7 @@ exports.getApplicationForByEmpId = (empId) => {
     });
 };
 
-exports.getParticipationByEmpId = (empId) => {
+exports.getParticipationsByEmpId = (empId) => {
     return Participation.findAll({
         attributes: ['DateOfRegistration', 'EndDate'],
         where: { IdPerson: empId }

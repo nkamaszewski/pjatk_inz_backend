@@ -65,9 +65,9 @@ exports.deleteEmployee = (req, res, next) => {
         });
 };
 
-exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
+exports.getQuestionnaireOffersByEmpId = (req, res, next) => {
     const empId = req.params.empId;
-    EmployeeRepository.getQuestionnaireOfferByEmpId(empId)
+    EmployeeRepository.getQuestionnaireOffersByEmpId(empId)
         .then(emp => {
             if (!emp) {
                 res.status(404).json({
@@ -79,9 +79,9 @@ exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
         });
 };
 
-exports.getApplicationForByEmpId = (req, res, next) => {
+exports.getApplicationsForByEmpId = (req, res, next) => {
     const empId = req.params.empId;
-    EmployeeRepository.getApplicationForByEmpId(empId)
+    EmployeeRepository.getApplicationsForByEmpId(empId)
         .then(emp => {
             if (!emp) {
                 res.status(404).json({
@@ -93,9 +93,9 @@ exports.getApplicationForByEmpId = (req, res, next) => {
         });
 };
 
-exports.getParticipationByEmpId = (req, res, next) => {
+exports.getParticipationsByEmpId = (req, res, next) => {
     const empId = req.params.empId;
-    EmployeeRepository.getParticipationByEmpId(empId)
+    EmployeeRepository.getParticipationsByEmpId(empId)
         .then(emp => {
             if (!emp) {
                 res.status(404).json({

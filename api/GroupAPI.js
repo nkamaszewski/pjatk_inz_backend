@@ -64,3 +64,13 @@ exports.deleteGroup = (req, res, next) => {
             next(err);
         });
 };
+
+exports.getGroupsByActive = (req, res, next) => {
+    GroupRepository.getGroupsByActive()
+        .then(groups => {
+            res.status(200).json(groups);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
