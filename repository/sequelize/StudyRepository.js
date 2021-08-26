@@ -2,6 +2,7 @@ const University = require('../../model/sequelize/University');
 const Study = require('../../model/sequelize/Study');
 const StudyMode = require('../../model/sequelize/StudyMode');
 const GraduateDegree = require('../../model/sequelize/GraduateDegree');
+const Education = require('../../model/sequelize/Education');
 
 exports.getStudys = () => {
   return Study.findAll({
@@ -24,6 +25,10 @@ exports.getStudys = () => {
       {
         model: GraduateDegree,
         as: 'studysGraduateDegree',
+      },
+      {
+        model: Education,
+        as: 'studyEducation',
       },
     ],
   });
