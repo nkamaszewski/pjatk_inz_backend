@@ -71,3 +71,32 @@ exports.getTrainingById = (eduId) => {
     return Training.findByPk(eduId);
 };
 
+exports.getTrainingByInternal = (int) => {
+    return Training.findAll({
+        attributes: ['Internal', 'DateFrom', 'DateTo'],
+        include: [{
+            model: Education,
+            as: 'trainingEducation'
+        },
+        {
+            model: Company,
+            as: 'trainingCompany'
+        },
+        {
+            model: Topic,
+            as: 'trainingTopic'
+        },
+        {
+            model: Coach,
+            as: 'trainingCoach',
+            include: [{
+                model: Person,
+                as: 'coachPerson'
+            }]
+        }
+        ],
+        where: {
+            Internal: int
+        }
+    });
+};
