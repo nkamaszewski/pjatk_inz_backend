@@ -1,7 +1,10 @@
 const ApplicationForRepository = require('../repository/sequelize/ApplicationForRepository');
 
 exports.getApplicationFor = (req, res, next) => {
-    ApplicationForRepository.getApplicationFor()
+
+    const params = req.query
+
+    ApplicationForRepository.getApplicationFor(params)
         .then(appFor => {
             res.status(200).json(appFor);
         })
