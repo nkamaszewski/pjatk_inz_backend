@@ -211,6 +211,17 @@ module.exports = () => {
     foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
+  Training.hasMany(Group, {
+    as: 'trainingGroups',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Group.belongsTo(Training, {
+    as: 'groupTraining',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+  });
+
   Employee.hasMany(EmployeeGroup, {
     as: 'employeeEmployeeGroup',
     foreignKey: { name: 'IdPerson', allowNull: false },
@@ -219,6 +230,19 @@ module.exports = () => {
   });
   EmployeeGroup.belongsTo(Employee, {
     as: 'employeeGroupEmployee',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+
+  Employee.hasMany(Employment, {
+    as: 'employeeEmployment',
+    foreignKey: { name: 'IdPerson', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Employment.belongsTo(Employee, {
+    as: 'employmentEmployee',
     foreignKey: { name: 'IdPerson', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -339,7 +363,7 @@ module.exports = () => {
   });
 
   Employee.hasMany(Participation, {
-    as: 'employeeParticipation',
+    as: 'employeeParticipations',
     foreignKey: { name: 'IdPerson', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
@@ -349,6 +373,17 @@ module.exports = () => {
     foreignKey: { name: 'IdPerson', allowNull: false },
     constraints: true,
     onDelete: 'CASCADE',
+  });
+
+  Education.hasMany(Participation, {
+    as: 'educationParticipations',
+    foreignKey: { name: 'IdEducation', allowNull: false },
+    constraints: true,
+    onDelete: 'CASCADE',
+  });
+  Participation.belongsTo(Education, {
+    as: 'participationEducation',
+    foreignKey: { name: 'IdEducation', allowNull: false },
   });
 
   Education.hasOne(Study, {
@@ -537,32 +572,6 @@ module.exports = () => {
         }
       })
       .then(() => {
-        return Group.findAll();
-      })
-      .then((groups) => {
-        if (!groups || groups.length == 0) {
-          return Group.bulkCreate([
-            { Name: '21c', NumberOfPerson: '14' },
-            { Name: '14', NumberOfPerson: '12' },
-          ]);
-        } else {
-          return groups;
-        }
-      })
-      .then(() => {
-        return EmployeeGroup.findAll();
-      })
-      .then((employeegroups) => {
-        if (!employeegroups || employeegroups.length == 0) {
-          return EmployeeGroup.bulkCreate([
-            { IdGroup: '1', IdPerson: '2' },
-            { IdGroup: '2', IdPerson: '2' },
-          ]);
-        } else {
-          return employeegroups;
-        }
-      })
-      .then(() => {
         return Company.findAll();
       })
       .then((companys) => {
@@ -633,7 +642,7 @@ module.exports = () => {
           return Education.bulkCreate([
             { Price: '900', PriceAccommodation: 200, PriceTransit: 200 },
             { Price: '1000', PriceAccommodation: 300, PriceTransit: 200 },
-            { Price: '3200', PriceAccommodation: 200, PriceTransit: 200 },
+            { Price: '3200', PriceAccommodation: 0, PriceTransit: 0 },
             { Price: '10200', PriceAccommodation: 0, PriceTransit: 0 },
           ]);
         } else {
@@ -662,9 +671,44 @@ module.exports = () => {
               DateFrom: '2021-08-19',
               DateTo: '2021-08-21',
             },
+            {
+              IdEducation: '3',
+              IdTopic: 2,
+              IdCompany: 2,
+              IdPerson: 1,
+              DateFrom: '2021-08-23',
+              DateTo: '2021-08-25',
+              Internal: true,
+            },
           ]);
         } else {
           return trainings;
+        }
+      })
+      .then(() => {
+        return Group.findAll();
+      })
+      .then((groups) => {
+        if (!groups || groups.length == 0) {
+          return Group.bulkCreate([
+            { Name: '21c', NumberOfPerson: '14', IdEducation: 3 },
+            { Name: '14', NumberOfPerson: '12', IdEducation: 3 },
+          ]);
+        } else {
+          return groups;
+        }
+      })
+      .then(() => {
+        return EmployeeGroup.findAll();
+      })
+      .then((employeegroups) => {
+        if (!employeegroups || employeegroups.length == 0) {
+          return EmployeeGroup.bulkCreate([
+            { IdGroup: '1', IdPerson: '2' },
+            { IdGroup: '2', IdPerson: '2' },
+          ]);
+        } else {
+          return employeegroups;
         }
       })
       .then(() => {
@@ -845,8 +889,9 @@ module.exports = () => {
           return Status.bulkCreate([
             { Name: 'Złożony' },
             { Name: 'Rozpatrywany' },
-            { Name: 'Zatwierdzony' },
             { Name: 'Odrzucony' },
+            { Name: 'Zatwierdzony - kierownik' },
+            { Name: 'Zatwierdzony - dyrektor' },
           ]);
         } else {
           return status;
@@ -872,6 +917,13 @@ module.exports = () => {
               Compability: 'true',
               IdPerson: 2,
             },
+            {
+              DateOfSubmission: '2021-09-01',
+              IdEducation: 3,
+              IdStatus: 5,
+              Compability: 'true',
+              IdPerson: 1,
+            },
           ]);
         } else {
           return appsFor;
@@ -889,6 +941,18 @@ module.exports = () => {
           ]);
         } else {
           return rooms;
+        }
+      })
+      .then(() => {
+        return Participation.findAll();
+      })
+      .then((participations) => {
+        if (!participations || participations.length == 0) {
+          return Participation.bulkCreate([
+            { IdPerson: 1, IdEducation: 3, DateOfRegistration: '2021-08-02' },
+          ]);
+        } else {
+          return participations;
         }
       })
       .then(() => {

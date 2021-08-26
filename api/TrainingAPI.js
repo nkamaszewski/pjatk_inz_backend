@@ -64,3 +64,17 @@ exports.deleteTraining = (req, res, next) => {
             next(err);
         });
 };
+
+exports.getTrainingByInternal = (req, res, next) => {
+    const int = req.params.int;
+    TrainingRepository.getTrainingByInternal(int)
+        .then(trn => {
+            if (!trn) {
+                res.status(404).json({
+                    message: 'Training with Internal: ' + int + ' not found'
+                })
+            } else {
+                res.status(200).json(trn);
+            }
+        });
+};

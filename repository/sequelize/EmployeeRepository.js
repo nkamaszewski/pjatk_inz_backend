@@ -1,5 +1,11 @@
 const Person = require('../../model/sequelize/Person');
 const Employee = require('../../model/sequelize/Employee');
+const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
+const Offer = require('../../model/sequelize/Offer');
+const ApplicationFor = require('../../model/sequelize/ApplicationFor');
+const Status = require('../../model/sequelize/Status');
+const Participation = require('../../model/sequelize/Participation');
+
 
 exports.getEmployees = () => {
     return Employee.findAll({
@@ -38,5 +44,38 @@ exports.updateEmployee = (personId, data) => {
 
 exports.getEmployeeById = (persId) => {
     return Employee.findByPk(persId);
+};
+
+exports.getQuestionnaireOffersByEmpId = (empId) => {
+    return QuestionnaireOffer.findAll({
+        attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
+        include: [
+            {
+                model: Offer,
+                as: 'questionnaireOfferOffer'
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getApplicationsForByEmpId = (empId) => {
+    return ApplicationFor.findAll({
+        attributes: ['IdApplicationFor', 'DateOfSubmission'],
+        include: [
+            {
+                model: Status,
+                as: 'applicationForStatus'
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getParticipationsByEmpId = (empId) => {
+    return Participation.findAll({
+        attributes: ['DateOfRegistration', 'EndDate'],
+        where: { IdPerson: empId }
+    });
 };
 

@@ -1,4 +1,8 @@
 const Group = require('../../model/sequelize/Group');
+const Training = require('../../model/sequelize/Training');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 
 exports.getGroups = () => {
     return Group.findAll();
@@ -27,5 +31,22 @@ exports.updateGroup = (groupId, data) => {
 
 exports.getGroupById = (grpId) => {
     return Group.findByPk(grpId);
+};
+
+exports.getGroupsByActive = () => {
+    return Group.findAll({
+        include: [{
+            model: Training,
+            as: 'groupTraining',
+            where: {
+                DateTo: {
+                    [Op.gte]: new Date()
+                },
+            }
+        }]
+    }
+
+
+    );
 };
 

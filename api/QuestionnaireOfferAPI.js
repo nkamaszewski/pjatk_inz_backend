@@ -25,21 +25,6 @@ exports.getQuestionnaireOfferById = (req, res, next) => {
   );
 };
 
-exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
-  const empId = req.params.empId;
-  QuestionnaireOfferRepository.getQuestionnaireOfferByEmpId(empId).then(
-    (questoff) => {
-      if (!questoff) {
-        res.status(404).json({
-          message: 'Questionnaire Offer with IdPerson: ' + empId + ' not found',
-        });
-      } else {
-        res.status(200).json(questoff);
-      }
-    }
-  );
-};
-
 exports.createQuestionnaireOffer = (req, res, next) => {
   QuestionnaireOfferRepository.createQuestionnaireOffer(req.body)
     .then((newObj) => {
@@ -83,4 +68,50 @@ exports.deleteQuestionnaireOffer = (req, res, next) => {
       }
       next(err);
     });
+};
+
+exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
+  const empId = req.params.empId;
+  QuestionnaireOfferRepository.getQuestionnaireOfferByEmpId(empId).then(
+    (questoff) => {
+      if (!questoff) {
+        res.status(404).json({
+          message: 'Questionnaire Offer with IdPerson: ' + empId + ' not found',
+        });
+      } else {
+        res.status(200).json(questoff);
+      }
+    }
+  );
+};
+
+exports.getQuestionnaireOfferByDepId = (req, res, next) => {
+  const depId = req.params.depId;
+  QuestionnaireOfferRepository.getQuestionnaireOfferByDepId(depId).then(
+    (questoff) => {
+      if (!questoff) {
+        res.status(404).json({
+          message: 'Questionnaire Offer with IdDepartment: ' + depId + ' not found',
+        });
+      } else {
+        res.status(200).json(questoff);
+      }
+    }
+  );
+};
+
+
+exports.getQuestionnaireOfferByDivId = (req, res, next) => {
+  const divId = req.params.divId;
+  QuestionnaireOfferRepository.getQuestionnaireOfferByDepId(divId).then(
+    (questoff) => {
+      if (!questoff) {
+        res.status(404).json({
+          message: 'Questionnaire Offer with IdDivision: ' + divId + ' not found',
+        });
+      } else {
+        res.status(200).json(questoff);
+      }
+    }
+  );
 };

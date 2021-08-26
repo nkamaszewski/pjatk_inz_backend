@@ -1,5 +1,8 @@
 const Offer = require('../../model/sequelize/Offer');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
+const Employee = require('../../model/sequelize/Employee');
+const Employment = require('../../model/sequelize/Employment');
+
 
 exports.getQuestionnaireOffers = () => {
   return QuestionnaireOffer.findAll({
@@ -42,18 +45,7 @@ exports.getQuestionnaireOfferById = (questionnaireOfferId) => {
   return QuestionnaireOffer.findByPk(questionnaireOfferId);
 };
 
-// exports.getQuestionnaireOfferByEmpId = (empId) => {
-//   return Offer.findAll({
-//     attributes: ['IdOffer', 'Topic', 'Link', 'Price'],
-//     include: [
-//       {
-//         model: QuestionnaireOffer,
-//         as: 'offerQuestionnaireOffer',
-//         where: { IdPerson: empId }
-//       }
-//     ],
-//   });
-// };
+
 exports.getQuestionnaireOfferByEmpId = (empId) => {
   return QuestionnaireOffer.findAll({
     attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
@@ -64,5 +56,67 @@ exports.getQuestionnaireOfferByEmpId = (empId) => {
       }
     ],
     where: { IdPerson: empId }
+  });
+};
+
+exports.getQuestionnaireOfferByDepId = (depId) => {
+  return QuestionnaireOffer.findAll({
+    attributes: ['IdQuestionnaireOffer', 'Year'],
+    include: [
+      {
+        model: Employee,
+        as: 'questionnaireOfferEmployee',
+        include: [
+          {
+            model: Employment,
+            as: 'employeeEmployment',
+            where: {
+              IdDepartment: depId,
+              DateTo: null
+            }
+          }]
+      },
+    ],
+    include: [
+      {
+        model: Offer,
+        as: 'questionnaireOfferOffer'
+      }
+    ],
+  });
+};
+
+exports.getQuestionnaireOfferByDivId = (divId) => {
+  return QuestionnaireOffer.findAll({
+    attributes: ['IdQuestionnaireOffer', 'Year'],
+    include: [
+      {
+        model: Employee,
+        as: 'questionnaireOfferEmployee',
+        include: [
+          {
+            model: Employment,
+            as: 'employeeEmployment',
+            where: {
+              DateTo: null
+            },
+            include: [
+              {
+                model: Department,
+                as: 'departmentEmployment',
+                where: {
+                  IdDivision: divId
+                }
+
+              }]
+          }]
+      },
+    ],
+    include: [
+      {
+        model: Offer,
+        as: 'questionnaireOfferOffer'
+      }
+    ],
   });
 };

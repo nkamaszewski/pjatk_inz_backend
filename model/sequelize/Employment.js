@@ -17,11 +17,13 @@ const Employment = sequelize.define('Employment', {
             isDate: {
                 msg: 'Pole powinno być prawidłową datą'
             },
-            isLessThanFrom(value) {
-                if (value !== null && value <= this.DateFrom) {
-                    throw new Error('Data końcowa musi być późniejsza niż początkowa');
-                }
-            }
+            // isLessThanFrom(value) {
+            //     if (value <= this.DateFrom) {
+            //         throw new Error('Data końcowa musi być późniejsza niż początkowa');
+            //     }
+            // }
+
+
         }
     },
     IdDepartment: { type: Sequelize.INTEGER, allowNull: false },
