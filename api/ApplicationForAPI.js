@@ -95,3 +95,18 @@ exports.getApplicationForDivId = (req, res, next) => {
         }
     );
 };
+
+exports.getApplicationForStatId = (req, res, next) => {
+    const statId = req.params.statId;
+    ApplicationForRepository.getApplicationForByStatId(statId).then(
+        (appFor) => {
+            if (!appFor) {
+                res.status(404).json({
+                    message: 'Applications with IdStatus: ' + statId + ' not found',
+                });
+            } else {
+                res.status(200).json(appFor);
+            }
+        }
+    );
+};

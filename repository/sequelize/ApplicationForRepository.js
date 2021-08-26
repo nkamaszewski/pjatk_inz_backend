@@ -127,3 +127,32 @@ exports.getApplicationForByDivId = (divId) => {
     ],
   });
 };
+
+exports.getApplicationForByStatId = (statId) => {
+  return ApplicationFor.findAll({
+    attributes: [
+      'IdApplicationFor',
+      'DateOfSubmission',
+      'IdEducation',
+      'IdStatus',
+      'Compatibility'
+    ],
+    include: [
+      {
+        model: Education,
+        as: 'applicationForEducation'
+      },
+      {
+        model: Status,
+        as: 'applicationForStatus'
+      },
+      {
+        model: Employee,
+        as: 'applicationForEmployee'
+      },
+    ],
+    where: {
+      IdStatus: statId
+    }
+  });
+};
