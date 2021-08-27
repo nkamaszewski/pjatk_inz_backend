@@ -12,7 +12,7 @@ exports.createApplicationForRefund = (newApplicationForRefundData) => {
     });
 };
 
-exports.deleteReasonForFefund = (applicationForRefundId) => {
+exports.deleteApplicationForRefund = (applicationForRefundId) => {
     return ApplicationForRefund.destroy({
         where: { IdApplicationForRefund: applicationForRefundId }
     });

@@ -984,5 +984,33 @@ module.exports = () => {
           return oEdus;
         }
       })
+      .then(() => {
+        return ReasonForRefund.findAll();
+      })
+      .then((reasons) => {
+        if (!reasons || reasons.length == 0) {
+          return ReasonForRefund.bulkCreate([
+            { Name: "Zwrot kosztów szkolenia" },
+            { Name: "Zwrot kosztów przejazdu" },
+            { Name: "Zwrot kosztów zakwaterowania" },
+            { Name: "Urlop szkoleniowy" }
+          ]);
+        } else {
+          return reasons;
+        }
+      })
+      .then(() => {
+        return ApplicationForRefund.findAll();
+      })
+      .then((apps) => {
+        if (!apps || apps.length == 0) {
+          return ApplicationForRefund.bulkCreate([
+            { IdApplicationFor: 1, IdStatus: 1, DateOfSubmission: "2021-08-01" },
+            { IdApplicationFor: 2, IdStatus: 1, DateOfSubmission: "2021-08-21" }
+          ]);
+        } else {
+          return apps;
+        }
+      })
   );
 };

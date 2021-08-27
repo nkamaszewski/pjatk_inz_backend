@@ -11,12 +11,12 @@ exports.getApplicationForRefunds = (req, res, next) => {
 };
 
 exports.getApplicationForRefundById = (req, res, next) => {
-    const appForRefId = req.params.appForRefId;
-    ApplicationForRefundRepository.getApplicationForRefundById(appForRefId)
+    const appForRefundId = req.params.appForRefundId;
+    ApplicationForRefundRepository.getApplicationForRefundById(appForRefundId)
         .then(appForRef => {
             if (!appForRef) {
                 res.status(404).json({
-                    message: 'Application for refund with id: ' + appForRefId + ' not found'
+                    message: 'Application for refund with id: ' + appForRefundId + ' not found'
                 })
             } else {
                 res.status(200).json(appForRef);
@@ -38,8 +38,8 @@ exports.createApplicationForRefund = (req, res, next) => {
 };
 
 exports.updateApplicationForRefund = (req, res, next) => {
-    const appForRefId = req.params.appForRefId;
-    ApplicationForRefundRepository.updateApplicationForRefund(appForRefId, req.body)
+    const appForRefundId = req.params.appForRefundId;
+    ApplicationForRefundRepository.updateApplicationForRefund(appForRefundId, req.body)
         .then(result => {
             res.status(200).json({ message: 'Application for refund updated!', appForRef: result });
         })
@@ -52,10 +52,10 @@ exports.updateApplicationForRefund = (req, res, next) => {
 };
 
 exports.deleteApplicationForRefund = (req, res, next) => {
-    const appForRefId = req.params.appForRefId;
-    ApplicationForRefundRepository.deleteApplicationForRefund(appForRefId)
+    const appForRefundId = req.params.appForRefundId;
+    ApplicationForRefundRepository.deleteApplicationForRefund(appForRefundId)
         .then(result => {
-            res.status(200).json({ message: 'Removed application for refund', appForRef: result });
+            res.status(200).json({ message: 'Removed application for refund', appForRefundId: result });
         })
         .catch(err => {
             if (!err.statusCode) {
