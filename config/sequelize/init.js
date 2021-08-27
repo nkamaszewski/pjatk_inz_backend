@@ -673,7 +673,7 @@ module.exports = () => {
               IdCompany: 2,
               IdPerson: 1,
               DateFrom: '2021-08-19',
-              DateTo: '2021-08-21',
+              DateTo: '2021-08-31',
             },
             {
               IdEducation: '3',
@@ -681,7 +681,7 @@ module.exports = () => {
               IdCompany: 2,
               IdPerson: 1,
               DateFrom: '2021-08-23',
-              DateTo: '2021-08-25',
+              DateTo: '2021-08-21',
               Internal: true,
             },
           ]);

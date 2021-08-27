@@ -1,7 +1,9 @@
 const GroupRepository = require('../repository/sequelize/GroupRepository');
 
 exports.getGroups = (req, res, next) => {
-    GroupRepository.getGroups()
+    const params = req.query
+
+    GroupRepository.getGroups(params)
         .then(groups => {
             res.status(200).json(groups);
         })

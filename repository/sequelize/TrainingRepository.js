@@ -9,7 +9,7 @@ const Training = require('../../model/sequelize/Training');
 
 exports.getTrainings = () => {
   return Training.findAll({
-    attributes: ['Internal', 'DateFrom', 'DateTo'],
+    attributes: ['Internal', 'DateFrom', 'DateTo', 'IdEducation'],
     include: [
       {
         model: Education,

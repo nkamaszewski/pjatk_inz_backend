@@ -4,8 +4,18 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 
-exports.getGroups = () => {
-    return Group.findAll();
+exports.getGroups = (params) => {
+    const { active } = params
+    console.log(active)
+
+    return Group.findAll({
+        include: [{
+            model: Training,
+            as: 'groupTraining',
+            where:
+                active == 1 ? { DateTo: { [Op.gte]: new Date() } } : {}
+        }]
+    });
 };
 
 exports.createGroup = (newGroupData) => {
