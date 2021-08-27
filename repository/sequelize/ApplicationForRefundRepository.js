@@ -1,13 +1,14 @@
 const ApplicationForReasons = require('../../model/sequelize/ApplicationForReasons');
+const ApplicationForRefund = require('../../model/sequelize/ApplicationForRefund');
 
 exports.getApplicationForRefunds = () => {
     return ApplicationForRefund.findAll();
 };
 
 exports.createApplicationForRefund = (newApplicationForRefundData) => {
-    const {IdApplicationForRefund,IdApplicationFor,IdStatus,DateOfSubmission} = newApplicationForRefundData
+    const { IdApplicationForRefund, IdApplicationFor, IdStatus, DateOfSubmission } = newApplicationForRefundData
     return ApplicationForRefund.create({
-        IdApplicationForRefund,IdApplicationFor,IdStatus,DateOfSubmission
+        IdApplicationForRefund, IdApplicationFor, IdStatus, DateOfSubmission
     });
 };
 
