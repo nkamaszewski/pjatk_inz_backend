@@ -18,6 +18,7 @@ const Company = sequelize.define('Company', {
 	City: { type: Sequelize.STRING, allowNull: false },
 	PostalCode: { type: Sequelize.STRING, allowNull: false },
 	Street: { type: Sequelize.STRING, allowNull: false },
+	Number: { type: Sequelize.STRING, allowNull: false },
 	TIN: { type: Sequelize.STRING, allowNull: false },
 	Owner: { type: Sequelize.STRING, allowNull: false, defaultValue: false }
 }, {

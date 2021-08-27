@@ -3,6 +3,11 @@ const ApplicationForRefund = require('../../model/sequelize/ApplicationForRefund
 const ReasonForRefund = require('../../model/sequelize/ReasonForRefund');
 
 exports.getApplicationForRefunds = (params) => {
+    const { iddepartment, iddivision, idstatus } = params
+    const depId = iddepartment
+    const divId = iddivision
+    const statId = idstatus
+
     return ApplicationForRefund.findAll({
         include: [{
             model: ApplicationForReasons,

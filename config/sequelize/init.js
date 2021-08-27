@@ -583,6 +583,7 @@ module.exports = () => {
               City: 'Warszawa',
               PostalCode: '12-232',
               Street: 'Złota',
+              Number: "10",
               TIN: '123-321-22-33',
             },
             {
@@ -590,6 +591,7 @@ module.exports = () => {
               City: 'Warszawa',
               PostalCode: '11-223',
               Street: 'Wiejska',
+              Number: "2",
               TIN: '333-321-22-33',
             },
             {
@@ -597,6 +599,7 @@ module.exports = () => {
               City: 'Warszawa',
               PostalCode: '11-111',
               Street: 'Złota',
+              Number: "5a",
               TIN: '333-321-22-33',
               Owner: true,
             },
