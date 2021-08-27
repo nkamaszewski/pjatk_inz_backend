@@ -33,6 +33,7 @@ const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Role = require('../../model/sequelize/Role');
 const OtherEducation = require('../../model/sequelize/OtherEducation');
+const { getApplicationForReasonsById } = require('../../repository/sequelize/ApplicationForReasonsRepository');
 
 module.exports = () => {
   Division.hasMany(Department, {
@@ -1010,6 +1011,21 @@ module.exports = () => {
           ]);
         } else {
           return apps;
+        }
+      })
+      .then(() => {
+        return ApplicationForReasons.findAll();
+      })
+      .then((appReasons) => {
+        if (!appReasons || appReasons.length == 0) {
+          return ApplicationForReasons.bulkCreate([
+            { IdApplicationForRefund: 1, IdReasonForRefund: 1, IdStatus: 1 },
+            { IdApplicationForRefund: 1, IdReasonForRefund: 2, IdStatus: 1 },
+            { IdApplicationForRefund: 2, IdReasonForRefund: 1, IdStatus: 1 },
+            { IdApplicationForRefund: 2, IdReasonForRefund: 3, IdStatus: 1 }
+          ]);
+        } else {
+          return appReasons;
         }
       })
   );
