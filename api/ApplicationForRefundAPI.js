@@ -1,7 +1,9 @@
 const ApplicationForRefundRepository = require('../repository/sequelize/ApplicationForRefundRepository');
 
 exports.getApplicationForRefunds = (req, res, next) => {
-    ApplicationForRefundRepository.getApplicationForRefunds()
+    const params = req.query
+
+    ApplicationForRefundRepository.getApplicationForRefunds(params)
         .then(appForRefs => {
             res.status(200).json(appForRefs);
         })
