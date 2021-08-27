@@ -7,7 +7,9 @@ const Company = require('../../model/sequelize/Company');
 
 const Training = require('../../model/sequelize/Training');
 
-exports.getTrainings = () => {
+exports.getTrainings = (params) => {
+  const { internal } = params
+
   return Training.findAll({
     attributes: ['Internal', 'DateFrom', 'DateTo', 'IdEducation'],
     include: [
@@ -34,6 +36,8 @@ exports.getTrainings = () => {
         ],
       },
     ],
+    where:
+      internal ? { Internal: internal } : {}
   });
 };
 

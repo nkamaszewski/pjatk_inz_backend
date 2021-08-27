@@ -1,7 +1,9 @@
 const TrainingRepository = require('../repository/sequelize/TrainingRepository');
 
 exports.getTrainings = (req, res, next) => {
-    TrainingRepository.getTrainings()
+    const params = req.query
+
+    TrainingRepository.getTrainings(params)
         .then(trns => {
             res.status(200).json(trns);
         })
