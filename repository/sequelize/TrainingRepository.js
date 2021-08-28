@@ -1,14 +1,15 @@
 const Education = require('../../model/sequelize/Education');
 const Coach = require('../../model/sequelize/Coach');
 const Person = require('../../model/sequelize/Person');
-
 const Topic = require('../../model/sequelize/Topic');
 const Company = require('../../model/sequelize/Company');
-
 const Training = require('../../model/sequelize/Training');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 
 exports.getTrainings = (params) => {
-  const { internal } = params
+  const { internal, active } = params
 
   return Training.findAll({
     attributes: ['Internal', 'DateFrom', 'DateTo', 'IdEducation'],
@@ -37,7 +38,9 @@ exports.getTrainings = (params) => {
       },
     ],
     where:
-      internal ? { Internal: internal } : {}
+      internal ? { Internal: internal } : {},
+    where:
+      active == 1 ? { DateTo: { [Op.gte]: new Date() } } : {}
   });
 };
 

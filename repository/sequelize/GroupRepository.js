@@ -6,7 +6,6 @@ const Op = Sequelize.Op;
 
 exports.getGroups = (params) => {
     const { active } = params
-    console.log(active)
 
     return Group.findAll({
         include: [{
