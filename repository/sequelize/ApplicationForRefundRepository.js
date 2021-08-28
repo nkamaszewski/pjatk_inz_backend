@@ -3,7 +3,9 @@ const ApplicationForRefund = require('../../model/sequelize/ApplicationForRefund
 const ReasonForRefund = require('../../model/sequelize/ReasonForRefund');
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Employee = require('../../model/sequelize/Employee');
+const Person = require('../../model/sequelize/Person');
 const Employment = require('../../model/sequelize/Employment');
+const Education = require('../../model/sequelize/Education');
 const Department = require('../../model/sequelize/Department');
 
 exports.getApplicationForRefunds = (params) => {
@@ -13,49 +15,63 @@ exports.getApplicationForRefunds = (params) => {
     const statId = idstatus
 
     return ApplicationForRefund.findAll({
-        include: [{
-            model: ApplicationForReasons,
-            as: 'applicationForRefundApplicationForReasons',
-            include: [
-                {
-                    model: ReasonForRefund,
-                    as: 'applicationForReasonsReasonForRefund',
-                    attributes: ['Name']
-                }
-            ]
-        },
-        {
-            model: ApplicationFor,
-            required: true,
-            as: 'applicationForRefundApplicationFor',
-            attributes: [],
-            include: [
-                {
-                    model: Employee,
-                    required: true,
-                    as: 'applicationForEmployee',
-                    attributes: [],
-                    include: [
-                        {
-                            model: Employment,
-                            required: true,
-                            as: 'employeeEmployment',
-                            attributes: [],
-                            where:
-                                depId ? { IdDepartment: depId, DateTo: null } : { DateTo: null },
-                            include: [
-                                {
-                                    model: Department,
-                                    required: true,
-                                    as: 'employmentsDepartment',
-                                    attributes: [],
-                                    where:
-                                        divId ? { IdDivision: divId } : {},
-                                }]
-                        }]
-                }
-            ]
-        }],
+        include: [
+            {
+                model: ApplicationForReasons,
+                as: 'applicationForRefundApplicationForReasons',
+                include: [
+                    {
+                        model: ReasonForRefund,
+                        as: 'applicationForReasonsReasonForRefund',
+                        attributes: ['Name']
+                    }
+                ]
+            },
+            {
+                model: ApplicationFor,
+                required: true,
+                as: 'applicationForRefundApplicationFor',
+                attributes: ['IdEducation'],
+                include: [
+                    {
+                        model: Employee,
+                        required: true,
+                        as: 'applicationForEmployee',
+                        attributes: ['IdPerson'],
+                        include: [
+                            {
+                                model: Employment,
+                                required: true,
+                                as: 'employeeEmployment',
+                                attributes: [],
+                                where:
+                                    depId ? { IdDepartment: depId, DateTo: null } : { DateTo: null },
+                                include: [
+                                    {
+                                        model: Department,
+                                        required: true,
+                                        as: 'employmentsDepartment',
+                                        attributes: [],
+                                        where:
+                                            divId ? { IdDivision: divId } : {},
+                                    }]
+                            },
+                            {
+                                model: Person,
+                                required: true,
+                                as: 'employeePerson',
+                                attributes: ['FirstName', 'LastName']
+
+                            },
+                        ]
+                    },
+                    {
+                        model: Education,
+                        required: true,
+                        as: 'applicationForEducation'
+                    }
+                ]
+            }],
         where:
             statId ? { IdStatus: statId } : {}
     });
