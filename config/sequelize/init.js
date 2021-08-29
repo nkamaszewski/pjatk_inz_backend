@@ -928,6 +928,13 @@ module.exports = () => {
               Compability: 'true',
               IdPerson: 1,
             },
+            {
+              DateOfSubmission: '2021-10-01',
+              IdEducation: 4,
+              IdStatus: 5,
+              Compability: 'true',
+              IdPerson: 2,
+            }
           ]);
         } else {
           return appsFor;

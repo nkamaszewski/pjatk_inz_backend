@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const appForApiController = require('../../api/ApplicationForAPI');
-router.get('/', appForApiController.getApplicationFor);
+
+router.get('/', appForApiController.getApplicationForMySql2);
 
 router.get('/:appForId', appForApiController.getApplicationForById);
 router.get('/dep/:depId', appForApiController.getApplicationForByDepId);

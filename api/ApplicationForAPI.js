@@ -1,10 +1,25 @@
 const ApplicationForRepository = require('../repository/sequelize/ApplicationForRepository');
+const ApplicationForRepositoryMySql2 = require('../repository/mysql2/ApplicationForRepository');
+
 
 exports.getApplicationFor = (req, res, next) => {
 
     const params = req.query
 
     ApplicationForRepository.getApplicationFor(params)
+        .then(appFor => {
+            res.status(200).json(appFor);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+exports.getApplicationForMySql2 = (req, res, next) => {
+
+    const params = req.query
+
+    ApplicationForRepositoryMySql2.getApplicationFor(params)
         .then(appFor => {
             res.status(200).json(appFor);
         })
