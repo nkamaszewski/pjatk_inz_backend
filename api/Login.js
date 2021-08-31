@@ -1,6 +1,6 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
 const bcrypt = require('bcrypt');
-const salt = require('../helpers/saltRound');
+const jwt = require('jsonwebtoken');
 
 exports.login = (req, res, next) => {
   const email = req.body.email;
@@ -21,7 +21,11 @@ exports.login = (req, res, next) => {
           });
         }
 
-        res.status(200).json('autentykacja poprawna');
+        const token = jwt.sign({ id: emp.IdPerson }, 'jwtSecret', {
+          expiresIn: 500,
+        });
+
+        res.status(200).json({ auth: true, token, result: emp });
       });
     }
   });
