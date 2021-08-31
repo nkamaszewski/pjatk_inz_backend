@@ -191,3 +191,17 @@ exports.getPartOthersByEmpId = (req, res, next) => {
             }
         });
 };
+
+exports.getRoleByEmpId = (req, res, next) => {
+    const empId = req.params.empId;
+    EmployeeRepository.getRoleByEmpId(empId)
+        .then(emp => {
+            if (!emp) {
+                res.status(404).json({
+                    message: 'Role for id: ' + empId + ' not found'
+                })
+            } else {
+                res.status(200).json(emp);
+            }
+        });
+};

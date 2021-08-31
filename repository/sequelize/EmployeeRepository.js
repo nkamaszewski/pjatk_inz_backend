@@ -1,5 +1,9 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const config = require("../../config/auth.config");
+
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcrypt");
 
 const Person = require('../../model/sequelize/Person');
 const Employee = require('../../model/sequelize/Employee');
@@ -13,6 +17,8 @@ const Topic = require('../../model/sequelize/Topic');
 const Education = require('../../model/sequelize/Education');
 const Study = require('../../model/sequelize/Study');
 const OtherEducation = require('../../model/sequelize/OtherEducation');
+const Role = require('../../model/sequelize/Role');
+
 
 
 
@@ -31,7 +37,7 @@ exports.createEmployee = (newEmployeeData) => {
     return Employee.create({
         IdPerson: newEmployeeData.IdPerson,
         Pesel: newEmployeeData.Pesel,
-        Password: newEmployeeData.Password,
+        Password: bcrypt.hashSync(newEmployeeData.Password, 8),
         IdRole: newEmployeeData.IdRole
     });
 };
@@ -45,10 +51,10 @@ exports.deleteEmployee = (personId) => {
 exports.updateEmployee = (personId, data) => {
     const IdPerson = data.IdPerson;
     const Pesel = data.Pesel;
-    const Password = data.Password;
+    const Password = bcrypt.hashSync(data.Password, 8);
     const IdRole = data.IdRole;
 
-    return Employee.update(data, { where: { IdPerson: personId } });
+    return Employee.update({ Pesel, Password, IdRole }, { where: { IdPerson: personId } });
 }
 
 exports.getEmployeeById = (persId) => {
@@ -220,6 +226,19 @@ exports.getPartOthersByEmpId = (empId) => {
                     required: true,
                     as: 'educationOtherEducation'
                 }]
+            }
+        ],
+        where: { IdPerson: empId }
+    });
+};
+
+exports.getRoleByEmpId = (empId) => {
+    return Employee.findOne({
+        include: [
+            {
+                model: Role,
+                required: true,
+                as: 'employeeRole'
             }
         ],
         where: { IdPerson: empId }

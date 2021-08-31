@@ -7,6 +7,8 @@ var cors = require('cors');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const authApiRouter = require('./routes/api/authApiRoute');
+
 const divApiRouter = require('./routes/api/DivisionApiRoute');
 const depApiRouter = require('./routes/api/DepartmentApiRoute');
 const posApiRouter = require('./routes/api/PositionApiRoute');
@@ -65,6 +67,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api/auth', authApiRouter);
 app.use('/users', usersRouter);
 app.use('/api/divisions', divApiRouter);
 app.use('/api/departments', depApiRouter);

@@ -10,6 +10,7 @@ router.get('/:empId/applications/studies', empApiController.getAppStudiesByEmpId
 router.get('/:empId/applications/trainings', empApiController.getAppTrainingsByEmpId);
 router.get('/:empId/applications/others', empApiController.getAppOthersByEmpId);
 router.get('/:empId/applications', empApiController.getApplicationsForByEmpId);
+router.get('/:empId/role', empApiController.getRoleByEmpId);
 
 
 router.get('/:empId/participations/studies', empApiController.getPartStudiesByEmpId);
