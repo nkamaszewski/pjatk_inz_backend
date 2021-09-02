@@ -7,7 +7,7 @@ exports.login = (req, res, next) => {
   const password = req.body.password;
   console.log('email', email);
   EmployeeRepository.getEmployeesByLoginAndPassword(email).then((emp) => {
-    if (!emp) {
+    if (!emp.length) {
       res.status(404).json({
         message: 'Użytkownik nie istnieje.',
       });
@@ -25,7 +25,7 @@ exports.login = (req, res, next) => {
           expiresIn: 500,
         });
 
-        res.status(200).json({ auth: true, token, result: emp });
+        res.status(200).json({ auth: true, user: { id: emp.IdPerson, token } });
       });
     }
   });

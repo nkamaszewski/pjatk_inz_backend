@@ -33,7 +33,9 @@ const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 const ApplicationFor = require('../../model/sequelize/ApplicationFor');
 const Role = require('../../model/sequelize/Role');
 const OtherEducation = require('../../model/sequelize/OtherEducation');
-const { getApplicationForReasonsById } = require('../../repository/sequelize/ApplicationForReasonsRepository');
+const {
+  getApplicationForReasonsById,
+} = require('../../repository/sequelize/ApplicationForReasonsRepository');
 
 module.exports = () => {
   Division.hasMany(Department, {
@@ -480,8 +482,8 @@ module.exports = () => {
   let allDivisions, allDepartments;
   return (
     sequelize
-      .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
-      // .sync({ alter: true })
+      // .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+      .sync({ alter: true })
       .then(() => {
         return Division.findAll();
       })
@@ -583,7 +585,7 @@ module.exports = () => {
               City: 'Warszawa',
               PostalCode: '12-232',
               Street: 'Złota',
-              Number: "10",
+              Number: '10',
               TIN: '123-321-22-33',
             },
             {
@@ -591,7 +593,7 @@ module.exports = () => {
               City: 'Warszawa',
               PostalCode: '11-223',
               Street: 'Wiejska',
-              Number: "2",
+              Number: '2',
               TIN: '333-321-22-33',
             },
             {
@@ -599,7 +601,7 @@ module.exports = () => {
               City: 'Warszawa',
               PostalCode: '11-111',
               Street: 'Złota',
-              Number: "5a",
+              Number: '5a',
               TIN: '333-321-22-33',
               Owner: true,
             },
@@ -994,10 +996,10 @@ module.exports = () => {
       .then((reasons) => {
         if (!reasons || reasons.length == 0) {
           return ReasonForRefund.bulkCreate([
-            { Name: "Zwrot kosztów szkolenia" },
-            { Name: "Zwrot kosztów przejazdu" },
-            { Name: "Zwrot kosztów zakwaterowania" },
-            { Name: "Urlop szkoleniowy" }
+            { Name: 'Zwrot kosztów szkolenia' },
+            { Name: 'Zwrot kosztów przejazdu' },
+            { Name: 'Zwrot kosztów zakwaterowania' },
+            { Name: 'Urlop szkoleniowy' },
           ]);
         } else {
           return reasons;
@@ -1009,8 +1011,16 @@ module.exports = () => {
       .then((apps) => {
         if (!apps || apps.length == 0) {
           return ApplicationForRefund.bulkCreate([
-            { IdApplicationFor: 1, IdStatus: 1, DateOfSubmission: "2021-08-01" },
-            { IdApplicationFor: 2, IdStatus: 1, DateOfSubmission: "2021-08-21" }
+            {
+              IdApplicationFor: 1,
+              IdStatus: 1,
+              DateOfSubmission: '2021-08-01',
+            },
+            {
+              IdApplicationFor: 2,
+              IdStatus: 1,
+              DateOfSubmission: '2021-08-21',
+            },
           ]);
         } else {
           return apps;
@@ -1025,7 +1035,7 @@ module.exports = () => {
             { IdApplicationForRefund: 1, IdReasonForRefund: 1, IdStatus: 1 },
             { IdApplicationForRefund: 1, IdReasonForRefund: 2, IdStatus: 1 },
             { IdApplicationForRefund: 2, IdReasonForRefund: 1, IdStatus: 1 },
-            { IdApplicationForRefund: 2, IdReasonForRefund: 3, IdStatus: 1 }
+            { IdApplicationForRefund: 2, IdReasonForRefund: 3, IdStatus: 1 },
           ]);
         } else {
           return appReasons;
