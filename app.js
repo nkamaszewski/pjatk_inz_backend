@@ -4,9 +4,12 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+const bcrypt = require('bcrypt');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const registerRouter = require('./routes/register');
+const loginRouter = require('./routes/login');
 const divApiRouter = require('./routes/api/DivisionApiRoute');
 const depApiRouter = require('./routes/api/DepartmentApiRoute');
 const posApiRouter = require('./routes/api/PositionApiRoute');
@@ -46,6 +49,8 @@ sequelizeInit().catch((err) => {
   console.log(err);
 });
 
+const jwt = require('jsonwebtoken');
+
 var app = express();
 
 // view engine setup
@@ -58,6 +63,22 @@ app.use(
   })
 );
 
+const verifyJWT = (req, res, next) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    res.send('You need a token, you are not authenticated');
+  }
+  jwt.verify(token, 'jwtSecret', (err, decoded) => {
+    if (err) {
+      res.json({ auth: false, message: 'Token is incorrect' });
+    }
+
+    req.userId = decoded.id;
+    next();
+  });
+};
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -65,6 +86,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/register', registerRouter);
+app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/api/divisions', divApiRouter);
 app.use('/api/departments', depApiRouter);
@@ -99,7 +122,6 @@ app.use('/api/questoffer', questOffApiRouter);
 app.use('/api/appfor', appForApiRouter);
 app.use('/api/roles', roleApiRouter);
 app.use('/api/othereducation', oEduApiRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
