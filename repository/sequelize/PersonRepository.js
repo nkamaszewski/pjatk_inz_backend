@@ -6,7 +6,6 @@ exports.getPersons = () => {
 
 exports.createPerson = (newPersonData) => {
   return Person.create({
-    Name: newPersonData.Name,
     FirstName: newPersonData.FirstName,
     LastName: newPersonData.LastName,
     Email: newPersonData.Email,

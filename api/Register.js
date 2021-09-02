@@ -1,24 +1,51 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
+const PersonRepository = require('../repository/sequelize/PersonRepository');
 const bcrypt = require('bcrypt');
 const salt = require('../helpers/saltRound');
+const jwt = require('jsonwebtoken');
 
 exports.register = (req, res, next) => {
-  const { Password } = req.body;
-  bcrypt.hash(Password, salt.saltRounds, (err, hash) => {
-    if (err) {
-      console.error(err);
-    }
-    console.log('hash', hash);
-    console.log(req.body);
-    EmployeeRepository.createEmployee({ ...req.body, Password: hash })
-      .then((newObj) => {
-        res.status(201).json(newObj);
-      })
-      .catch((err) => {
-        if (!err.statusCode) {
-          err.statusCode = 500;
+  const { firstName, lastName, phone, email, pesel, password } = req.body;
+
+  PersonRepository.createPerson({
+    FirstName: firstName,
+    LastName: lastName,
+    Email: email,
+    Phone: phone,
+  })
+    .then((newPerson) => {
+      const { IdPerson } = newPerson;
+      bcrypt.hash(password, salt.saltRounds, (err, hash) => {
+        if (err) {
+          console.error(err);
         }
-        next(err);
+        EmployeeRepository.createEmployee({
+          IdPerson,
+          Pesel: pesel,
+          Password: hash,
+          IdRole: 4,
+        })
+          .then((newObj) => {
+            // sukces
+            const token = jwt.sign({ id: newObj.IdPerson }, 'jwtSecret', {
+              expiresIn: 500,
+            });
+            res
+              .status(200)
+              .json({ auth: true, user: { id: newObj.IdPerson, token } });
+          })
+          .catch((err) => {
+            console.log(err);
+            if (!err.statusCode) {
+              err.statusCode = 500;
+              res.send('rejestracja Employee nie powiodła się!');
+            }
+            next(err);
+          });
       });
-  });
+    })
+    .catch((err) => {
+      err.statusCode = 500;
+      res.send('rejestracja Person nie powiodła się!');
+    });
 };
