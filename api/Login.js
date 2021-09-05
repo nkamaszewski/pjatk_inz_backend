@@ -25,7 +25,7 @@ exports.login = (req, res, next) => {
           expiresIn: 500,
         });
 
-        res.status(200).json({ auth: true, user: { id: emp.IdPerson, token } });
+        res.status(200).json({ user: emp[0].employeePerson, token });
       });
     }
   });

@@ -30,9 +30,7 @@ exports.register = (req, res, next) => {
             const token = jwt.sign({ id: newObj.IdPerson }, 'jwtSecret', {
               expiresIn: 500,
             });
-            res
-              .status(200)
-              .json({ auth: true, user: { id: newObj.IdPerson, token } });
+            res.status(200).json({ user: newPerson.employeePerson, token });
           })
           .catch((err) => {
             console.log(err);
