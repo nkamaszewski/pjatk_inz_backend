@@ -38,7 +38,7 @@ exports.register = (req, res, next) => {
             console.log(err);
             if (!err.statusCode) {
               err.statusCode = 500;
-              res.send('rejestracja Employee nie powiodła się!');
+              res.status(403).send('rejestracja Employee nie powiodła się!');
             }
             next(err);
           });
@@ -46,6 +46,6 @@ exports.register = (req, res, next) => {
     })
     .catch((err) => {
       err.statusCode = 500;
-      res.send('rejestracja Person nie powiodła się!');
+      res.status(403).send('rejestracja Person nie powiodła się!');
     });
 };

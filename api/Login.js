@@ -8,7 +8,7 @@ exports.login = (req, res, next) => {
   console.log('email', email);
   EmployeeRepository.getEmployeesByLoginAndPassword(email).then((emp) => {
     if (!emp.length) {
-      res.status(404).json({
+      res.status(403).json({
         message: 'Użytkownik nie istnieje.',
       });
     } else {
@@ -16,7 +16,7 @@ exports.login = (req, res, next) => {
 
       bcrypt.compare(password, empHashPassword).then((isCorrect) => {
         if (!isCorrect) {
-          res.status(404).json({
+          res.status(403).json({
             message: 'Login lub hasło niepoprawne',
           });
         }
