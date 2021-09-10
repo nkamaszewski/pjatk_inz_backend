@@ -20,11 +20,6 @@ exports.deletePerson = (personId) => {
 };
 
 exports.updatePerson = (personId, data) => {
-  const Name = data.Name;
-  const FirstName = data.FirstName;
-  const LastName = data.LastName;
-  const Email = data.Email;
-  const Phone = data.Phone;
   return Person.update(data, { where: { IdPerson: personId } });
 };
 
