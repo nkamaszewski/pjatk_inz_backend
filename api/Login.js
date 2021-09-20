@@ -22,7 +22,7 @@ exports.login = (req, res, next) => {
         }
 
         const token = jwt.sign({ id: emp.IdPerson }, 'jwtSecret', {
-          expiresIn: 500,
+          expiresIn: '1d',
         });
 
         res.status(200).json({ user: emp[0].employeePerson, token });

@@ -3,8 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var cors = require('cors');
-const bcrypt = require('bcrypt');
+const cors = require('cors');
+const { verifyJWT } = require('./helpers/verifyJWT');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -45,39 +45,22 @@ const roleApiRouter = require('./routes/api/RoleApiRoute');
 const oEduApiRouter = require('./routes/api/OtherEducationApiRoute');
 
 const sequelizeInit = require('./config/sequelize/init');
+
 sequelizeInit().catch((err) => {
   console.log(err);
 });
 
-const jwt = require('jsonwebtoken');
-
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'jade');
 
 app.use(
   cors({
     origin: 'http://localhost:3001',
   })
 );
-
-const verifyJWT = (req, res, next) => {
-  const token = req.headers['x-access-token'];
-
-  if (!token) {
-    res.send('You need a token, you are not authenticated');
-  }
-  jwt.verify(token, 'jwtSecret', (err, decoded) => {
-    if (err) {
-      res.json({ auth: false, message: 'Token is incorrect' });
-    }
-
-    req.userId = decoded.id;
-    next();
-  });
-};
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -88,6 +71,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+
+app.use(verifyJWT);
+
 app.use('/users', usersRouter);
 app.use('/api/divisions', divApiRouter);
 app.use('/api/departments', depApiRouter);
