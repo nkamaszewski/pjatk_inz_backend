@@ -1,3 +1,4 @@
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -10,7 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
-const passwordRouter = requre('./routes/password');
+const passwordRouter = require('./routes/password');
 const divApiRouter = require('./routes/api/DivisionApiRoute');
 const depApiRouter = require('./routes/api/DepartmentApiRoute');
 const posApiRouter = require('./routes/api/PositionApiRoute');
@@ -54,8 +55,8 @@ sequelizeInit().catch((err) => {
 var app = express();
 
 // view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
 
 app.use(
   cors({
