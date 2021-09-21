@@ -1,3 +1,6 @@
 {
-    "terminal.integrated.tabs.enabled": false
+    "terminal.integrated.tabs.enabled": false,
+    "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#6d4c05"
+    }
 }

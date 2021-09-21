@@ -26,7 +26,7 @@ exports.getEmployees = () => {
   });
 };
 
-exports.getEmployeesByLoginAndPassword = (Email) => {
+exports.getEmployeesByEmail = (Email) => {
   return Employee.findAll({
     include: [
       {

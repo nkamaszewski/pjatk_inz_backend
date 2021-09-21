@@ -5,8 +5,8 @@ const jwt = require('jsonwebtoken');
 exports.login = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-  console.log('email', email);
-  EmployeeRepository.getEmployeesByLoginAndPassword(email).then((emp) => {
+
+  EmployeeRepository.getEmployeesByEmail(email).then((emp) => {
     if (!emp.length) {
       res.status(403).json({
         message: 'Użytkownik nie istnieje.',

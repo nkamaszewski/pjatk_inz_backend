@@ -10,6 +10,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const registerRouter = require('./routes/register');
 const loginRouter = require('./routes/login');
+const passwordRouter = requre('./routes/password');
 const divApiRouter = require('./routes/api/DivisionApiRoute');
 const depApiRouter = require('./routes/api/DepartmentApiRoute');
 const posApiRouter = require('./routes/api/PositionApiRoute');
@@ -71,6 +72,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
+app.use('/password', passwordRouter);
 
 app.use(verifyJWT);
 
