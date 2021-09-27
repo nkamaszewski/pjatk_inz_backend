@@ -1,7 +1,10 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
+const PersonRepository = require('../repository/sequelize/PersonRepository');
 const mailService = require('../services/mailService');
 const jwt = require('jsonwebtoken');
 const { restoreEmailTemplate } = require('../templates/restore_email');
+const bcrypt = require('bcrypt');
+const salt = require('../helpers/saltRound');
 
 exports.restore = (req, res, next) => {
   const email = req.body.email;
@@ -12,7 +15,7 @@ exports.restore = (req, res, next) => {
       });
     } else {
       const restoreToken = jwt.sign(
-        { id: emp.IdPerson },
+        { id: emp[0].IdPerson },
         process.env.JWT_AUTH_RESTORE_PASSWORD_TOKEN,
         {
           expiresIn: '1d',
@@ -40,4 +43,38 @@ exports.restore = (req, res, next) => {
       });
     }
   });
+};
+
+exports.change = (req, res, next) => {
+  const token = req.headers['x-access-token'];
+  const { email, password } = req.body;
+  jwt.verify(
+    token,
+    process.env.JWT_AUTH_RESTORE_PASSWORD_TOKEN,
+    (err, decoded) => {
+      if (err) {
+        res.json({ auth: false, message: 'Token is incorrect' });
+      }
+
+      const id = decoded.id;
+
+      EmployeeRepository.getEmployeesByEmail(email).then((emp) => {
+        if (!emp.length || emp[0].IdPerson !== id) {
+          res.status(403).json({
+            message: 'Użytkownik nie istnieje.',
+          });
+        } else {
+          bcrypt.hash(password, salt.saltRounds, (err, hash) => {
+            console.log('emp[0].employeePerson', emp[0].employeePerson);
+            PersonRepository.updatePerson(id, {
+              ...emp[0].employeePerson,
+              Password: hash,
+            });
+
+            res.send('hasło zostało zmienione');
+          });
+        }
+      });
+    }
+  );
 };
