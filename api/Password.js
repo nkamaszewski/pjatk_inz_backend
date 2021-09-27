@@ -1,6 +1,7 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
 const mailService = require('../services/mailService');
 const jwt = require('jsonwebtoken');
+const { restoreEmailTemplate } = require('../templates/restore_email');
 
 exports.restore = (req, res, next) => {
   const email = req.body.email;
@@ -14,7 +15,7 @@ exports.restore = (req, res, next) => {
         { id: emp.IdPerson },
         process.env.JWT_AUTH_RESTORE_PASSWORD_TOKEN,
         {
-          expiresIn: '1h',
+          expiresIn: '1d',
         }
       );
 
@@ -22,7 +23,10 @@ exports.restore = (req, res, next) => {
         to: email,
         subject: `HR Manager - przywrócenie hasła`,
         text: '',
-        html: `<h3>Witaj ${emp[0].employeePerson.FirstName},</h3><br/><br/><br/><p>Zmiana hasła będzie możliwa przez najbliższą godzinę, następnie link wygaśnie.</p><br/><a href="${process.env.CLIENT_BASE_URL}/zmiana-hasla/${restoreToken}"><button>Zmień hasło</button></a>`,
+        html: restoreEmailTemplate(
+          emp[0].employeePerson.FirstName,
+          restoreToken
+        ),
       });
 
       mailService.sendMail(msg, (err, info) => {
