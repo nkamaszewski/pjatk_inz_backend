@@ -54,11 +54,6 @@ exports.deleteEmployee = (personId) => {
 };
 
 exports.updateEmployee = (personId, data) => {
-  const IdPerson = data.IdPerson;
-  const Pesel = data.Pesel;
-  const Password = data.Password;
-  const IdRole = data.IdRole;
-
   return Employee.update(data, { where: { IdPerson: personId } });
 };
 

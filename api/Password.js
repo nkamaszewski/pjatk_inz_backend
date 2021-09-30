@@ -1,5 +1,4 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
-const PersonRepository = require('../repository/sequelize/PersonRepository');
 const mailService = require('../services/mailService');
 const jwt = require('jsonwebtoken');
 const { restoreEmailTemplate } = require('../templates/restore_email');
@@ -61,17 +60,19 @@ exports.change = (req, res, next) => {
       EmployeeRepository.getEmployeesByEmail(email).then((emp) => {
         if (!emp.length || emp[0].IdPerson !== id) {
           res.status(403).json({
-            message: 'Użytkownik nie istnieje.',
+            message: 'User does not exist!',
           });
         } else {
           bcrypt.hash(password, salt.saltRounds, (err, hash) => {
-            console.log('emp[0].employeePerson', emp[0].employeePerson);
-            PersonRepository.updatePerson(id, {
-              ...emp[0].employeePerson,
+            EmployeeRepository.updateEmployee(id, {
               Password: hash,
+            }).then((emp) => {
+              if (emp) {
+                res.send('password was changed.');
+              } else {
+                res.status(500).send('password was not changed in database');
+              }
             });
-
-            res.send('hasło zostało zmienione');
           });
         }
       });
