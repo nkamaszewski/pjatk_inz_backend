@@ -21,11 +21,18 @@ exports.login = (req, res, next) => {
           });
         }
 
-        const token = jwt.sign({ id: emp.IdPerson }, 'jwtSecret', {
-          expiresIn: '1d',
-        });
+        const token = jwt.sign(
+          { id: emp[0].IdPerson, idRole: emp[0].IdRole },
+          'jwtSecret',
+          {
+            expiresIn: '1d',
+          }
+        );
 
-        res.status(200).json({ user: emp[0].employeePerson, token });
+        res.status(200).json({
+          user: { ...emp[0].employeePerson.dataValues, IdRole: emp[0].IdRole },
+          token,
+        });
       });
     }
   });

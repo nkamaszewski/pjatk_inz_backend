@@ -936,7 +936,7 @@ module.exports = () => {
               IdStatus: 5,
               Compability: 'true',
               IdPerson: 2,
-            }
+            },
           ]);
         } else {
           return appsFor;
