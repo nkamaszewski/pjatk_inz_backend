@@ -122,7 +122,7 @@ module.exports = () => {
     onDelete: 'CASCADE',
   });
   Meeting.belongsTo(Room, {
-    as: 'MeetingsRoom',
+    as: 'meetingRoom',
     foreignKey: { name: 'IdRoom', allowNull: false },
   });
 
