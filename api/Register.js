@@ -27,10 +27,18 @@ exports.register = (req, res, next) => {
         })
           .then((newObj) => {
             // sukces
-            const token = jwt.sign({ id: newObj.IdPerson }, 'jwtSecret', {
-              expiresIn: 500,
+            const token = jwt.sign(
+              { id: newObj.IdPerson, idRole: newObj.IdRole },
+              process.env.JWT_AUTH_TOKEN_SECRET,
+              {
+                expiresIn: '1d',
+              }
+            );
+
+            res.status(200).json({
+              user: { ...newPerson.dataValues, IdRole: newObj.IdRole },
+              token,
             });
-            res.status(200).json({ user: newPerson.employeePerson, token });
           })
           .catch((err) => {
             console.log(err);

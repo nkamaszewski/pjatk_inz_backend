@@ -23,7 +23,7 @@ exports.login = (req, res, next) => {
 
         const token = jwt.sign(
           { id: emp[0].IdPerson, idRole: emp[0].IdRole },
-          'jwtSecret',
+          process.env.JWT_AUTH_TOKEN_SECRET,
           {
             expiresIn: '1d',
           }
