@@ -1,18 +1,22 @@
 const Room = require('../../model/sequelize/Room');
 const Meeting = require('../../model/sequelize/Meeting');
 const Group = require('../../model/sequelize/Group');
-// do poprawy
-exports.getMeetings = () => {
+
+exports.getMeetings = (query) => {
+  const { idGroup, idRoom } = query;
+
   return Meeting.findAll({
     attributes: ['IdMeeting', 'From', 'To'],
     include: [
       {
         model: Group,
         as: 'meetingGroup',
+        where: idGroup ? { IdGroup: idGroup } : {},
       },
       {
         model: Room,
         as: 'meetingRoom',
+        where: idRoom ? { IdRoom: idRoom } : {},
       },
     ],
   });
