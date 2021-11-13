@@ -6,7 +6,7 @@ exports.verifyJWT = (req, res, next) => {
   if (!token) {
     res.send('You need a token, you are not authenticated');
   }
-  jwt.verify(token, 'jwtSecret', (err, decoded) => {
+  jwt.verify(token, process.env.JWT_AUTH_TOKEN_SECRET, (err, decoded) => {
     if (err) {
       res.json({ auth: false, message: 'Token is incorrect' });
     }
