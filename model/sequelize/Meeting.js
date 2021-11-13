@@ -13,8 +13,12 @@ const Meeting = sequelize.define('Meeting', {
 			isAvailable(value, next) {
 				const roomId = this.IdRoom;
 				const toDate = this.To;
+				const meetingId = this.IdMeeting;
 				Meeting.findAll({
 					where: {
+						IdMeeting: {
+							[Op.ne]: meetingId
+						},  
 						[Op.or]: [
 							{
 								From: { [Op.lte]: value },
@@ -26,6 +30,7 @@ const Meeting = sequelize.define('Meeting', {
 							}
 						],
 						IdRoom: roomId
+
 					}
 				})
 					.then((meeting) => {
@@ -49,9 +54,14 @@ const Meeting = sequelize.define('Meeting', {
 				}
 			},
 			isAvailable(value, next) {
-				const roomId = this.IdRoom
+				const roomId = this.IdRoom;
+				const meetingId = this.IdMeeting;
+
 				Meeting.findAll({
 					where: {
+						IdMeeting: {
+							[Op.ne]: meetingId
+						},   
 						From: {
 							[Op.lte]: value
 						},
