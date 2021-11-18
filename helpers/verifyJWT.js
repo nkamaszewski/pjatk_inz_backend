@@ -13,6 +13,8 @@ exports.verifyJWT = (req, res, next) => {
 
     req.userId = decoded.id;
     req.userIdRole = decoded.idRole;
+    req.userIdDepartment = decoded.idDepartment;
+    req.userIdDivision = decoded.idDivision;
     next();
   });
 };

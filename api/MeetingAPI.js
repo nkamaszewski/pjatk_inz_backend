@@ -1,7 +1,10 @@
 const MeetingRepository = require('../repository/sequelize/MeetingRepository');
+const Role = require('../model/Role')
 
 exports.getMeetings = (req, res, next) => {
-  const { query } = req;
+  const {
+    query
+  } = req;
   MeetingRepository.getMeetings(query)
     .then((meets) => {
       res.status(200).json(meets);
@@ -13,6 +16,7 @@ exports.getMeetings = (req, res, next) => {
 
 exports.getMeetingById = (req, res, next) => {
   const meetId = req.params.meetId;
+
   MeetingRepository.getMeetingById(meetId).then((meet) => {
     if (!meet) {
       res.status(404).json({
@@ -41,7 +45,10 @@ exports.updateMeeting = (req, res, next) => {
   const meetId = req.params.meetId;
   MeetingRepository.updateMeeting(meetId, req.body)
     .then((result) => {
-      res.status(200).json({ message: 'Meeting updated!', meet: result });
+      res.status(200).json({
+        message: 'Meeting updated!',
+        meet: result
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {
@@ -55,7 +62,10 @@ exports.deleteMeeting = (req, res, next) => {
   const meetId = req.params.meetId;
   MeetingRepository.deleteMeeting(meetId)
     .then((result) => {
-      res.status(200).json({ message: 'Removed Meeting', meet: result });
+      res.status(200).json({
+        message: 'Removed Meeting',
+        meet: result
+      });
     })
     .catch((err) => {
       if (!err.statusCode) {

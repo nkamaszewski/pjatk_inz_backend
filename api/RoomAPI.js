@@ -1,4 +1,5 @@
 const RoomRepository = require('../repository/sequelize/RoomRepository');
+const Role = require('../model/Role')
 
 exports.getRooms = (req, res, next) => {
     RoomRepository.getRooms()
@@ -25,6 +26,11 @@ exports.getRoomById = (req, res, next) => {
 };
 
 exports.createRoom = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     RoomRepository.createRoom(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
@@ -38,10 +44,18 @@ exports.createRoom = (req, res, next) => {
 };
 
 exports.updateRoom = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const roomId = req.params.roomId;
     RoomRepository.updateRoom(roomId, req.body)
         .then(result => {
-            res.status(200).json({ message: 'Room updated!', room: result });
+            res.status(200).json({
+                message: 'Room updated!',
+                room: result
+            });
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -52,10 +66,18 @@ exports.updateRoom = (req, res, next) => {
 };
 
 exports.deleteRoom = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const roomId = req.params.roomId;
     RoomRepository.deleteRoom(roomId)
         .then(result => {
-            res.status(200).json({ message: 'Removed Room', room: result });
+            res.status(200).json({
+                message: 'Removed Room',
+                room: result
+            });
         })
         .catch(err => {
             if (!err.statusCode) {
