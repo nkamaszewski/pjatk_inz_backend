@@ -29,6 +29,9 @@ exports.getEmployees = () => {
 };
 
 exports.getEmployeesByEmail = async (email) => {
+
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
   const employee = await Employee.findAll({
     include: [{
         model: Person,
@@ -43,9 +46,17 @@ exports.getEmployeesByEmail = async (email) => {
         require: true,
         attributes: ['IdDepartment', 'IdDivision'],
         where: {
-          DateTo: {
-            [Op.is]: null,
-          },
+          [Op.or]: [{
+              DateTo: {
+                [Op.is]: null
+              }
+            },
+            {
+              DateTo: {
+                [Op.gte]: today
+              }
+            }
+          ]
         },
       }
     ],

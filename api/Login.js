@@ -7,7 +7,6 @@ exports.login = async (req, res, next) => {
   const password = req.body.password;
 
   const emp = await EmployeeRepository.getEmployeesByEmail(email)
-  console.log(emp);
   if (!emp) {
     res.status(403).json({
       message: 'Użytkownik nie istnieje.',
