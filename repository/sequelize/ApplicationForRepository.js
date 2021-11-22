@@ -8,11 +8,10 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 exports.getApplicationFor = (params) => {
-  const { iddepartment, iddivision, idstatus } = params
-  const depId = iddepartment
-  const divId = iddivision
-  const statId = idstatus
-
+  const { iddepartment, iddivision, idstatus } = params;
+  const depId = iddepartment;
+  const divId = iddivision;
+  const statId = idstatus;
 
   return ApplicationFor.findAll({
     attributes: [
@@ -20,19 +19,18 @@ exports.getApplicationFor = (params) => {
       'DateOfSubmission',
       'IdEducation',
       'IdStatus',
-      'Compatibility'
+      'Compatibility',
     ],
     include: [
       {
         model: Education,
         required: true,
-        as: 'applicationForEducation'
+        as: 'applicationForEducation',
       },
       {
         model: Status,
         as: 'applicationForStatus',
-        where:
-          statId ? { IdStatus: statId } : {},
+        where: statId ? { IdStatus: statId } : {},
       },
       {
         model: Employee,
@@ -43,17 +41,19 @@ exports.getApplicationFor = (params) => {
             model: Employment,
             required: true,
             as: 'employeeEmployment',
-            where:
-              depId ? { IdDepartment: depId, DateTo: null } : { DateTo: null },
+            where: depId
+              ? { IdDepartment: depId, DateTo: null }
+              : { DateTo: null },
             include: [
               {
                 model: Department,
                 required: true,
                 as: 'employmentsDepartment',
-                where:
-                  divId ? { IdDivision: divId } : {},
-              }]
-          }]
+                where: divId ? { IdDivision: divId } : {},
+              },
+            ],
+          },
+        ],
       },
     ],
   });
@@ -93,7 +93,6 @@ exports.getApplicationForById = (appForId) => {
   return ApplicationFor.findByPk(appForId);
 };
 
-
 exports.getApplicationForByDepId = (depId) => {
   return ApplicationFor.findAll({
     attributes: ['IdApplicationFor', 'DateOfSubmission'],
@@ -107,16 +106,17 @@ exports.getApplicationForByDepId = (depId) => {
             as: 'employeeEmployment',
             where: {
               IdDepartment: depId,
-              DateTo: null
-            }
-          }]
+              DateTo: null,
+            },
+          },
+        ],
       },
     ],
     include: [
       {
         model: Status,
-        as: 'applicationForStatus'
-      }
+        as: 'applicationForStatus',
+      },
     ],
   });
 };
@@ -133,25 +133,26 @@ exports.getApplicationForByDivId = (divId) => {
             model: Employment,
             as: 'employeeEmployment',
             where: {
-              DateTo: null
+              DateTo: null,
             },
             include: [
               {
                 model: Department,
                 as: 'departmentEmployment',
                 where: {
-                  IdDivision: divId
-                }
-
-              }]
-          }]
+                  IdDivision: divId,
+                },
+              },
+            ],
+          },
+        ],
       },
     ],
     include: [
       {
         model: Status,
-        as: 'applicationForStatus'
-      }
+        as: 'applicationForStatus',
+      },
     ],
   });
 };
@@ -163,24 +164,24 @@ exports.getApplicationForByStatId = (statId) => {
       'DateOfSubmission',
       'IdEducation',
       'IdStatus',
-      'Compatibility'
+      'Compatibility',
     ],
     include: [
       {
         model: Education,
-        as: 'applicationForEducation'
+        as: 'applicationForEducation',
       },
       {
         model: Status,
-        as: 'applicationForStatus'
+        as: 'applicationForStatus',
       },
       {
         model: Employee,
-        as: 'applicationForEmployee'
+        as: 'applicationForEmployee',
       },
     ],
     where: {
-      IdStatus: statId
-    }
+      IdStatus: statId,
+    },
   });
 };
