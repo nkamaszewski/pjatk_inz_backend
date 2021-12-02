@@ -8,7 +8,8 @@ const salt = require('../helpers/saltRound');
 exports.restore = (req, res, next) => {
   const email = req.body.email;
   EmployeeRepository.getEmployeesByEmail(email).then((emp) => {
-    if (!emp.length) {
+    console.log('email + emp', email, emp);
+    if (!emp) {
       res.status(403).json({
         message: 'Użytkownik nie istnieje.',
       });
