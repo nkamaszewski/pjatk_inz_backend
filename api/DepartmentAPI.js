@@ -1,4 +1,5 @@
 const DepartmentRepository = require('../repository/sequelize/DepartmentRepository');
+const Role = require('../model/Role')
 
 exports.getDepartments = (req, res, next) => {
     DepartmentRepository.getDepartments()
@@ -25,6 +26,11 @@ exports.getDepartmentById = (req, res, next) => {
 };
 
 exports.createDepartment = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     DepartmentRepository.createDepartment(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
@@ -38,6 +44,11 @@ exports.createDepartment = (req, res, next) => {
 };
 
 exports.updateDepartment = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const depId = req.params.depId;
     DepartmentRepository.updateDepartment(depId, req.body)
         .then(result => {
@@ -52,6 +63,11 @@ exports.updateDepartment = (req, res, next) => {
 };
 
 exports.deleteDepartment = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const depId = req.params.depId;
     DepartmentRepository.deleteDepartment(depId)
         .then(result => {
