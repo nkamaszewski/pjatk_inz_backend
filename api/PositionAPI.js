@@ -1,4 +1,5 @@
 const PositionRepository = require('../repository/sequelize/PositionRepository');
+const Role = require('../model/Role')
 
 exports.getPositions = (req, res, next) => {
     PositionRepository.getPositions()
@@ -25,6 +26,11 @@ exports.getPositionById = (req, res, next) => {
 };
 
 exports.createPosition = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     PositionRepository.createPosition(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
@@ -38,6 +44,11 @@ exports.createPosition = (req, res, next) => {
 };
 
 exports.updatePosition = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const posId = req.params.posId;
     PositionRepository.updatePosition(posId, req.body)
         .then(result => {
@@ -52,6 +63,11 @@ exports.updatePosition = (req, res, next) => {
 };
 
 exports.deletePosition = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const posId = req.params.posId;
     PositionRepository.deletePosition(posId)
         .then(result => {
