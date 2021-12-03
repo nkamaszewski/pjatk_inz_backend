@@ -1,4 +1,5 @@
 const DivisionRepository = require('../repository/sequelize/DivisionRepository');
+const Role = require('../model/Role')
 
 exports.getDivisions = (req, res, next) => {
     DivisionRepository.getDivisions()
@@ -25,6 +26,11 @@ exports.getDivisionById = (req, res, next) => {
 };
 
 exports.createDivision = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     DivisionRepository.createDivision(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
@@ -38,6 +44,11 @@ exports.createDivision = (req, res, next) => {
 };
 
 exports.updateDivision = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const divId = req.params.divId;
     DivisionRepository.updateDivision(divId, req.body)
         .then(result => {
@@ -52,6 +63,11 @@ exports.updateDivision = (req, res, next) => {
 };
 
 exports.deleteDivision = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const divId = req.params.divId;
     DivisionRepository.deleteDivision(divId)
         .then(result => {
