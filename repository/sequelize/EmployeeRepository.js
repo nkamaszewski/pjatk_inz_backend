@@ -73,12 +73,14 @@ exports.getEmployeesByEmail = async (email) => {
     IdPerson,
     Password,
     IdRole,
+    IsActive,
     employeePerson: { FirstName, LastName, Email, Phone },
     employeeEmployment: [{ IdDepartment, IdDivision }],
   } = employee[0].dataValues;
   return {
     IdPerson,
     IdRole,
+    IsActive,
     Password,
     FirstName,
     LastName,

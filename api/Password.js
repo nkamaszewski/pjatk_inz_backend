@@ -15,7 +15,7 @@ exports.restore = (req, res, next) => {
       });
     } else {
       const restoreToken = jwt.sign(
-        { id: emp[0].IdPerson },
+        { id: emp.IdPerson },
         process.env.JWT_AUTH_RESTORE_PASSWORD_TOKEN,
         {
           expiresIn: '1d',
@@ -26,10 +26,7 @@ exports.restore = (req, res, next) => {
         to: email,
         subject: `HR Manager - przywrócenie hasła`,
         text: '',
-        html: restoreEmailTemplate(
-          emp[0].employeePerson.FirstName,
-          restoreToken
-        ),
+        html: restoreEmailTemplate(emp.FirstName, restoreToken),
       });
 
       mailService.sendMail(msg, (err, info) => {
@@ -47,7 +44,7 @@ exports.restore = (req, res, next) => {
 
 exports.change = (req, res, next) => {
   const token = req.headers['x-access-token'];
-  const { email, password } = req.body;
+  let { email, password } = req.body;
   jwt.verify(
     token,
     process.env.JWT_AUTH_RESTORE_PASSWORD_TOKEN,
@@ -58,8 +55,12 @@ exports.change = (req, res, next) => {
 
       const id = decoded.id;
 
+      if (!email) {
+        email = decoded.email;
+      }
+
       EmployeeRepository.getEmployeesByEmail(email).then((emp) => {
-        if (!emp.length || emp[0].IdPerson !== id) {
+        if (!emp || emp.IdPerson !== id) {
           res.status(403).json({
             message: 'User does not exist!',
           });
