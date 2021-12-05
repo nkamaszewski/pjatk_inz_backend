@@ -1,7 +1,15 @@
 const Person = require('../../model/sequelize/Person');
+const Employee = require('../../model/sequelize/Employee');
 
 exports.getPersons = () => {
-  return Person.findAll();
+  return Person.findAll({
+    include: [
+      {
+        model: Employee,
+        as: 'personEmployee',
+      },
+    ],
+  });
 };
 
 exports.createPerson = (newPersonData) => {

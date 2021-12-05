@@ -20,24 +20,26 @@ const Division = require('../../model/sequelize/Division');
 
 exports.getEmployees = () => {
   return Employee.findAll({
-    attributes: ['IdPerson', 'Pesel', 'Password', 'IdRole'],
-    include: [{
-      model: Person,
-      as: 'employeePerson',
-    }, ],
+    attributes: ['IdPerson', 'Pesel', 'Password', 'IdRole', 'IsActive'],
+    include: [
+      {
+        model: Person,
+        as: 'employeePerson',
+      },
+    ],
   });
 };
 
 exports.getEmployeesByEmail = async (email) => {
-
-  const today = new Date()
-  today.setHours(0, 0, 0, 0)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const employee = await Employee.findAll({
-    include: [{
+    include: [
+      {
         model: Person,
         as: 'employeePerson',
         where: {
-          Email: email
+          Email: email,
         },
       },
       {
@@ -46,19 +48,20 @@ exports.getEmployeesByEmail = async (email) => {
         require: true,
         attributes: ['IdDepartment', 'IdDivision'],
         where: {
-          [Op.or]: [{
+          [Op.or]: [
+            {
               DateTo: {
-                [Op.is]: null
-              }
+                [Op.is]: null,
+              },
             },
             {
               DateTo: {
-                [Op.gte]: today
-              }
-            }
-          ]
+                [Op.gte]: today,
+              },
+            },
+          ],
         },
-      }
+      },
     ],
   });
 
@@ -70,16 +73,8 @@ exports.getEmployeesByEmail = async (email) => {
     IdPerson,
     Password,
     IdRole,
-    employeePerson: {
-      FirstName,
-      LastName,
-      Email,
-      Phone
-    },
-    employeeEmployment: [{
-      IdDepartment,
-      IdDivision
-    }]
+    employeePerson: { FirstName, LastName, Email, Phone },
+    employeeEmployment: [{ IdDepartment, IdDivision }],
   } = employee[0].dataValues;
   return {
     IdPerson,
@@ -90,9 +85,8 @@ exports.getEmployeesByEmail = async (email) => {
     Email,
     Phone,
     IdDepartment,
-    IdDivision
-  }
-
+    IdDivision,
+  };
 };
 
 exports.createEmployee = (newEmployeeData) => {
@@ -101,13 +95,14 @@ exports.createEmployee = (newEmployeeData) => {
     Pesel: newEmployeeData.Pesel,
     Password: newEmployeeData.Password,
     IdRole: newEmployeeData.IdRole,
+    IsActive: false,
   });
 };
 
 exports.deleteEmployee = (personId) => {
   return Employee.destroy({
     where: {
-      IdPerson: personId
+      IdPerson: personId,
     },
   });
 };
@@ -115,8 +110,8 @@ exports.deleteEmployee = (personId) => {
 exports.updateEmployee = (personId, data) => {
   return Employee.update(data, {
     where: {
-      IdPerson: personId
-    }
+      IdPerson: personId,
+    },
   });
 };
 
@@ -127,12 +122,14 @@ exports.getEmployeeById = (persId) => {
 exports.getQuestionnaireOffersByEmpId = (empId) => {
   return QuestionnaireOffer.findAll({
     attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
-    include: [{
-      model: Offer,
-      as: 'questionnaireOfferOffer',
-    }, ],
+    include: [
+      {
+        model: Offer,
+        as: 'questionnaireOfferOffer',
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
@@ -140,82 +137,104 @@ exports.getQuestionnaireOffersByEmpId = (empId) => {
 exports.getApplicationsForByEmpId = (empId) => {
   return ApplicationFor.findAll({
     attributes: ['IdApplicationFor', 'DateOfSubmission'],
-    include: [{
-      model: Status,
-      as: 'applicationForStatus',
-    }, ],
+    include: [
+      {
+        model: Status,
+        as: 'applicationForStatus',
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
 
 exports.getAppStudiesByEmpId = (empId) => {
   return ApplicationFor.findAll({
-    include: [{
-      model: Status,
-      as: 'applicationForStatus',
-    }, ],
-    include: [{
-      model: Education,
-      required: true,
-      as: 'applicationForEducation',
-      include: [{
-        model: Study,
+    include: [
+      {
+        model: Status,
+        as: 'applicationForStatus',
+      },
+    ],
+    include: [
+      {
+        model: Education,
         required: true,
-        as: 'educationStudy',
-      }, ],
-    }, ],
+        as: 'applicationForEducation',
+        include: [
+          {
+            model: Study,
+            required: true,
+            as: 'educationStudy',
+          },
+        ],
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
 
 exports.getAppTrainingsByEmpId = (empId) => {
   return ApplicationFor.findAll({
-    include: [{
-      model: Status,
-      as: 'applicationForStatus',
-    }, ],
-    include: [{
-      model: Education,
-      required: true,
-      as: 'applicationForEducation',
-      include: [{
-        model: Training,
+    include: [
+      {
+        model: Status,
+        as: 'applicationForStatus',
+      },
+    ],
+    include: [
+      {
+        model: Education,
         required: true,
-        as: 'educationTraining',
-        include: [{
-          model: Topic,
-          as: 'trainingTopic',
-        }, ],
-      }, ],
-    }, ],
+        as: 'applicationForEducation',
+        include: [
+          {
+            model: Training,
+            required: true,
+            as: 'educationTraining',
+            include: [
+              {
+                model: Topic,
+                as: 'trainingTopic',
+              },
+            ],
+          },
+        ],
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
 
 exports.getAppOthersByEmpId = (empId) => {
   return ApplicationFor.findAll({
-    include: [{
-      model: Status,
-      as: 'applicationForStatus',
-    }, ],
-    include: [{
-      model: Education,
-      required: true,
-      as: 'applicationForEducation',
-      include: [{
-        model: OtherEducation,
+    include: [
+      {
+        model: Status,
+        as: 'applicationForStatus',
+      },
+    ],
+    include: [
+      {
+        model: Education,
         required: true,
-        as: 'educationOtherEducation',
-      }, ],
-    }, ],
+        as: 'applicationForEducation',
+        include: [
+          {
+            model: OtherEducation,
+            required: true,
+            as: 'educationOtherEducation',
+          },
+        ],
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
@@ -224,65 +243,79 @@ exports.getParticipationsByEmpId = (empId) => {
   return Participation.findAll({
     attributes: ['DateOfRegistration', 'EndDate'],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
 
 exports.getPartStudiesByEmpId = (empId) => {
   return Participation.findAll({
-    include: [{
-      model: Education,
-      required: true,
-      as: 'participationEducation',
-      include: [{
-        model: Study,
+    include: [
+      {
+        model: Education,
         required: true,
-        as: 'educationStudy',
-      }, ],
-    }, ],
+        as: 'participationEducation',
+        include: [
+          {
+            model: Study,
+            required: true,
+            as: 'educationStudy',
+          },
+        ],
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
 
 exports.getPartTrainingsByEmpId = (empId) => {
   return Participation.findAll({
-    include: [{
-      model: Education,
-      required: true,
-      as: 'participationEducation',
-      include: [{
-        model: Training,
+    include: [
+      {
+        model: Education,
         required: true,
-        as: 'educationTraining',
-        include: [{
-          model: Topic,
-          as: 'trainingTopic',
-        }, ],
-      }, ],
-    }, ],
+        as: 'participationEducation',
+        include: [
+          {
+            model: Training,
+            required: true,
+            as: 'educationTraining',
+            include: [
+              {
+                model: Topic,
+                as: 'trainingTopic',
+              },
+            ],
+          },
+        ],
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };
 
 exports.getPartOthersByEmpId = (empId) => {
   return Participation.findAll({
-    include: [{
-      model: Education,
-      required: true,
-      as: 'participationEducation',
-      include: [{
-        model: OtherEducation,
+    include: [
+      {
+        model: Education,
         required: true,
-        as: 'educationOtherEducation',
-      }, ],
-    }, ],
+        as: 'participationEducation',
+        include: [
+          {
+            model: OtherEducation,
+            required: true,
+            as: 'educationOtherEducation',
+          },
+        ],
+      },
+    ],
     where: {
-      IdPerson: empId
+      IdPerson: empId,
     },
   });
 };

@@ -24,6 +24,7 @@ exports.register = (req, res, next) => {
           Pesel: pesel,
           Password: hash,
           IdRole: 4,
+          IsActive: true,
         })
           .then((newObj) => {
             // sukces

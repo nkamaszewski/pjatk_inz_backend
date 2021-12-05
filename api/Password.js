@@ -67,6 +67,7 @@ exports.change = (req, res, next) => {
           bcrypt.hash(password, salt.saltRounds, (err, hash) => {
             EmployeeRepository.updateEmployee(id, {
               Password: hash,
+              IsActive: true,
             }).then((emp) => {
               if (emp) {
                 res.send('password was changed.');

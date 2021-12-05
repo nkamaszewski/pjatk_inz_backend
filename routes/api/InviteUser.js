@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const InviteUserController = require('../api/InviteUser');
+const inviteUserController = require('../../api/InviteUser');
 
-router.post('/', InviteUserController.invite);
+router.post('/', inviteUserController.invite);
 
 module.exports = router;
