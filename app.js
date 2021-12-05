@@ -45,6 +45,7 @@ const questOffApiRouter = require('./routes/api/QuestionnaireOfferApiRoute');
 const appForApiRouter = require('./routes/api/ApplicationForApiRoute');
 const roleApiRouter = require('./routes/api/RoleApiRoute');
 const oEduApiRouter = require('./routes/api/OtherEducationApiRoute');
+const inviteUserRouter = require('./routes/api/InviteUser');
 
 const sequelizeInit = require('./config/sequelize/init');
 
@@ -78,6 +79,7 @@ app.use('/password', passwordRouter);
 app.use(verifyJWT);
 
 app.use('/users', usersRouter);
+app.use('/api/inviteUser', inviteUserRouter);
 app.use('/api/divisions', divApiRouter);
 app.use('/api/departments', depApiRouter);
 app.use('/api/positions', posApiRouter);
