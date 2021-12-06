@@ -82,3 +82,29 @@ exports.change = (req, res, next) => {
     }
   );
 };
+
+exports.getToken = (req, res, next) => {
+  const token = req.headers['x-access-token'];
+
+  if (!token) {
+    res
+      .status(401)
+      .json({ message: 'You need a token, you are not authenticated' });
+  }
+  jwt.verify(token, process.env.JWT_AUTH_TOKEN_SECRET, (err, decoded) => {
+    if (err) {
+      res.status(401).json({ auth: false, message: 'Token is incorrect' });
+    }
+    const id = decoded.id;
+
+    const restoreToken = jwt.sign(
+      { id },
+      process.env.JWT_AUTH_RESTORE_PASSWORD_TOKEN,
+      {
+        expiresIn: '1d',
+      }
+    );
+
+    res.status(200).json({ token: restoreToken });
+  });
+};

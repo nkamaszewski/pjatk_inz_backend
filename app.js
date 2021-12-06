@@ -74,7 +74,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
-app.use('/password', passwordRouter);
+app.use('/api/password', passwordRouter);
 
 app.use(verifyJWT);
 
