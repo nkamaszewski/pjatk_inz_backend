@@ -1,4 +1,5 @@
 const PersonRepository = require('../repository/sequelize/PersonRepository');
+const Role = require('../model/Role');
 
 exports.getPersons = (req, res, next) => {
   PersonRepository.getPersons()
@@ -24,6 +25,11 @@ exports.getPersonById = (req, res, next) => {
 };
 
 exports.createPerson = (req, res, next) => {
+  if (req.userIdRole != Role.ADMIN) {
+    res.status(403).json({
+        message: 'Brak uprawnień'
+    })
+}
   PersonRepository.createPerson(req.body)
     .then((newObj) => {
       res.status(201).json(newObj);
@@ -38,6 +44,14 @@ exports.createPerson = (req, res, next) => {
 
 exports.updatePerson = (req, res, next) => {
   const perId = req.params.perId;
+
+    if ((req.userId != perId) && (req.userIdRole != Role.ADMIN) ) {
+      console.log("Brak uprawnień");
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    } else {
+
   PersonRepository.updatePerson(perId, req.body)
     .then(async () => {
       const Person = await PersonRepository.getPersonById(perId);
@@ -49,9 +63,15 @@ exports.updatePerson = (req, res, next) => {
       }
       next(err);
     });
+  };
 };
 
 exports.deletePerson = (req, res, next) => {
+  if (req.userIdRole != Role.ADMIN) {
+    res.status(403).json({
+        message: 'Brak uprawnień'
+    })
+}
   const perId = req.params.perId;
   PersonRepository.deletePerson(perId)
     .then((result) => {

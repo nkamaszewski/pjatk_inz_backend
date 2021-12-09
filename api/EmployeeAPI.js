@@ -1,4 +1,5 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
+const Role = require('../model/Role')
 
 exports.getEmployees = (req, res, next) => {
   EmployeeRepository.getEmployees()
@@ -24,6 +25,11 @@ exports.getEmployeeById = (req, res, next) => {
 };
 
 exports.createEmployee = (req, res, next) => {
+  if (req.userIdRole != Role.ADMIN) {
+    res.status(403).json({
+        message: 'Brak uprawnień'
+    })
+}
   EmployeeRepository.createEmployee(req.body)
     .then((newObj) => {
       res.status(201).json(newObj);
@@ -38,6 +44,14 @@ exports.createEmployee = (req, res, next) => {
 
 exports.updateEmployee = (req, res, next) => {
   const empId = req.params.empId;
+  if (req.userIdRole != Role.ADMIN || req.userIdUser != empId) {
+    res.status(403).json({
+        message: 'Brak uprawnień'
+    }) 
+  } else {
+    console.log(req.userIdRole + ' - ' + empId)
+  }
+  
   EmployeeRepository.updateEmployee(empId, req.body)
     .then((result) => {
       res.status(200).json({ message: 'Employee updated!', emp: result });

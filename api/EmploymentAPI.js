@@ -1,4 +1,6 @@
 const EmploymentRepository = require('../repository/sequelize/EmploymentRepository');
+const Role = require('../model/Role');
+
 
 exports.getEmployments = (req, res, next) => {
     EmploymentRepository.getEmployments()
@@ -25,6 +27,11 @@ exports.getEmploymentById = (req, res, next) => {
 };
 
 exports.createEmployment = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     EmploymentRepository.createEmployment(req.body)
         .then(newObj => {
             res.status(201).json(newObj);
@@ -38,6 +45,11 @@ exports.createEmployment = (req, res, next) => {
 };
 
 exports.updateEmployment = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const empId = req.params.empId;
     EmploymentRepository.updateEmployment(empId, req.body)
         .then(result => {
@@ -52,6 +64,11 @@ exports.updateEmployment = (req, res, next) => {
 };
 
 exports.deleteEmployment = (req, res, next) => {
+    if (req.userIdRole != Role.ADMIN) {
+        res.status(403).json({
+            message: 'Brak uprawnień'
+        })
+    }
     const empId = req.params.empId;
     EmploymentRepository.deleteEmployment(empId)
         .then(result => {
