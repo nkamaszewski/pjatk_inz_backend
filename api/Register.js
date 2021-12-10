@@ -1,7 +1,7 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
 const PersonRepository = require('../repository/sequelize/PersonRepository');
 const bcrypt = require('bcrypt');
-const salt = require('../helpers/saltRound');
+const salt = require('../auth/saltRound');
 const jwt = require('jsonwebtoken');
 
 exports.register = (req, res, next) => {

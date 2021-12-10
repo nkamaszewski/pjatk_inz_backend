@@ -3,7 +3,7 @@ const mailService = require('../services/mailService');
 const jwt = require('jsonwebtoken');
 const { restoreEmailTemplate } = require('../templates/restore_email');
 const bcrypt = require('bcrypt');
-const salt = require('../helpers/saltRound');
+const salt = require('../auth/saltRound');
 
 exports.restore = (req, res, next) => {
   const email = req.body.email;
