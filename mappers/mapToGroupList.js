@@ -1,7 +1,7 @@
 exports.mapToGroupList = (groupDTO) => {
   return groupDTO.map((group) => {
     const { dataValues } = group;
-    console.log(group);
+
     const mappedGroup = {
       ...dataValues,
       Topic: dataValues.groupTraining.trainingTopic.Topic,

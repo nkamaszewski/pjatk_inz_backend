@@ -1,13 +1,12 @@
 const MeetingRepository = require('../repository/sequelize/MeetingRepository');
-const Role = require('../model/Role')
+const { mapToMeetingList } = require('../mappers/mapToMeetingList');
 
 exports.getMeetings = (req, res, next) => {
-  const {
-    query
-  } = req;
+  const { query } = req;
   MeetingRepository.getMeetings(query)
     .then((meets) => {
-      res.status(200).json(meets);
+      const meetingsList = mapToMeetingList(meets);
+      res.status(200).json(meetingsList);
     })
     .catch((err) => {
       console.log(err);
@@ -47,7 +46,7 @@ exports.updateMeeting = (req, res, next) => {
     .then((result) => {
       res.status(200).json({
         message: 'Meeting updated!',
-        meet: result
+        meet: result,
       });
     })
     .catch((err) => {
@@ -64,7 +63,7 @@ exports.deleteMeeting = (req, res, next) => {
     .then((result) => {
       res.status(200).json({
         message: 'Removed Meeting',
-        meet: result
+        meet: result,
       });
     })
     .catch((err) => {

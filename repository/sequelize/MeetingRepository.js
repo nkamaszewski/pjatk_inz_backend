@@ -1,6 +1,8 @@
 const Room = require('../../model/sequelize/Room');
 const Meeting = require('../../model/sequelize/Meeting');
 const Group = require('../../model/sequelize/Group');
+const Training = require('../../model/sequelize/Training');
+const Topic = require('../../model/sequelize/Topic');
 
 exports.getMeetings = (query) => {
   const { idGroup, idRoom } = query;
@@ -12,6 +14,14 @@ exports.getMeetings = (query) => {
         model: Group,
         as: 'meetingGroup',
         where: idGroup ? { IdGroup: idGroup } : {},
+        include: {
+          model: Training,
+          as: 'groupTraining',
+          include: {
+            model: Topic,
+            as: 'trainingTopic',
+          },
+        },
       },
       {
         model: Room,
