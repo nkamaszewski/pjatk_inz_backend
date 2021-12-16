@@ -40,10 +40,13 @@ exports.createParticipation = (req, res, next) => {
       res.status(201).json(newObj);
     })
     .catch((err) => {
-      if (!err.statusCode) {
+      if (err.name === "SequelizeUniqueConstraintError") {
+          res.status(403).json({ message: "Użytkownik jest już zapisany na szkolenie"});
+      } else if (!err.statusCode) {
         err.statusCode = 500;
+        next(err);
       }
-      next(err);
+
     });
 };
 
@@ -56,10 +59,12 @@ exports.updateParticipation = (req, res, next) => {
         .json({ message: 'Participation updated!', particip: result });
     })
     .catch((err) => {
-      if (!err.statusCode) {
+      if (err.name === "SequelizeUniqueConstraintError") {
+          res.status(403).json({ message: "Użytkownik jest już zapisany na szkolenie"});
+      } else if (!err.statusCode) {
         err.statusCode = 500;
+        next(err);
       }
-      next(err);
     });
 };
 

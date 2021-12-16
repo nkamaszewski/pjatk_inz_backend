@@ -14,24 +14,25 @@ const Participation = sequelize.define(
     IdEducation: {
       type: Sequelize.INTEGER,
       allowNull: false,
-      // validate: {
-      // 	isAccepted(value, next) {
-      // 		const personId = this.IdPerson;
-      // 		sequelize.models.ApplicationFor.findAndCountAll({
-      // 			where: {
-      // 				IdPerson: personId,
-      // 				IdEducation: value,
-      // 				IdStatus: 5
-      // 			}
-      // 		})
-      // 			.then(applications => {
-      // 				if (applications.count != 1)
-      // 					next(new Error(`Wniosek na to szkolenie nie zaakceptowany!`));
-      // 				next();
-      // 			})
-      // 			.catch((onError) => console.log(onError));
-      // 	}
-      // }
+      validate: {
+      	isAccepted(value, next) {
+      		const personId = this.IdPerson;
+      		sequelize.models.ApplicationFor.findOne({
+      			where: {
+      				IdPerson: personId,
+      				IdEducation: value,
+      				IdStatus: 5
+      			}
+      		})
+      			.then(applications => {
+            if(!applications) {
+                next(new Error(`Wniosek na to szkolenie nie zaakceptowany!`));
+              }
+              next()
+            })
+      			.catch((onError) => console.log(onError));
+      	}
+      }
     },
     DateOfRegistration: { type: Sequelize.DATE, allowNull: false },
     EndDate: { type: Sequelize.DATE, allowNull: true },
@@ -45,7 +46,7 @@ const Participation = sequelize.define(
         name: 'idx_participation_idPerson_idEducation',
         unique: true,
         fields: ['IdPerson', 'IdEducation'],
-      },
+     },
     ],
   }
 );
