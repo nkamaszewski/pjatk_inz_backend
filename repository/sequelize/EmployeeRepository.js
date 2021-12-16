@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-
+const Role = require('../../model/Role');
 const Person = require('../../model/sequelize/Person');
 const Employee = require('../../model/sequelize/Employee');
 const Employment = require('../../model/sequelize/Employment');
@@ -19,6 +19,7 @@ const OtherEducation = require('../../model/sequelize/OtherEducation');
 const Division = require('../../model/sequelize/Division');
 
 exports.getEmployees = () => {
+
   return Employee.findAll({
     attributes: ['IdPerson', 'Pesel', 'Password', 'IdRole', 'IsActive'],
     include: [

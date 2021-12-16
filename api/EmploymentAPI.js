@@ -3,7 +3,13 @@ const Role = require('../model/Role');
 
 
 exports.getEmployments = (req, res, next) => {
-    EmploymentRepository.getEmployments()
+    
+    const uId = req.userId;
+    const uIdDepartment = req.userIdDepartment;
+    const uIdDivision = req.userIdDivision;
+    const uIdRole = req.userIdRole;
+
+    EmploymentRepository.getEmployments(uId,uIdDepartment,uIdDivision,uIdRole)
         .then(emps => {
             res.status(200).json(emps);
         })

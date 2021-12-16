@@ -1,8 +1,12 @@
 const Position = require('../../model/sequelize/Position');
 const Employment = require('../../model/sequelize/Employment');
 const Department = require('../../model/sequelize/Department');
+const Role = require('../../model/Role');
 
-exports.getEmployments = () => {
+
+exports.getEmployments = (...userData) => {
+  const [userId,userIdDepartment, userIdDivision,userIdRole] = userData;
+
   return Employment.findAll({
     attributes: ['IdEmployment', 'DateFrom', 'DateTo', 'IdPerson'],
     include: [
@@ -15,6 +19,9 @@ exports.getEmployments = () => {
         as: 'emplymentPosition',
       },
     ],
+    where: userIdRole==Role.PRACOWNIK ? { IdPerson: userId } : 
+           (userIdRole==Role.KIEROWNIK ? { IdDepartment: userIdDepartment } : 
+           (userIdRole==Role.DYREKTOR ? { IdDivision: userIdDivision }: {}))
   });
 };
 
