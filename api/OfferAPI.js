@@ -1,5 +1,6 @@
 const OfferRepository = require('../repository/sequelize/OfferRepository');
 
+
 exports.getOffers = (req, res, next) => {
     OfferRepository.getOffers()
         .then(offers => {
@@ -39,9 +40,15 @@ exports.createOffer = (req, res, next) => {
 
 exports.updateOffer = (req, res, next) => {
     const offerId = req.params.offerId;
-    OfferRepository.updateOffer(offerId, req.body)
+    const userId = req.userId;
+
+    OfferRepository.updateOffer(offerId, userId, req.body)
         .then(result => {
-            res.status(200).json({ message: 'Offer updated!', offer: result });
+            if(result == -1) {
+                res.status(403).json({ message: 'Brak uprawnień!' });
+            } else {
+                 res.status(200).json({ message: 'Wniosek zaktualizowany!', offer: result });
+            }
         })
         .catch(err => {
             if (!err.statusCode) {
@@ -53,9 +60,14 @@ exports.updateOffer = (req, res, next) => {
 
 exports.deleteOffer = (req, res, next) => {
     const offerId = req.params.offerId;
-    OfferRepository.deleteOffer(offerId)
+    const userId = req.userId;
+    OfferRepository.deleteOffer(offerId,userId)
         .then(result => {
-            res.status(200).json({ message: 'Removed Offer', offer: result });
+            if(result == -1) {
+                res.status(403).json({ message: 'Brak uprawnień!' });
+            } else {
+                 res.status(200).json({ message: 'Wniosek zaktualizowany!', offer: result });
+            }
         })
         .catch(err => {
             if (!err.statusCode) {

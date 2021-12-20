@@ -2,16 +2,32 @@ const Offer = require('../../model/sequelize/Offer');
 const QuestionnaireOffer = require('../../model/sequelize/QuestionnaireOffer');
 const Employee = require('../../model/sequelize/Employee');
 const Employment = require('../../model/sequelize/Employment');
+const Role = require('../../model/Role');
 
-
-exports.getQuestionnaireOffers = () => {
+exports.getQuestionnaireOffers = (...userData) => {
+  const [userId,userIdDepartment, userIdDivision,userIdRole] = userData;
+  console.log(userData);
   return QuestionnaireOffer.findAll({
     attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
     include: [
       {
-        model: Offer,
-        as: 'questionnaireOfferOffer',
+        model: Employee,
+        as: 'questionnaireOfferEmployee',
+        include: [
+          {
+            model: Employment,
+            as: 'employeeEmployment',
+            where: userIdRole==Role.PRACOWNIK ? { IdPerson: userId } : 
+                    (userIdRole==Role.KIEROWNIK ? { IdDepartment: userIdDepartment } : 
+                    (userIdRole==Role.DYREKTOR ? { IdDivision: userIdDivision }: {}))
+          }]
       },
+    ],
+    include: [
+      {
+        model: Offer,
+        as: 'questionnaireOfferOffer'
+      }
     ],
   });
 };
@@ -25,9 +41,9 @@ exports.createQuestionnaireOffer = (newQuestionnaireOfferData) => {
   });
 };
 
-exports.deleteQuestionnaireOffer = (questionnaireOfferId) => {
+exports.deleteQuestionnaireOffer = (questionnaireOfferId, userId) => {
   return QuestionnaireOffer.destroy({
-    where: { IdQuestionnaireOffer: questionnaireOfferId },
+    where: { IdQuestionnaireOffer: questionnaireOfferId, IdPerson: userId },
   });
 };
 

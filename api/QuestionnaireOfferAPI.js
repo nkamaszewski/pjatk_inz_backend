@@ -1,7 +1,12 @@
 const QuestionnaireOfferRepository = require('../repository/sequelize/QuestionnaireOfferRepository');
 
 exports.getQuestionnaireOffers = (req, res, next) => {
-  QuestionnaireOfferRepository.getQuestionnaireOffers()
+    const uId = req.userId;
+    const uIdDepartment = req.userIdDepartment;
+    const uIdDivision = req.userIdDivision;
+    const uIdRole = req.userIdRole;
+
+  QuestionnaireOfferRepository.getQuestionnaireOffers(uId,uIdDepartment,uIdDivision,uIdRole)
     .then((questsoff) => {
       res.status(200).json(questsoff);
     })
@@ -56,7 +61,9 @@ exports.updateQuestionnaireOffer = (req, res, next) => {
 
 exports.deleteQuestionnaireOffer = (req, res, next) => {
   const questoffId = req.params.questOffId;
-  QuestionnaireOfferRepository.deleteQuestionnaireOffer(questoffId)
+  const userId = req.userId;
+
+  QuestionnaireOfferRepository.deleteQuestionnaireOffer(questoffId, userId)
     .then((result) => {
       res
         .status(200)
