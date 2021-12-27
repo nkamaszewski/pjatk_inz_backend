@@ -6,12 +6,16 @@ const Employment = require('../../model/sequelize/Employment');
 const Department = require('../../model/sequelize/Department');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const Role = require('../../model/Role');
 
-exports.getApplicationFor = (params) => {
+
+exports.getApplicationFor = (params, ...userData) => {
   const { iddepartment, iddivision, idstatus } = params;
   const depId = iddepartment;
   const divId = iddivision;
   const statId = idstatus;
+  const [userId,userIdDepartment, userIdDivision,userIdRole] = userData;
+  console.log(userData);
 
   return ApplicationFor.findAll({
     attributes: [
@@ -44,6 +48,9 @@ exports.getApplicationFor = (params) => {
             where: depId
               ? { IdDepartment: depId, DateTo: null }
               : { DateTo: null },
+              where: userIdRole==Role.PRACOWNIK ? { IdPerson: userId } : 
+              (userIdRole==Role.KIEROWNIK ? { IdDepartment: userIdDepartment } : 
+              (userIdRole==Role.DYREKTOR ? { IdDivision: userIdDivision }: {})),
             include: [
               {
                 model: Department,
@@ -71,22 +78,43 @@ exports.createApplicationFor = (newApplicationForData) => {
   });
 };
 
-exports.deleteApplicationFor = (applicationForId) => {
-  return ApplicationFor.destroy({
-    where: { IdApplicationFor: applicationForId },
-  });
+exports.deleteApplicationFor = (applicationForId, userId) => {
+  // return ApplicationFor.destroy({
+  //   where: { IdApplicationFor: applicationForId },
+  // });
+  return ApplicationFor
+        .findOne({
+            where: { 
+                    IdApplicationFor: applicationForId,
+                    IdPerson: userId
+                  }})
+        .then(function(appFor) {
+            if(appFor) {
+                return appFor.destroy();
+            } else {
+                return (-1);
+            }
+
+        })
 };
 
-exports.updateApplicationFor = (applicationForId, data) => {
+exports.updateApplicationFor = (applicationForId,  userId, userIdRole, data) => {
   const IdApplicationFor = data.IdApplicationFor;
   const DateOfSubmission = data.DateOfSubmission;
   const IdEducation = data.IdEducation;
   const IdStatus = data.IdStatus;
   const Compatibility = data.Compatibility;
+  const IdPerson = data.IdPerson;
 
-  return ApplicationFor.update(data, {
+  if(IdPerson==userId) {
+  return ApplicationFor.update({ IdEducation: IdEducation }, {
     where: { IdApplicationFor: applicationForId },
-  });
+  })}
+
+  if(IdPerson!=userId && (userIdRole==Role.KIEROWNIK || userIdRole==Role.DYREKTOR)) {
+    return ApplicationFor.update({ IdStatus: IdStatus }, {
+      where: { IdApplicationFor: applicationForId },
+    })}
 };
 
 exports.getApplicationForById = (appForId) => {

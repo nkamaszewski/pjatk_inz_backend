@@ -6,7 +6,6 @@ const Role = require('../../model/Role');
 
 exports.getQuestionnaireOffers = (...userData) => {
   const [userId,userIdDepartment, userIdDivision,userIdRole] = userData;
-  console.log(userData);
   return QuestionnaireOffer.findAll({
     attributes: ['IdQuestionnaireOffer', 'Year', 'IdPerson'],
     include: [

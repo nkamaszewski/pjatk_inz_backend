@@ -4,8 +4,12 @@ const StudyRepository = require('../repository/sequelize/StudyRepository');
 
 exports.getApplicationFor = (req, res, next) => {
   const params = req.query;
+  const uId = req.userId;
+  const uIdDepartment = req.userIdDepartment;
+  const uIdDivision = req.userIdDivision;
+  const uIdRole = req.userIdRole;
 
-  ApplicationForRepository.getApplicationFor(params)
+  ApplicationForRepository.getApplicationFor(params, uId,uIdDepartment,uIdDivision,uIdRole)
     .then((appFor) => {
       res.status(200).json(appFor);
     })
@@ -16,8 +20,12 @@ exports.getApplicationFor = (req, res, next) => {
 
 exports.getApplicationForMySql2 = (req, res, next) => {
   const params = req.query;
+  const uId = req.userId;
+  const uIdDepartment = req.userIdDepartment;
+  const uIdDivision = req.userIdDivision;
+  const uIdRole = req.userIdRole;
 
-  ApplicationForRepositoryMySql2.getApplicationFor(params)
+  ApplicationForRepositoryMySql2.getApplicationFor(params,uId,uIdDepartment,uIdDivision,uIdRole)
     .then((appFor) => {
       res.status(200).json(appFor);
     })
@@ -58,7 +66,12 @@ exports.createApplicationFor = (req, res, next) => {
 
 exports.updateApplicationFor = (req, res, next) => {
   const appForId = req.params.appForId;
-  ApplicationForRepository.updateApplicationFor(appForId, req.body)
+  const uId = req.userId;
+  const uIdDepartment = req.userIdDepartment;
+  const uIdDivision = req.userIdDivision;
+  const uIdRole = req.userIdRole;
+
+  ApplicationForRepository.updateApplicationFor(appForId, uId, uIdRole, req.body)
     .then((result) => {
       res
         .status(200)
@@ -74,11 +87,17 @@ exports.updateApplicationFor = (req, res, next) => {
 
 exports.deleteApplicationFor = (req, res, next) => {
   const appForId = req.params.appForId;
-  ApplicationForRepository.deleteApplicationFor(appForId)
+  const userId = req.userId;
+
+  ApplicationForRepository.deleteApplicationFor(appForId, userId)
     .then((result) => {
+      if(result == -1) {
+        res.status(403).json({ message: 'Brak uprawnień!' });
+    } else {
       res
         .status(200)
-        .json({ message: 'Removed application for', appFor: result });
+        .json({ message: 'Wniosek usunięty', appFor: result });
+    }
     })
     .catch((err) => {
       if (!err.statusCode) {
