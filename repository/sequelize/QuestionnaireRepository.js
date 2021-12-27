@@ -1,4 +1,4 @@
-const Participation = require('../../model/sequelize/participation');
+const Participation = require('../../model/sequelize/Participation');
 const Questionnaire = require('../../model/sequelize/Questionnaire');
 
 exports.getQuestionnaires = () => {
