@@ -23,7 +23,7 @@ exports.getApplicationFor = (params, ...userData) => {
     FROM applicationfor INNER JOIN status ON applicationfor.IdStatus=status.IdStatus INNER JOIN education ON applicationfor.IdEducation=education.IdEducation INNER JOIN training ON education.IdEducation=training.IdEducation INNER JOIN topic ON training.IdTopic=topic.IdTopic INNER JOIN employee ON applicationfor.IdPerson=employee.IdPerson INNER JOIN employment ON employee.IdPerson=employment.IdPerson INNER JOIN department ON employment.IdDepartment=department.IdDepartment 
     WHERE  ${whereText}
     
-    UNION ALL 
+    UNION ALL
     SELECT IdApplicationFor, DateOfSubmission, status.name, study.FieldOfStudy as Nazwa, 'Studia' as Rodzaj FROM applicationfor INNER JOIN status ON applicationfor.IdStatus=status.IdStatus INNER JOIN education ON applicationfor.IdEducation=education.IdEducation INNER JOIN study ON education.IdEducation=study.IdEducation INNER JOIN employee ON applicationfor.IdPerson=employee.IdPerson INNER JOIN employment ON employee.IdPerson=employment.IdPerson INNER JOIN department ON employment.IdDepartment=department.IdDepartment 
     WHERE  ${whereText}
    
