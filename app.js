@@ -46,6 +46,7 @@ const appForApiRouter = require('./routes/api/ApplicationForAPIRoute');
 const roleApiRouter = require('./routes/api/RoleAPIRoute');
 const oEduApiRouter = require('./routes/api/OtherEducationAPIRoute');
 const inviteUserRouter = require('./routes/api/InviteUser');
+const additionalApplicationRouter = require('./routes/api/AdditionalApplication');
 
 const sequelizeInit = require('./config/sequelize/init');
 
@@ -112,6 +113,7 @@ app.use('/api/questoffer', questOffApiRouter);
 app.use('/api/appfor', appForApiRouter);
 app.use('/api/roles', roleApiRouter);
 app.use('/api/othereducation', oEduApiRouter);
+app.use('/api/additionalapplication', additionalApplicationRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
