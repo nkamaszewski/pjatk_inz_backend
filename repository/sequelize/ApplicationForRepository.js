@@ -106,15 +106,24 @@ exports.updateApplicationFor = (applicationForId,  userId, userIdRole, data) => 
   const Compatibility = data.Compatibility;
   const IdPerson = data.IdPerson;
 
-  if(IdPerson==userId) {
-  return ApplicationFor.update({ IdEducation: IdEducation }, {
-    where: { IdApplicationFor: applicationForId },
-  })}
 
-  if(IdPerson!=userId && (userIdRole==Role.KIEROWNIK || userIdRole==Role.DYREKTOR)) {
-    return ApplicationFor.update({ IdStatus: IdStatus }, {
+  console.log(userIdRole);
+  console.log(IdPerson+' '+userId);
+
+  // if(IdPerson==userId) {
+  // return ApplicationFor.update({ IdEducation: IdEducation }, {
+  //   where: { IdApplicationFor: applicationForId },
+  // })}
+
+  // if(IdPerson!=userId && (userIdRole==Role.KIEROWNIK || userIdRole==Role.DYREKTOR)) 
+  // {
+  //   return ApplicationFor.update({ IdStatus: IdStatus }, {
+  //     where: { IdApplicationFor: applicationForId },
+  //   })}
+
+    return ApplicationFor.update(data, {
       where: { IdApplicationFor: applicationForId },
-    })}
+    });
 };
 
 exports.getApplicationForById = (appForId) => {
