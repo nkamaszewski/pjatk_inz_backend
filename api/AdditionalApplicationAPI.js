@@ -35,12 +35,21 @@ exports.createAdditionalApplication = async (req, res, next) => {
   }
 
   try {
-    appForRefund =
-      await ApplicationForRefundRepository.createApplicationForRefund({
-        IdApplicationFor: Id,
-        IdStatus: appFor.IdStatus,
-        DateOfSubmission,
-      });
+    const appForInDB =
+      await ApplicationForRefundRepository.getApplicationForRefundByAppForId(
+        Id
+      );
+
+    if (appForInDB[0]) {
+      appForRefund = appForInDB[0];
+    } else {
+      appForRefund =
+        await ApplicationForRefundRepository.createApplicationForRefund({
+          IdApplicationFor: Id,
+          IdStatus: appFor.IdStatus,
+          DateOfSubmission,
+        });
+    }
   } catch (e) {
     res.status(500).json({
       message: 'Wystąpił błąd przy dodawaniu wniosku (internal: appForRefund)',

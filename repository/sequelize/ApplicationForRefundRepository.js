@@ -114,3 +114,15 @@ exports.getApplicationForRefundById = (appForRefId) => {
     ],
   });
 };
+
+exports.getApplicationForRefundByAppForId = (appForId) => {
+  return ApplicationForRefund.findAll({
+    include: [
+      {
+        model: ApplicationForReasons,
+        as: 'applicationForRefundApplicationForReasons',
+      },
+    ],
+    where: { IdApplicationFor: appForId },
+  });
+};
