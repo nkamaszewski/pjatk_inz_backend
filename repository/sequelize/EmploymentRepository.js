@@ -3,6 +3,7 @@ const Employment = require('../../model/sequelize/Employment');
 const Department = require('../../model/sequelize/Department');
 const Employee = require('../../model/sequelize/Employee');
 const Person = require('../../model/sequelize/Person');
+const Division = require('../../model/sequelize/Division');
 const Role = require('../../model/Role');
 
 exports.getEmployments = (...userData) => {
@@ -14,6 +15,12 @@ exports.getEmployments = (...userData) => {
       {
         model: Department,
         as: 'employmentsDepartment',
+        include: [
+          {
+            model: Division,
+            as: 'departmentsDivision',
+          },
+        ],
       },
       {
         model: Position,
