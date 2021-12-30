@@ -971,6 +971,11 @@ module.exports = () => {
               PriceAccommodation: 0,
               PriceTransit: 0,
             },
+            {
+              Price: '20000',
+              PriceAccommodation: 0,
+              PriceTransit: 0,
+            },
           ]);
         } else {
           return educations;
@@ -1169,7 +1174,7 @@ module.exports = () => {
         if (!studies || studies.length == 0) {
           return Study.bulkCreate([
             {
-              IdEducation: 3,
+              IdEducation: 4,
               FieldOfStudy: 'Informatyka',
               IdUniversity: 1,
               IdStudyMode: 1,
@@ -1278,6 +1283,13 @@ module.exports = () => {
               Compability: 'true',
               IdPerson: 2,
             },
+            {
+              DateOfSubmission: '2021-10-01',
+              IdEducation: 5,
+              IdStatus: 5,
+              Compability: 'true',
+              IdPerson: 1,
+            },
           ]);
         } else {
           return appsFor;
@@ -1352,7 +1364,7 @@ module.exports = () => {
         if (!oEdus || oEdus.length == 0) {
           return OtherEducation.bulkCreate([
             {
-              IdEducation: 4,
+              IdEducation: 5,
               Name: 'Aplikacja radcowska',
               IdCompany: 1,
             },

@@ -24,6 +24,7 @@ exports.getApplicationForMySql2 = (req, res, next) => {
   const uIdDepartment = req.userIdDepartment;
   const uIdDivision = req.userIdDivision;
   const uIdRole = req.userIdRole;
+  console.log(params);
 
   ApplicationForRepositoryMySql2.getApplicationFor(params,uId,uIdDepartment,uIdDivision,uIdRole)
     .then((appFor) => {
@@ -57,7 +58,9 @@ exports.createApplicationFor = (req, res, next) => {
       res.status(201).json(newObj);
     })
     .catch((err) => {
-      if (!err.statusCode) {
+      if (err.name === "SequelizeUniqueConstraintError") {
+        res.status(403).json({ message: "Użytkownik już złożył wniosek na to szkolenie"});
+    } else if (!err.statusCode) {
         err.statusCode = 500;
       }
       next(err);
@@ -75,10 +78,12 @@ exports.updateApplicationFor = (req, res, next) => {
     .then((result) => {
       res
         .status(200)
-        .json({ message: 'Application for updated!', appFor: result });
+        .json({ message: 'Wniosek zaktualizowany', appFor: result });
     })
     .catch((err) => {
-      if (!err.statusCode) {
+      if (err.name === "SequelizeUniqueConstraintError") {
+        res.status(403).json({ message: "Użytkownik już złożył wniosek o to szkolenie"});
+    } else if (!err.statusCode) {
         err.statusCode = 500;
       }
       next(err);

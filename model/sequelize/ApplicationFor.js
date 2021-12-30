@@ -14,7 +14,12 @@ const ApplicationFor = sequelize.define('ApplicationFor', {
         {
             name: 'idx_applicationFor_idStuatus',
             fields: ['IdStatus']
-        }
+        },
+        {
+            name: 'idx_applicationFor_idPerson_idEducation',
+            unique: true,
+            fields: ['IdPerson', 'IdEducation'],
+         },
     ]
 });
 module.exports = ApplicationFor;

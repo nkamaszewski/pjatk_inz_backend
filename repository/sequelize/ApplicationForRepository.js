@@ -25,6 +25,9 @@ exports.getApplicationFor = (params, ...userData) => {
       'IdStatus',
       'Compatibility',
     ],
+    order: [
+      ['IdApplicationFor', 'DESC']
+  ],
     include: [
       {
         model: Education,
