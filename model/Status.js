@@ -5,4 +5,4 @@ const Status = {
     ZATWIERDZONY_KIER: 4,
     ZATWIERDZONY_DYR: 5
  };
- module.exports = Role;
+ module.exports = Status;

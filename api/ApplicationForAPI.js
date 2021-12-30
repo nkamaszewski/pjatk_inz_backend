@@ -1,6 +1,8 @@
 const ApplicationForRepository = require('../repository/sequelize/ApplicationForRepository');
 const ApplicationForRepositoryMySql2 = require('../repository/mysql2/ApplicationForRepository');
 const StudyRepository = require('../repository/sequelize/StudyRepository');
+const Role = require('../model/Role');
+const Status = require('../model/Status');
 
 exports.getApplicationFor = (req, res, next) => {
   const params = req.query;
@@ -72,6 +74,10 @@ exports.updateApplicationFor = (req, res, next) => {
   const uIdDepartment = req.userIdDepartment;
   const uIdDivision = req.userIdDivision;
   const uIdRole = req.userIdRole;
+  const status = req.body.idStatus;
+  if(status) {
+    console.log(status);
+  }
 
   ApplicationForRepository.updateApplicationFor(appForId, uId, uIdRole, req.body)
     .then((result) => {
@@ -92,7 +98,7 @@ exports.updateApplicationFor = (req, res, next) => {
 exports.deleteApplicationFor = (req, res, next) => {
   const appForId = req.params.appForId;
   const userId = req.userId;
-
+  
   ApplicationForRepository.deleteApplicationFor(appForId, userId)
     .then((result) => {
       if(result == -1) {
