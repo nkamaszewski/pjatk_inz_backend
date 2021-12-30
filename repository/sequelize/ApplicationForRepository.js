@@ -9,6 +9,7 @@ const Op = Sequelize.Op;
 const Role = require('../../model/Role');
 
 
+
 exports.getApplicationFor = (params, ...userData) => {
   const { iddepartment, iddivision, idstatus } = params;
   const depId = iddepartment;
@@ -72,6 +73,7 @@ exports.getApplicationFor = (params, ...userData) => {
 exports.createApplicationFor = (newApplicationForData) => {
   const { IdPerson, DateOfSubmission, IdEducation, IdStatus, Compatibility } =
     newApplicationForData;
+    console.log(newApplicationForData);
   return ApplicationFor.create({
     IdPerson,
     DateOfSubmission,
@@ -109,13 +111,27 @@ exports.updateApplicationFor = (applicationForId,  userId, userIdRole, data) => 
   const Compatibility = data.Compatibility;
   const IdPerson = data.IdPerson;
 
+  return ApplicationFor
+        .findOne({
+            where: { 
+                    IdApplicationFor: applicationForId,
+                    IdPerson: userId,
+                    IdStatus: 1
+                  }})
+        .then(function(appFor) {
+            if(appFor) {
+                return appFor.update({ IdEducation: IdEducation });
+            } else {
+                return (-1);
+            }
 
-  console.log(userIdRole);
-  console.log(IdPerson+' '+userId);
-
+        })
   // if(IdPerson==userId) {
-  // return ApplicationFor.update({ IdEducation: IdEducation }, {
-  //   where: { IdApplicationFor: applicationForId },
+  //   console.log("Własny wniosek");
+  //   return ApplicationFor.update({ IdEducation: IdEducation }, {
+  //     where: { IdApplicationFor: applicationForId,
+  //             IdPerson: userId
+  //          },
   // })}
 
   // if(IdPerson!=userId && (userIdRole==Role.KIEROWNIK || userIdRole==Role.DYREKTOR)) 
@@ -124,11 +140,12 @@ exports.updateApplicationFor = (applicationForId,  userId, userIdRole, data) => 
   //     where: { IdApplicationFor: applicationForId },
   //   })}
 
-    return ApplicationFor.update(
-      { IdStatus: IdStatus, Compatibility: Compatibility, IdEducation: IdEducation  },
-      {
-      where: { IdApplicationFor: applicationForId },
-    });
+    return (-1);
+    // return ApplicationFor.update(
+    //   { IdStatus: IdStatus, Compatibility: Compatibility, IdEducation: IdEducation  },
+    //   {
+    //   where: { IdApplicationFor: applicationForId },
+    // });
 };
 
 exports.getApplicationForById = (appForId) => {

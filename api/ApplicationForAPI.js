@@ -74,16 +74,19 @@ exports.updateApplicationFor = (req, res, next) => {
   const uIdDepartment = req.userIdDepartment;
   const uIdDivision = req.userIdDivision;
   const uIdRole = req.userIdRole;
-  const status = req.body.idStatus;
-  if(status) {
-    console.log(status);
-  }
 
+ 
   ApplicationForRepository.updateApplicationFor(appForId, uId, uIdRole, req.body)
     .then((result) => {
+      if(result == -1) {
+        console.log("Brak uprawnień");
+
+        res.status(403).json({ message: 'Brak uprawnień!' });
+    } else {
       res
         .status(200)
         .json({ message: 'Wniosek zaktualizowany', appFor: result });
+      }
     })
     .catch((err) => {
       if (err.name === "SequelizeUniqueConstraintError") {
