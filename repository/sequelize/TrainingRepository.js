@@ -10,7 +10,7 @@ const Op = Sequelize.Op;
 
 exports.getTrainings = (params) => {
   const { internal, active } = params
-
+  console.log(internal);
   return Training.findAll({
     attributes: ['Internal', 'DateFrom', 'DateTo', 'IdEducation'],
     include: [
@@ -37,10 +37,13 @@ exports.getTrainings = (params) => {
         ],
       },
     ],
-    where:
-      internal ? { Internal: internal } : {},
-    where:
+    where: [
+      internal ? { Internal: internal } : {},    
       active == 1 ? { DateTo: { [Op.gte]: new Date() } } : {}
+    ],
+    order: [
+      ['DateFrom', 'DESC']
+  ],
   });
 };
 

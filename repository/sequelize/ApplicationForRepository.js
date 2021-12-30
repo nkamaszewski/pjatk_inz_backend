@@ -124,7 +124,9 @@ exports.updateApplicationFor = (applicationForId,  userId, userIdRole, data) => 
   //     where: { IdApplicationFor: applicationForId },
   //   })}
 
-    return ApplicationFor.update(data, {
+    return ApplicationFor.update(
+      { IdStatus: IdStatus, Compatibility: Compatibility, IdEducation: IdEducation  },
+      {
       where: { IdApplicationFor: applicationForId },
     });
 };

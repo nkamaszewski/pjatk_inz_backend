@@ -24,7 +24,6 @@ exports.getApplicationForMySql2 = (req, res, next) => {
   const uIdDepartment = req.userIdDepartment;
   const uIdDivision = req.userIdDivision;
   const uIdRole = req.userIdRole;
-  console.log(params);
 
   ApplicationForRepositoryMySql2.getApplicationFor(params,uId,uIdDepartment,uIdDivision,uIdRole)
     .then((appFor) => {
