@@ -45,7 +45,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Department.belongsTo(Division, {
     as: 'departmentsDivision',
@@ -62,7 +62,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Employment.belongsTo(Position, {
     as: 'emplymentPosition',
@@ -79,7 +79,7 @@ module.exports = () => {
       allowNull: true,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Employment.belongsTo(Department, {
     as: 'employmentsDepartment',
@@ -95,7 +95,7 @@ module.exports = () => {
       allowNull: true,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Employment.belongsTo(Division, {
     as: 'employmentsDivision',
@@ -112,7 +112,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Topic.belongsTo(Subject, {
     as: 'topicsSubject',
@@ -129,7 +129,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Questionnaire.belongsTo(Participation, {
     as: 'questionnairesParticipation',
@@ -146,7 +146,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   QuestionnaireIssue.belongsTo(Questionnaire, {
     as: 'questionnaireissuesQuestionnaire',
@@ -163,7 +163,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   QuestionnaireIssue.belongsTo(Issue, {
     as: 'questionnaireissuesIssue',
@@ -180,7 +180,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Meeting.belongsTo(Room, {
     as: 'meetingRoom',
@@ -197,7 +197,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Study.belongsTo(University, {
     as: 'studyUniversity',
@@ -214,7 +214,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Training.belongsTo(Company, {
     as: 'trainingCompany',
@@ -231,7 +231,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   OtherEducation.belongsTo(Company, {
     as: 'otherEducationCompany',
@@ -282,7 +282,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Training.belongsTo(Coach, {
     as: 'trainingCoach',
@@ -299,7 +299,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Training.belongsTo(Topic, {
     as: 'trainingTopic',
@@ -333,7 +333,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Group.belongsTo(Training, {
     as: 'groupTraining',
@@ -350,7 +350,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   EmployeeGroup.belongsTo(Employee, {
     as: 'employeeGroupEmployee',
@@ -358,8 +358,6 @@ module.exports = () => {
       name: 'IdPerson',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   Employee.hasMany(Employment, {
@@ -369,7 +367,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Employment.belongsTo(Employee, {
     as: 'employmentEmployee',
@@ -377,8 +375,6 @@ module.exports = () => {
       name: 'IdPerson',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   Group.hasMany(EmployeeGroup, {
@@ -396,8 +392,6 @@ module.exports = () => {
       name: 'IdGroup',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   Group.hasMany(Meeting, {
@@ -407,7 +401,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Meeting.belongsTo(Group, {
     as: 'meetingGroup',
@@ -415,8 +409,6 @@ module.exports = () => {
       name: 'IdGroup',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   GraduateDegree.hasMany(Study, {
@@ -426,7 +418,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Study.belongsTo(GraduateDegree, {
     as: 'studysGraduateDegree',
@@ -443,7 +435,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Study.belongsTo(StudyMode, {
     as: 'studysStudyMode',
@@ -460,7 +452,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationForRefund.belongsTo(Status, {
     as: 'applicationForRefundsStatus',
@@ -477,7 +469,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationForReasons.belongsTo(Status, {
     as: 'applicationForReasonsStatus',
@@ -494,7 +486,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Offer.belongsTo(QuestionnaireOffer, {
     as: 'offerQuestionnaireOffer',
@@ -511,7 +503,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   QuestionnaireOffer.belongsTo(Employee, {
     as: 'questionnaireOfferEmployee',
@@ -528,7 +520,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationForReasons.belongsTo(ReasonForRefund, {
     as: 'applicationForReasonsReasonForRefund',
@@ -545,7 +537,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationForReasons.belongsTo(ApplicationForRefund, {
     as: 'applicationForReasonsApplicationForRefund',
@@ -562,7 +554,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Participation.belongsTo(Employee, {
     as: 'participationEmployee',
@@ -570,8 +562,6 @@ module.exports = () => {
       name: 'IdPerson',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   Education.hasMany(Participation, {
@@ -581,7 +571,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   Participation.belongsTo(Education, {
     as: 'participationEducation',
@@ -632,7 +622,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationFor.belongsTo(Education, {
     as: 'applicationForEducation',
@@ -649,7 +639,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationFor.belongsTo(Status, {
     as: 'applicationForStatus',
@@ -666,7 +656,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationFor.belongsTo(Education, {
     as: 'applicationsForEducation',
@@ -700,7 +690,7 @@ module.exports = () => {
       allowNull: false,
     },
     constraints: true,
-    onDelete: 'CASCADE',
+    onDelete: 'RESTRICT',
   });
   ApplicationFor.belongsTo(Employee, {
     as: 'applicationForEmployee',
@@ -708,8 +698,6 @@ module.exports = () => {
       name: 'IdPerson',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   Role.hasMany(Employee, {
@@ -725,8 +713,6 @@ module.exports = () => {
       name: 'IdRole',
       allowNull: false,
     },
-    constraints: true,
-    onDelete: 'CASCADE',
   });
 
   let allDivisions, allDepartments;
