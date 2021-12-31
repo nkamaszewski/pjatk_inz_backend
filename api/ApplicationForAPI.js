@@ -61,7 +61,10 @@ exports.createApplicationFor = (req, res, next) => {
     .catch((err) => {
       if (err.name === "SequelizeUniqueConstraintError") {
         res.status(403).json({ message: "Użytkownik już złożył wniosek na to szkolenie"});
-    } else if (!err.statusCode) {
+    } else if(err.name === "SequelizeValidationError") {
+      res.status(403).json({ message: err.errors[0].message});
+    } 
+    else if (!err.statusCode) {
         err.statusCode = 500;
       }
       next(err);

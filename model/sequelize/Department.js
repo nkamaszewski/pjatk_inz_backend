@@ -6,8 +6,8 @@ const Department = sequelize.define('Department', {
     Name: {
         type: Sequelize.STRING, allowNull: false,
         validate: {
-            notEmpty: {
-                msg: "Pole jest wymagane"
+            notNull: {
+                msg: "Nazwa departamentu jest wymagana"
             },
             len: {
                 args: [2, 255],
