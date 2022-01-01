@@ -40,10 +40,13 @@ exports.createCompany = (req, res, next) => {
             res.status(201).json(newObj);
         })
         .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            if(err.name === "SequelizeValidationError") {
+                res.status(403).json({ message: `Niepowodzenie zapisu. ${err.errors[0].message}`});
+              } 
+              else if (!err.statusCode) {
+                  err.statusCode = 500;
+                }
+                next(err);
         });
 };
 
@@ -51,13 +54,16 @@ exports.updateCompany = (req, res, next) => {
     const comId = req.params.comId;
     CompanyRepository.updateCompany(comId, req.body)
         .then(result => {
-            res.status(200).json({ message: 'Company updated!', com: result });
+            res.status(200).json({ message: 'Firma zaktualizowana!', com: result });
         })
         .catch(err => {
-            if (!err.statusCode) {
-                err.statusCode = 500;
-            }
-            next(err);
+            if(err.name === "SequelizeValidationError") {
+                res.status(403).json({ message: `Niepowodzenie zapisu. ${err.errors[0].message}`});
+              } 
+              else if (!err.statusCode) {
+                  err.statusCode = 500;
+                }
+                next(err);
         });
 };
 
@@ -65,12 +71,17 @@ exports.deleteCompany = (req, res, next) => {
     const comId = req.params.comId;
     CompanyRepository.deleteCompany(comId)
         .then(result => {
-            res.status(200).json({ message: 'Removed Company', com: result });
+            res.status(200).json({ message: 'Usunięto firmę', com: result });
         })
         .catch(err => {
-            if (!err.statusCode) {
+            if (err.name === "SequelizeForeignKeyConstraintError") {   
+                res.status(403).json({ message: "Nie można usunąć firmy ze względu na przypisane szkolenia"});
+            } else if(err.name === "SequelizeValidationError") {
+              res.status(403).json({ message: err.errors[0].message});
+            } 
+            else if (!err.statusCode) {
                 err.statusCode = 500;
-            }
-            next(err);
+              }
+              next(err);
         });
 };

@@ -852,6 +852,15 @@ module.exports = () => {
         if (!companys || companys.length == 0) {
           return Company.bulkCreate([
             {
+              Name: 'Moja firma',
+              City: 'Warszawa',
+              PostalCode: '11-111',
+              Street: 'ulica',
+              Number: 'numer',
+              TIN: '333-321-22-33',
+              Owner: true,
+            },
+            {
               Name: 'ABC Edukacja',
               City: 'Warszawa',
               PostalCode: '12-232',
