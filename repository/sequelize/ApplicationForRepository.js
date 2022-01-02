@@ -71,10 +71,11 @@ exports.getApplicationFor = (params, ...userData) => {
 };
 
 exports.createApplicationFor = (newApplicationForData) => {
+  if(isNaN(parseInt(newApplicationForData.IdStatus))) newApplicationForData.IdStatus=1;
   const { IdPerson, DateOfSubmission, IdEducation, IdStatus, Compatibility } =
     newApplicationForData;
-    console.log(newApplicationForData);
-  return ApplicationFor.create({
+     
+    return ApplicationFor.create({
     IdPerson,
     DateOfSubmission,
     IdEducation,
@@ -84,9 +85,7 @@ exports.createApplicationFor = (newApplicationForData) => {
 };
 
 exports.deleteApplicationFor = (applicationForId, userId) => {
-  // return ApplicationFor.destroy({
-  //   where: { IdApplicationFor: applicationForId },
-  // });
+
   return ApplicationFor
         .findOne({
             where: { 
