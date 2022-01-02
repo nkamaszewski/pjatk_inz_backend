@@ -76,11 +76,21 @@ exports.createApplicationFor = (req, res, next) => {
 					message: "Użytkownik już złożył wniosek na to szkolenie",
 				});
 			} else if (err.name === "SequelizeValidationError") {
-				res.status(403).json({ message: err.errors[0].message });
-			} else if (!err.statusCode) {
-				err.statusCode = 500;
+				let message = "";
+				for (let m of err.errors) {
+					message += m.message + "\n";
+				}
+				res.status(403).json({
+					message,
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się utworzyć wniosku`,
+				});
 			}
-			next(err);
 		});
 };
 
@@ -99,8 +109,6 @@ exports.updateApplicationFor = (req, res, next) => {
 	)
 		.then((result) => {
 			if (result == -1) {
-				console.log("Brak uprawnień");
-
 				res.status(403).json({ message: "Brak uprawnień!" });
 			} else {
 				res.status(200).json({
@@ -114,10 +122,22 @@ exports.updateApplicationFor = (req, res, next) => {
 				res.status(403).json({
 					message: "Użytkownik już złożył wniosek o to szkolenie",
 				});
-			} else if (!err.statusCode) {
-				err.statusCode = 500;
+			} else if (err.name === "SequelizeValidationError") {
+				let message = "";
+				for (let m of err.errors) {
+					message += m.message + "\n";
+				}
+				res.status(403).json({
+					message,
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się zaktualizować wniosku`,
+				});
 			}
-			next(err);
 		});
 };
 
@@ -137,10 +157,19 @@ exports.deleteApplicationFor = (req, res, next) => {
 			}
 		})
 		.catch((err) => {
-			if (!err.statusCode) {
-				err.statusCode = 500;
+			if (err.name === "SequelizeForeignKeyConstraintError") {
+				res.status(403).json({
+					message:
+						"Nie można usunąć wniosku ze względu na przypisane szkolenia",
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się usunąć wniosku`,
+				});
 			}
-			next(err);
 		});
 };
 
