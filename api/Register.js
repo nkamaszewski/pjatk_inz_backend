@@ -69,4 +69,10 @@ exports.register = (req, res, next) => {
       });
     }
   })
+  .catch((err) => {
+    err.statusCode = 500;
+    res.status(403).json({
+      message: 'Rejestracja nie powiodła się!',
+    })
+  });
 };
