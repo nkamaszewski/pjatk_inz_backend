@@ -883,7 +883,6 @@ module.exports = () => {
               Street: 'Złota',
               Number: '5a',
               TIN: '333-321-22-33',
-              Owner: true,
             },
           ]);
         } else {

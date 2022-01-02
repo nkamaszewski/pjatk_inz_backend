@@ -99,6 +99,7 @@ exports.createEmployee = (newEmployeeData) => {
     Password: newEmployeeData.Password,
     IdRole: newEmployeeData.IdRole,
     IsActive: false,
+    OwnerAccount: newEmployeeData.OwnerAccount
   });
 };
 
@@ -322,3 +323,10 @@ exports.getPartOthersByEmpId = (empId) => {
     },
   });
 };
+
+exports.checkOwnersAccounts = () => {
+  return Employee.findAndCountAll({
+    where: { 
+            OwnerAccount: 1
+          }})
+}

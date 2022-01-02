@@ -35,6 +35,7 @@ exports.createEmployee = (req, res, next) => {
       res.status(201).json(newObj);
     })
     .catch((err) => {
+      console.log(err);
       if (!err.statusCode) {
         err.statusCode = 500;
       }
