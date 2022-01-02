@@ -42,8 +42,9 @@ const Department = sequelize.define(
 		tableName: "Department",
 		indexes: [
 			{
-				name: "idx_department_idDivision",
-				fields: ["IdDivision"],
+				name: "idx_department_idDivision_name",
+				unique: true,
+				fields: ["IdDivision", "name"],
 			},
 		],
 	}

@@ -35,12 +35,26 @@ exports.createDepartment = (req, res, next) => {
 			res.status(201).json(newObj);
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				res.status(403).json({ message: err.errors[0].message });
-			} else if (!err.statusCode) {
-				err.statusCode = 500;
+			if (err.name === "SequelizeUniqueConstraintError") {
+				res.status(403).json({
+					message: `Istnieje wydział o takiej nazwie w tym pionie`,
+				});
+			} else if (err.name === "SequelizeValidationError") {
+				let message = "";
+				for (let m of err.errors) {
+					message += m.message + "\n";
+				}
+				res.status(403).json({
+					message,
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się utworzyć wydziału`,
+				});
 			}
-			next(err);
 		});
 };
 
@@ -59,12 +73,26 @@ exports.updateDepartment = (req, res, next) => {
 			});
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				res.status(403).json({ message: err.errors[0].message });
-			} else if (!err.statusCode) {
-				err.statusCode = 500;
+			if (err.name === "SequelizeUniqueConstraintError") {
+				res.status(403).json({
+					message: `Istnieje wydział o takiej nazwie w tym pionie`,
+				});
+			} else if (err.name === "SequelizeValidationError") {
+				let message = "";
+				for (let m of err.errors) {
+					message += m.message + "\n";
+				}
+				res.status(403).json({
+					message,
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się zaktualizować wydziału`,
+				});
 			}
-			next(err);
 		});
 };
 
@@ -83,9 +111,16 @@ exports.deleteDepartment = (req, res, next) => {
 			});
 		})
 		.catch((err) => {
-			if (!err.statusCode) {
+			if (err.name === "SequelizeForeignKeyConstraintError") {
+				res.status(403).json({
+					message:
+						"Nie można usunąć wydziału, w którym są zatrudnione osoby",
+				});
+			} else {
 				err.statusCode = 500;
+				res.status(403).json({
+					message: "Nie udało się usunąć wydziału!",
+				});
 			}
-			next(err);
 		});
 };
