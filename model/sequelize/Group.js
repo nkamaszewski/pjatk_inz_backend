@@ -12,6 +12,7 @@ const Group = sequelize.define(
 		},
 		Name: {
 			type: Sequelize.STRING,
+			unique: true,
 			allowNull: false,
 			validate: {
 				notNull: {

@@ -39,7 +39,11 @@ exports.createGroup = (req, res, next) => {
 			res.status(201).json(newObj);
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
+			if (err.name === "SequelizeUniqueConstraintError") {
+				res.status(403).json({
+					message: `Istnieje grupa o takiej nazwie`,
+				});
+			} else if (err.name === "SequelizeValidationError") {
 				let message = "";
 				for (let m of err.errors) {
 					message += m.message + "\n";
@@ -73,7 +77,11 @@ exports.updateGroup = (req, res, next) => {
 			});
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
+			if (err.name === "SequelizeUniqueConstraintError") {
+				res.status(403).json({
+					message: `Istnieje grupa o takiej nazwie`,
+				});
+			} else if (err.name === "SequelizeValidationError") {
 				let message = "";
 				for (let m of err.errors) {
 					message += m.message + "\n";
