@@ -537,7 +537,7 @@ module.exports = () => {
 			allowNull: false,
 		},
 		constraints: true,
-		onDelete: "RESTRICT",
+		onDelete: "CASCADE",
 	});
 	ApplicationForReasons.belongsTo(ApplicationForRefund, {
 		as: "applicationForReasonsApplicationForRefund",
