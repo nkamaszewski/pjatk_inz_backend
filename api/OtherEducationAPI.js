@@ -95,9 +95,16 @@ exports.deleteOtherEducation = (req, res, next) => {
 			});
 		})
 		.catch((err) => {
-			if (!err.statusCode) {
+			if (err.name === "SequelizeForeignKeyConstraintError") {
+				res.status(403).json({
+					message:
+						"Nie można usunąć szkolenia, które zostało przypisane uczestnikowi",
+				});
+			} else {
 				err.statusCode = 500;
+				res.status(403).json({
+					message: "Nie udało się usunąć szkolenia!",
+				});
 			}
-			next(err);
 		});
 };

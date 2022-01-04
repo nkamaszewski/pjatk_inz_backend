@@ -82,11 +82,16 @@ exports.deleteStudy = (req, res, next) => {
 			res.status(200).json({ message: "Removed Study", stud: result });
 		})
 		.catch((err) => {
-			if (!err.statusCode) {
+			if (err.name === "SequelizeForeignKeyConstraintError") {
+				res.status(403).json({
+					message:
+						"Nie można usunąć studiów, które zostały przypisane uczestnikowi",
+				});
+			} else {
 				err.statusCode = 500;
+				res.status(403).json({
+					message: "Nie udało się usunąć studiów!",
+				});
 			}
-			res.status(403).json({
-				message: "Nie udało się usunąć studiów!",
-			});
 		});
 };

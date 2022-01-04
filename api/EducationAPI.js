@@ -86,7 +86,7 @@ exports.deleteEducation = (req, res, next) => {
 			if (err.name === "SequelizeForeignKeyConstraintError") {
 				res.status(403).json({
 					message:
-						"Nie można usunąć szkolenia, które zostało przypisany uczestnikowi",
+						"Nie można usunąć szkolenia, które zostało przypisane uczestnikowi",
 				});
 			} else {
 				err.statusCode = 500;
