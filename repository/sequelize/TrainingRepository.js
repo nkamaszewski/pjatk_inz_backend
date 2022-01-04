@@ -58,8 +58,12 @@ exports.createTraining = (newTrainingData) => {
 };
 
 exports.deleteTraining = (eduId) => {
-	return Training.destroy({
+	return Education.destroy({
 		where: { IdEducation: eduId },
+	}).then(() => {
+		return Training.destroy({
+			where: { IdEducation: eduId },
+		});
 	});
 };
 

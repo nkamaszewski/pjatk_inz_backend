@@ -44,7 +44,7 @@ exports.createTraining = (req, res, next) => {
 					err.statusCode = 500;
 				}
 				res.status(403).json({
-					message: `Nie udało się zaktualizować firmy`,
+					message: `Nie udało się utworzyć szkolenia`,
 				});
 			}
 		});
@@ -91,8 +91,7 @@ exports.deleteTraining = (req, res, next) => {
 		.catch((err) => {
 			if (err.name === "SequelizeForeignKeyConstraintError") {
 				res.status(403).json({
-					message:
-						"Nie można usunąć szkolenia, które posiada przypisane grupy",
+					message: "Nie można usunąć szkolenia, które posiada przypisane grupy",
 				});
 			} else {
 				err.statusCode = 500;

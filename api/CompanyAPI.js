@@ -104,8 +104,7 @@ exports.deleteCompany = (req, res, next) => {
 		.catch((err) => {
 			if (err.name === "SequelizeForeignKeyConstraintError") {
 				res.status(403).json({
-					message:
-						"Nie można usunąć firmy ze względu na przypisane szkolenia",
+					message: "Nie można usunąć firmy ze względu na przypisane szkolenia",
 				});
 			} else {
 				err.statusCode = 500;
