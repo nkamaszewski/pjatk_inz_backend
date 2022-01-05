@@ -1,9 +1,9 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../../config/sequelize/sequelize");
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/sequelize/sequelize');
 const Op = Sequelize.Op;
 
 const Meeting = sequelize.define(
-	"Meeting",
+	'Meeting',
 	{
 		IdMeeting: {
 			type: Sequelize.INTEGER,
@@ -16,10 +16,10 @@ const Meeting = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy podać czas rozpoczęcia",
+					msg: 'Należy podać czas rozpoczęcia',
 				},
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 				isAvailable(value, next) {
 					const roomId = this.IdRoom;
@@ -45,11 +45,7 @@ const Meeting = sequelize.define(
 					})
 						.then((meeting) => {
 							if (meeting.length != 0)
-								next(
-									new Error(
-										`Sala ${roomId} o godz. ${value} zajęta!`
-									)
-								);
+								next(new Error(`Sala ${roomId} o godz. ${value} zajęta!`));
 							next();
 						})
 						.catch((onError) => console.log(onError));
@@ -61,16 +57,14 @@ const Meeting = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy podać czas zakończenia",
+					msg: 'Należy podać czas zakończenia',
 				},
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 				isLessThanFrom(value) {
 					if (value <= this.From) {
-						throw new Error(
-							`Data końcowa musi być późniejsza niż początkowa`
-						);
+						throw new Error(`Data końcowa musi być późniejsza niż początkowa`);
 					}
 				},
 				isAvailable(value, next) {
@@ -93,11 +87,7 @@ const Meeting = sequelize.define(
 					})
 						.then((meeting) => {
 							if (meeting.length != 0)
-								next(
-									new Error(
-										`Sala ${roomId} o godz. ${value} zajęta!`
-									)
-								);
+								next(new Error(`Wybrana sala jest w tym czasie zajęta!`));
 							next();
 						})
 						.catch((onError) => console.log(onError));
@@ -109,19 +99,26 @@ const Meeting = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy podać grupę",
+					msg: 'Należy podać grupę',
 				},
 				isInt: {
-					msg: "Należy podać grupę",
+					msg: 'Należy podać grupę',
 				},
 			},
 		},
 		IdRoom: {
 			type: Sequelize.INTEGER,
-			allowNull: true,
+			allowNull: false,
 			validate: {
+				notNull: {
+					msg: 'Należy podać salę',
+				},
+				isInt: {
+					msg: 'Należy podać salę',
+				},
 				isCapacity(value, next) {
 					const idGroup = this.IdGroup;
+					if (!(idGroup && value)) next();
 					sequelize.models.EmployeeGroup.findAndCountAll({
 						where: {
 							IdGroup: idGroup,
@@ -147,15 +144,15 @@ const Meeting = sequelize.define(
 	},
 	{
 		timestamps: false,
-		tableName: "Meeting",
+		tableName: 'Meeting',
 		indexes: [
 			{
-				name: "idx_meeting_idGroup",
-				fields: ["IdGroup"],
+				name: 'idx_meeting_idGroup',
+				fields: ['IdGroup'],
 			},
 			{
-				name: "idx_meeting_idRoom",
-				fields: ["IdRoom"],
+				name: 'idx_meeting_idRoom',
+				fields: ['IdRoom'],
 			},
 		],
 	}
