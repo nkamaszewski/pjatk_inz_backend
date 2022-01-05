@@ -97,20 +97,36 @@ exports.updateCompany = (req, res, next) => {
 
 exports.deleteCompany = (req, res, next) => {
 	const comId = req.params.comId;
-	CompanyRepository.deleteCompany(comId)
-		.then((result) => {
-			res.status(200).json({ message: "Usunięto firmę", com: result });
-		})
-		.catch((err) => {
-			if (err.name === "SequelizeForeignKeyConstraintError") {
+	CompanyRepository.getCompanyById(comId)
+		.then((company) => {
+			if (company.Owner == 1) {
 				res.status(403).json({
-					message: "Nie można usunąć firmy ze względu na przypisane szkolenia",
+					message: "Nie można usunąć firmy - właściciela",
 				});
 			} else {
-				err.statusCode = 500;
-				res.status(403).json({
-					message: "Nie udało się usunąć firmy!",
-				});
+				CompanyRepository.deleteCompany(comId)
+					.then((result) => {
+						res.status(200).json({ message: "Usunięto firmę", com: result });
+					})
+					.catch((err) => {
+						if (err.name === "SequelizeForeignKeyConstraintError") {
+							res.status(403).json({
+								message:
+									"Nie można usunąć firmy ze względu na przypisane szkolenia",
+							});
+						} else {
+							err.statusCode = 500;
+							res.status(403).json({
+								message: "Nie udało się usunąć firmy!",
+							});
+						}
+					});
 			}
+		})
+		.catch((err) => {
+			err.statusCode = 500;
+			res.status(403).json({
+				message: "Nie udało się usunąć firmy!",
+			});
 		});
 };
