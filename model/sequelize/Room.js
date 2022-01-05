@@ -16,11 +16,11 @@ const Room = sequelize.define(
 			unique: true,
 			validate: {
 				notEmpty: {
-					msg: "Pole jest wymagane",
+					msg: "Należy podać nazwę sali",
 				},
 				len: {
 					args: [1, 20],
-					msg: "Pole powinno zawierać od 1 do 20 znaków",
+					msg: "Nazwa sali powinna mieć między 1 a 20 znaków",
 				},
 			},
 		},
@@ -29,10 +29,10 @@ const Room = sequelize.define(
 			allowNull: false,
 			validate: {
 				notEmpty: {
-					msg: "Pole jest wymagane",
+					msg: "Należy podać powierzchnię sali",
 				},
 				isNumeric: {
-					msg: "Pole powinno zawierać liczbę",
+					msg: "Powierzchnia sali powinna być liczbą",
 				},
 				min: {
 					args: 2,
@@ -45,10 +45,10 @@ const Room = sequelize.define(
 			allowNull: true,
 			validate: {
 				notEmpty: {
-					msg: "Pole jest wymagane",
+					msg: "Należy podać pojemność sali",
 				},
 				isNumeric: {
-					msg: "Pole powinno zawierać liczbę",
+					msg: "Pojemność sali musi być liczbą",
 				},
 				min: {
 					args: 2,
@@ -61,7 +61,7 @@ const Room = sequelize.define(
 			allowNull: true,
 			validate: {
 				isNumeric: {
-					msg: "Pole powinno zawierać liczbę",
+					msg: "Pojemność sali musi być liczbą",
 				},
 			},
 		},
@@ -70,7 +70,7 @@ const Room = sequelize.define(
 			allowNull: true,
 			validate: {
 				isNumeric: {
-					msg: "Pole powinno zawierać liczbę",
+					msg: "Pojemność sali musi być liczbą",
 				},
 			},
 		},
@@ -79,7 +79,7 @@ const Room = sequelize.define(
 			allowNull: true,
 			validate: {
 				isNumeric: {
-					msg: "Pole powinno zawierać liczbę",
+					msg: "Pojemność sali musi być liczbą",
 				},
 			},
 		},
