@@ -10,7 +10,18 @@ const OtherEducation = sequelize.define(
 			allowNull: false,
 			primaryKey: true,
 		},
-		Name: { type: Sequelize.STRING, allowNull: false },
+		Name: {
+			type: Sequelize.STRING,
+			allowNull: false,
+			validate: {
+				notNull: {
+					msg: "Należy podać nazwę szkolenia",
+				},
+				isInt: {
+					msg: "Należy podać nazwę szkolenia",
+				},
+			},
+		},
 		IdCompany: {
 			type: Sequelize.INTEGER,
 			allowNull: false,

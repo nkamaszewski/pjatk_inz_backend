@@ -18,6 +18,9 @@ const Education = sequelize.define(
 				notNull: {
 					msg: "Należy podać cenę szkolenia",
 				},
+				notEmpty: {
+					msg: "Należy podać cenę szkolenia",
+				},
 				isNumeric: {
 					msg: "Cena szkolenia musi być liczbą",
 				},
