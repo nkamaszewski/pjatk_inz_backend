@@ -90,8 +90,14 @@ exports.deleteTraining = (req, res, next) => {
 		})
 		.catch((err) => {
 			if (err.name === "SequelizeForeignKeyConstraintError") {
+				let msg = "Nie można usunąć szkolenia";
+				if (err.table == "training") {
+					msg = `${msg}, które posiada przypisane grupy`;
+				} else if (err.table == "education") {
+					msg = `${msg}, które posiada przypisanych uczestników lub wnioski`;
+				}
 				res.status(403).json({
-					message: "Nie można usunąć szkolenia, które posiada przypisane grupy",
+					message: msg,
 				});
 			} else {
 				err.statusCode = 500;
