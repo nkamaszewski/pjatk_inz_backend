@@ -17,7 +17,7 @@ const OtherEducation = sequelize.define(
 				notNull: {
 					msg: "Należy podać nazwę szkolenia",
 				},
-				isInt: {
+				notEmpty: {
 					msg: "Należy podać nazwę szkolenia",
 				},
 			},
