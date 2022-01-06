@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../../config/sequelize/sequelize");
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/sequelize/sequelize');
 
 const Employment = sequelize.define(
-	"Employment",
+	'Employment',
 	{
 		IdEmployment: {
 			type: Sequelize.INTEGER,
@@ -15,13 +15,13 @@ const Employment = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy wstawić datę początkową zatrudnienia",
+					msg: 'Należy wstawić datę początkową zatrudnienia',
 				},
 				notEmpty: {
-					msg: "Należy wstawić datę początkową zatrudnienia",
+					msg: 'Należy wstawić datę początkową zatrudnienia',
 				},
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 			},
 		},
@@ -30,13 +30,11 @@ const Employment = sequelize.define(
 			allowNull: true,
 			validate: {
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 				isLessThanDateFrom(value) {
 					if (value && value <= this.DateFrom) {
-						throw new Error(
-							"Data końcowa musi być późniejsza niż początkowa"
-						);
+						throw new Error('Data końcowa musi być późniejsza niż początkowa');
 					}
 				},
 			},
@@ -54,10 +52,10 @@ const Employment = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy wybrać stanowisko pracownika",
+					msg: 'Należy wybrać stanowisko pracownika',
 				},
 				notEmpty: {
-					msg: "Należy wybrać stanowisko pracownika",
+					msg: 'Należy wybrać stanowisko pracownika',
 				},
 			},
 		},
@@ -66,29 +64,45 @@ const Employment = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy wybrać pracownika",
+					msg: 'Należy wybrać pracownika',
 				},
 				notEmpty: {
-					msg: "Należy wybrać pracownika",
+					msg: 'Należy wybrać pracownika',
+				},
+			},
+		},
+		IdRole: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			defaultValue: '1',
+			validate: {
+				notNull: {
+					msg: 'Należy określić rolę',
+				},
+				notEmpty: {
+					msg: 'Należy określić rolę',
+				},
+				isInt: {
+					msg: 'Należy określić rolę',
 				},
 			},
 		},
 	},
 	{
 		timestamps: false,
-		tableName: "Employment",
+		tableName: 'Employment',
 		indexes: [
 			{
-				name: "idx_employment_idDepartment",
-				fields: ["IdDepartment"],
+				name: 'idx_employment_idDepartment',
+				fields: ['IdDepartment'],
 			},
 			{
-				name: "idx_employment_idPosition",
-				fields: ["IdPosition"],
+				name: 'idx_employment_idPosition',
+				fields: ['IdPosition'],
 			},
 			{
-				name: "idx_employment_idPerson",
-				fields: ["IdPerson"],
+				name: 'idx_employment_idPerson',
+				fields: ['IdPerson'],
 			},
 		],
 	}

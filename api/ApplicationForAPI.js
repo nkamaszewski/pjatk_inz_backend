@@ -145,40 +145,49 @@ exports.deleteApplicationFor = (req, res, next) => {
 	const appForId = req.params.appForId;
 	const userId = req.userId;
 
-	ApplicationForRepository.getApplicationForById(appForId).then((appFor) => {
-		if (appFor.IdPerson != userId) {
-			res
-				.status(403)
-				.json({ message: 'Tylko właściciel wniosku może go usunąć' });
-		} else if (appFor.IdStatus == Status.ZATWIERDZONY_DYR) {
-			res
-				.status(403)
-				.json({ message: 'Nie można usunąć zaakceptowanego wniosku' });
-		} else {
-			ApplicationForRepository.deleteApplicationFor(appForId, userId)
-				.then((result) => {
-					res.status(200).json({
-						message: 'Wniosek usunięty',
-						appFor: result,
-					});
-				})
-				.catch((err) => {
-					if (err.name === 'SequelizeForeignKeyConstraintError') {
-						res.status(403).json({
-							message:
-								'Nie można usunąć wniosku ze względu na przypisane szkolenia',
+	ApplicationForRepository.getApplicationForById(appForId)
+		.then((appFor) => {
+			if (appFor.IdPerson != userId) {
+				res
+					.status(403)
+					.json({ message: 'Tylko właściciel wniosku może go usunąć' });
+			} else if (appFor.IdStatus == Status.ZATWIERDZONY_DYR) {
+				res
+					.status(403)
+					.json({ message: 'Nie można usunąć zaakceptowanego wniosku' });
+			} else {
+				ApplicationForRepository.deleteApplicationFor(appForId, userId)
+					.then((result) => {
+						res.status(200).json({
+							message: 'Wniosek usunięty',
+							appFor: result,
 						});
-					} else {
-						if (!err.statusCode) {
-							err.statusCode = 500;
+					})
+					.catch((err) => {
+						if (err.name === 'SequelizeForeignKeyConstraintError') {
+							res.status(403).json({
+								message:
+									'Nie można usunąć wniosku ze względu na przypisane szkolenia',
+							});
+						} else {
+							if (!err.statusCode) {
+								err.statusCode = 500;
+							}
+							res.status(403).json({
+								message: `Nie udało się usunąć wniosku`,
+							});
 						}
-						res.status(403).json({
-							message: `Nie udało się usunąć wniosku`,
-						});
-					}
-				});
-		}
-	});
+					});
+			}
+		})
+		.catch((err) => {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			res.status(403).json({
+				message: `Nie udało się usunąć wniosku`,
+			});
+		});
 };
 
 exports.getApplicationForByDepId = (req, res, next) => {

@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../../config/sequelize/sequelize");
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/sequelize/sequelize');
 
 const Employee = sequelize.define(
-	"Employee",
+	'Employee',
 	{
 		IdPerson: {
 			type: Sequelize.INTEGER,
@@ -16,36 +16,25 @@ const Employee = sequelize.define(
 			unique: true,
 			validate: {
 				notEmpty: {
-					msg: "Należy podać nr PESEL",
+					msg: 'Należy podać nr PESEL',
 				},
 				notNull: {
-					msg: "Należy podać nr PESEL",
+					msg: 'Należy podać nr PESEL',
 				},
 				len: {
 					args: [11, 11],
-					msg: "Nr PESEL powinien zawierać 11 znaków",
+					msg: 'Nr PESEL powinien zawierać 11 znaków',
 				},
 				isNumeric: {
-					msg: "Nr PESEL powinien zawierać tylko cyfry",
+					msg: 'Nr PESEL powinien zawierać tylko cyfry',
 				},
 			},
 		},
 		Password: { type: Sequelize.STRING, allowNull: false },
 		IdRole: {
 			type: Sequelize.INTEGER,
-			allowNull: false,
-			defaultValue: "1",
-			validate: {
-				notNull: {
-					msg: "Należy określić rolę",
-				},
-				notEmpty: {
-					msg: "Należy określić rolę",
-				},
-				isInt: {
-					msg: "Należy określić rolę",
-				},
-			},
+			allowNull: true,
+			defaultValue: '1',
 		},
 		IsActive: { type: Sequelize.BOOLEAN, allowNull: false },
 		OwnerAccount: {
@@ -56,12 +45,12 @@ const Employee = sequelize.define(
 	},
 	{
 		timestamps: false,
-		tableName: "Employee",
+		tableName: 'Employee',
 		indexes: [
 			{
-				name: "idx_employee_pesel",
+				name: 'idx_employee_pesel',
 				unique: true,
-				fields: ["Pesel"],
+				fields: ['Pesel'],
 			},
 		],
 	}
