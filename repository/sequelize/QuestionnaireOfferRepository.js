@@ -47,9 +47,6 @@ exports.createQuestionnaireOffer = (newQuestionnaireOfferData) => {
 };
 
 exports.deleteQuestionnaireOffer = (questionnaireOfferId, userId) => {
-	// return QuestionnaireOffer.destroy({
-	//   where: { IdQuestionnaireOffer: questionnaireOfferId, IdPerson: userId },
-	// });
 	return QuestionnaireOffer.findOne({
 		where: {
 			IdQuestionnaireOffer: questionnaireOfferId,
