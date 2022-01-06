@@ -7,72 +7,78 @@ const Division = require('../../model/sequelize/Division');
 const Role = require('../../model/Role');
 
 exports.getEmployments = (...userData) => {
-  const [userId, userIdDepartment, userIdDivision, userIdRole] = userData;
+	const [userId, userIdDepartment, userIdDivision, userIdRole] = userData;
 
-  return Employment.findAll({
-    attributes: ['IdEmployment', 'DateFrom', 'DateTo', 'IdPerson'],
-    include: [
-      {
-        model: Department,
-        as: 'employmentsDepartment',
-        include: [
-          {
-            model: Division,
-            as: 'departmentsDivision',
-          },
-        ],
-      },
-      {
-        model: Position,
-        as: 'emplymentPosition',
-      },
-      {
-        model: Employee,
-        as: 'employmentEmployee',
-        include: [
-          {
-            model: Person,
-            as: 'employeePerson',
-          },
-        ],
-      },
-    ],
-    where:
-      userIdRole == Role.PRACOWNIK
-        ? { IdPerson: userId }
-        : userIdRole == Role.KIEROWNIK
-        ? { IdDepartment: userIdDepartment }
-        : userIdRole == Role.DYREKTOR
-        ? { IdDivision: userIdDivision }
-        : {},
-  });
+	return Employment.findAll({
+		attributes: ['IdEmployment', 'DateFrom', 'DateTo', 'IdPerson'],
+		include: [
+			{
+				model: Department,
+				as: 'employmentsDepartment',
+				include: [
+					{
+						model: Division,
+						as: 'departmentsDivision',
+					},
+				],
+			},
+			{
+				model: Division,
+				as: 'employmentsDivision',
+			},
+			{
+				model: Position,
+				as: 'emplymentPosition',
+			},
+			{
+				model: Employee,
+				as: 'employmentEmployee',
+				include: [
+					{
+						model: Person,
+						as: 'employeePerson',
+					},
+				],
+			},
+		],
+		where:
+			userIdRole == Role.PRACOWNIK
+				? { IdPerson: userId }
+				: userIdRole == Role.KIEROWNIK
+				? { IdDepartment: userIdDepartment }
+				: userIdRole == Role.DYREKTOR
+				? { IdDivision: userIdDivision }
+				: {},
+	});
 };
 
 exports.createEmployment = (newEmploymentData) => {
-  return Employment.create({
-    DateFrom: newEmploymentData.DateFrom,
-    DateTo: newEmploymentData.DateTo,
-    IdDepartment: newEmploymentData.IdDepartment,
-    IdPosition: newEmploymentData.IdPosition,
-    IdPerson: newEmploymentData.IdPerson,
-  });
+	return Employment.create({
+		DateFrom: newEmploymentData.DateFrom,
+		DateTo: newEmploymentData.DateTo,
+		IdDepartment: newEmploymentData.IdDepartment,
+		IdDivision: newEmploymentData.IdDivision,
+		IdPosition: newEmploymentData.IdPosition,
+		IdPerson: newEmploymentData.IdPerson,
+	});
 };
 
 exports.deleteEmployment = (employmentId) => {
-  return Employment.destroy({
-    where: { IdEmployment: employmentId },
-  });
+	return Employment.destroy({
+		where: { IdEmployment: employmentId },
+	});
 };
 
 exports.updateEmployment = (employmentId, data) => {
-  const dateFrom = data.DateFrom;
-  const dateTo = data.DateTo;
-  const idDepartment = data.IdDepartment;
-  const idPosition = data.idPosition;
-  const idPerson = data.idPerson;
-  return Employment.update(data, { where: { IdEmployment: employmentId } });
+	const dateFrom = data.DateFrom;
+	const dateTo = data.DateTo;
+	const idDepartment = data.IdDepartment;
+	const IdDivision = data.IdDivision;
+	const idPosition = data.idPosition;
+	const idPerson = data.idPerson;
+	return Employment.update(data, { where: { IdEmployment: employmentId } });
 };
 
 exports.getEmploymentById = (empId) => {
-  return Employment.findByPk(empId);
+	return Employment.findByPk(empId);
 };

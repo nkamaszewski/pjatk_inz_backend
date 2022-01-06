@@ -1,4 +1,4 @@
-const ApplicationForRefundRepository = require("../repository/sequelize/ApplicationForRefundRepository");
+const ApplicationForRefundRepository = require('../repository/sequelize/ApplicationForRefundRepository');
 
 exports.getApplicationForRefunds = (req, res, next) => {
 	const params = req.query;
@@ -20,9 +20,7 @@ exports.getApplicationForRefundById = (req, res, next) => {
 		if (!appForRef) {
 			res.status(404).json({
 				message:
-					"Application for refund with id: " +
-					appForRefundId +
-					" not found",
+					'Application for refund with id: ' + appForRefundId + ' not found',
 			});
 		} else {
 			res.status(200).json(appForRef);
@@ -36,12 +34,26 @@ exports.createApplicationForRefund = (req, res, next) => {
 			res.status(201).json(newObj);
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				res.status(403).json({ message: err.errors[0].message });
-			} else if (!err.statusCode) {
-				err.statusCode = 500;
+			if (err.name === 'SequelizeUniqueConstraintError') {
+				res.status(403).json({
+					message: `Istnieje wniosek dodatkowy do wybranego wniosku o szkolenie`,
+				});
+			} else if (err.name === 'SequelizeValidationError') {
+				let message = '';
+				for (let m of err.errors) {
+					message += m.message + '\n';
+				}
+				res.status(403).json({
+					message,
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się utworzyć wniosku`,
+				});
 			}
-			next(err);
 		});
 };
 
@@ -53,17 +65,31 @@ exports.updateApplicationForRefund = (req, res, next) => {
 	)
 		.then((result) => {
 			res.status(200).json({
-				message: "Zaktualizowano wniosek dodatkowy!",
+				message: 'Zaktualizowano wniosek dodatkowy!',
 				appForRef: result,
 			});
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				res.status(403).json({ message: err.errors[0].message });
-			} else if (!err.statusCode) {
-				err.statusCode = 500;
+			if (err.name === 'SequelizeUniqueConstraintError') {
+				res.status(403).json({
+					message: `Istnieje wniosek dodatkowy do wybranego wniosku o szkolenie`,
+				});
+			} else if (err.name === 'SequelizeValidationError') {
+				let message = '';
+				for (let m of err.errors) {
+					message += m.message + '\n';
+				}
+				res.status(403).json({
+					message,
+				});
+			} else {
+				if (!err.statusCode) {
+					err.statusCode = 500;
+				}
+				res.status(403).json({
+					message: `Nie udało się utworzyć wniosku`,
+				});
 			}
-			next(err);
 		});
 };
 
@@ -72,7 +98,7 @@ exports.deleteApplicationForRefund = (req, res, next) => {
 	ApplicationForRefundRepository.deleteApplicationForRefund(appForRefundId)
 		.then((result) => {
 			res.status(200).json({
-				message: "Usunięto wniosek dodatkowy",
+				message: 'Usunięto wniosek dodatkowy',
 				appForRefundId: result,
 			});
 		})
