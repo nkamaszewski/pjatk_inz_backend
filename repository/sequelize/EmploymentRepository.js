@@ -10,7 +10,7 @@ exports.getEmployments = (...userData) => {
 	const [userId, userIdDepartment, userIdDivision, userIdRole] = userData;
 
 	return Employment.findAll({
-		attributes: ['IdEmployment', 'DateFrom', 'DateTo', 'IdPerson'],
+		attributes: ['IdEmployment', 'DateFrom', 'DateTo', 'IdPerson', 'IdRole'],
 		include: [
 			{
 				model: Department,
@@ -60,6 +60,7 @@ exports.createEmployment = (newEmploymentData) => {
 		IdDivision: newEmploymentData.IdDivision,
 		IdPosition: newEmploymentData.IdPosition,
 		IdPerson: newEmploymentData.IdPerson,
+		IdRole: newEmploymentData.IdRole,
 	});
 };
 
