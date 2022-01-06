@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../../config/sequelize/sequelize");
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/sequelize/sequelize');
 
 const Offer = sequelize.define(
-	"Offer",
+	'Offer',
 	{
 		IdOffer: {
 			type: Sequelize.INTEGER,
@@ -15,10 +15,10 @@ const Offer = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy podać propozycję tematu szkolenia",
+					msg: 'Należy podać propozycję tematu szkolenia',
 				},
 				notEmpty: {
-					msg: "Należy podać propozycję tematu szkolenia",
+					msg: 'Należy podać propozycję tematu szkolenia',
 				},
 			},
 		},
@@ -30,7 +30,7 @@ const Offer = sequelize.define(
 					require_tld: true,
 					allow_underscores: false,
 					allow_trailing_dot: false,
-					msg: "Pole powinno zawierać zawierać prawidłowy URL",
+					msg: 'Pole link powinno zawierać prawidłowy adres URL',
 				},
 			},
 		},
@@ -39,17 +39,17 @@ const Offer = sequelize.define(
 			allowNull: false,
 			validate: {
 				notEmpty: {
-					msg: "Należy podać cenę szkolenia",
+					msg: 'Należy podać cenę szkolenia',
 				},
 				isNumeric: {
-					msg: "Pole powinno zawierać liczbę",
+					msg: 'Pole powinno zawierać liczbę',
 				},
 			},
 		},
 	},
 	{
 		timestamps: false,
-		tableName: "Offer",
+		tableName: 'Offer',
 	}
 );
 module.exports = Offer;
