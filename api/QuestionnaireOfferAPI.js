@@ -1,4 +1,4 @@
-const QuestionnaireOfferRepository = require("../repository/sequelize/QuestionnaireOfferRepository");
+const QuestionnaireOfferRepository = require('../repository/sequelize/QuestionnaireOfferRepository');
 
 exports.getQuestionnaireOffers = (req, res, next) => {
 	const uId = req.userId;
@@ -26,7 +26,7 @@ exports.getQuestionnaireOfferById = (req, res, next) => {
 		(questoff) => {
 			if (!questoff) {
 				res.status(404).json({
-					message: "Questionnaire Offer with id: " + questOffId + " not found",
+					message: 'Questionnaire Offer with id: ' + questOffId + ' not found',
 				});
 			} else {
 				res.status(200).json(questoff);
@@ -41,14 +41,14 @@ exports.createQuestionnaireOffer = (req, res, next) => {
 			res.status(201).json(newObj);
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeUniqueConstraintError") {
+			if (err.name === 'SequelizeUniqueConstraintError') {
 				res.status(403).json({
 					message: `Istnieje wniosek tego pracownika złożony w tym roku`,
 				});
-			} else if (err.name === "SequelizeValidationError") {
-				let message = "";
+			} else if (err.name === 'SequelizeValidationError') {
+				let message = '';
 				for (let m of err.errors) {
-					message += m.message + "\n";
+					message += m.message + '\n';
 				}
 				res.status(403).json({
 					message,
@@ -70,17 +70,17 @@ exports.updateQuestionnaireOffer = (req, res, next) => {
 		.then((result) => {
 			res
 				.status(200)
-				.json({ message: "Questionnaire Offer updated!", questoff: result });
+				.json({ message: 'Questionnaire Offer updated!', questoff: result });
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeUniqueConstraintError") {
+			if (err.name === 'SequelizeUniqueConstraintError') {
 				res.status(403).json({
 					message: `Istnieje wniosek tego pracownika złożony w tym roku`,
 				});
-			} else if (err.name === "SequelizeValidationError") {
-				let message = "";
+			} else if (err.name === 'SequelizeValidationError') {
+				let message = '';
 				for (let m of err.errors) {
-					message += m.message + "\n";
+					message += m.message + '\n';
 				}
 				res.status(403).json({
 					message,
@@ -102,19 +102,23 @@ exports.deleteQuestionnaireOffer = (req, res, next) => {
 
 	QuestionnaireOfferRepository.deleteQuestionnaireOffer(questoffId, userId)
 		.then((result) => {
-			res
-				.status(200)
-				.json({ message: "Removed Questionnaire Offer", questoff: result });
+			if (result == -1) {
+				res.status(403).json({ message: 'Brak uprawnień!' });
+			} else {
+				res
+					.status(200)
+					.json({ message: 'Removed Questionnaire Offer', questoff: result });
+			}
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeForeignKeyConstraintError") {
+			if (err.name === 'SequelizeForeignKeyConstraintError') {
 				res.status(403).json({
-					message: "Nie można usunąć wniosku, który zawiera propozycje szkoleń",
+					message: 'Nie można usunąć wniosku, który zawiera propozycje szkoleń',
 				});
 			} else {
 				err.statusCode = 500;
 				res.status(403).json({
-					message: "Nie udało się usunąć wniosku!",
+					message: 'Nie udało się usunąć wniosku!',
 				});
 			}
 		});
@@ -126,7 +130,7 @@ exports.getQuestionnaireOfferByEmpId = (req, res, next) => {
 		(questoff) => {
 			if (!questoff) {
 				res.status(404).json({
-					message: "Questionnaire Offer with IdPerson: " + empId + " not found",
+					message: 'Questionnaire Offer with IdPerson: ' + empId + ' not found',
 				});
 			} else {
 				res.status(200).json(questoff);
@@ -142,7 +146,7 @@ exports.getQuestionnaireOfferByDepId = (req, res, next) => {
 			if (!questoff) {
 				res.status(404).json({
 					message:
-						"Questionnaire Offer with IdDepartment: " + depId + " not found",
+						'Questionnaire Offer with IdDepartment: ' + depId + ' not found',
 				});
 			} else {
 				res.status(200).json(questoff);
@@ -158,7 +162,7 @@ exports.getQuestionnaireOfferByDivId = (req, res, next) => {
 			if (!questoff) {
 				res.status(404).json({
 					message:
-						"Questionnaire Offer with IdDivision: " + divId + " not found",
+						'Questionnaire Offer with IdDivision: ' + divId + ' not found',
 				});
 			} else {
 				res.status(200).json(questoff);
