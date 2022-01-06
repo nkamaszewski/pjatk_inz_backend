@@ -46,6 +46,18 @@ const Offer = sequelize.define(
 				},
 			},
 		},
+		IdQuestionnaireOffer: {
+			type: Sequelize.INTEGER,
+			allowNull: false,
+			validate: {
+				notNull: {
+					msg: 'Należy wybrać rok wniosku',
+				},
+				isNumeric: {
+					msg: 'Należy wybrać rok wniosku',
+				},
+			},
+		},
 	},
 	{
 		timestamps: false,
