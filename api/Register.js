@@ -8,7 +8,7 @@ const Role = require('../model/Role');
 exports.register = (req, res, next) => {
 	const { firstName, lastName, phone, email, pesel, password } = req.body;
 
-	EmployeeRepository.checkOwnersAccounts()
+	EmployeeRepository.getOwnersAccounts()
 		.then((c) => {
 			if (c.count >= 5) {
 				res.status(403).json({

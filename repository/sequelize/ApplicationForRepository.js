@@ -7,7 +7,7 @@ const Department = require('../../model/sequelize/Department');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const Role = require('../../model/Role');
-
+const status = require('../../model/Status');
 exports.getApplicationFor = (params, ...userData) => {
 	const { iddepartment, iddivision, idstatus } = params;
 	const depId = iddepartment;
@@ -47,7 +47,7 @@ exports.getApplicationFor = (params, ...userData) => {
 						as: 'employeeEmployment',
 						where: [
 							depId ? { IdDepartment: depId, DateTo: null } : { DateTo: null },
-							// divId ? { IdDivision: divId } : {},
+							divId ? { IdDivision: divId } : {},
 							userIdRole == Role.PRACOWNIK
 								? { IdPerson: userId }
 								: userIdRole == Role.KIEROWNIK
@@ -55,14 +55,6 @@ exports.getApplicationFor = (params, ...userData) => {
 								: userIdRole == Role.DYREKTOR
 								? { IdDivision: userIdDivision }
 								: {},
-						],
-						include: [
-							{
-								model: Department,
-								required: true,
-								as: 'employmentsDepartment',
-								where: divId ? { IdDivision: divId } : {},
-							},
 						],
 					},
 				],
@@ -229,5 +221,11 @@ exports.getApplicationForByStatId = (statId) => {
 		where: {
 			IdStatus: statId,
 		},
+	});
+};
+
+exports.getApplicationForByEduId = (eduId) => {
+	return ApplicationFor.findAndCountAll({
+		where: { IdEducation: eduId, IdStatus: status.ZATWIERDZONY_DYR },
 	});
 };

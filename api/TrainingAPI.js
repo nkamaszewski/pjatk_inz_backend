@@ -1,4 +1,6 @@
-const TrainingRepository = require("../repository/sequelize/TrainingRepository");
+const TrainingRepository = require('../repository/sequelize/TrainingRepository');
+const ApplicationFor = require('../repository/sequelize/ApplicationForRepository');
+const Participation = require('../repository/sequelize/ParticipationRepository');
 
 exports.getTrainings = (req, res, next) => {
 	const params = req.query;
@@ -17,7 +19,7 @@ exports.getTrainingById = (req, res, next) => {
 	TrainingRepository.getTrainingById(eduId).then((trn) => {
 		if (!trn) {
 			res.status(404).json({
-				message: "Training with id: " + eduId + " not found",
+				message: 'Training with id: ' + eduId + ' not found',
 			});
 		} else {
 			res.status(200).json(trn);
@@ -31,10 +33,10 @@ exports.createTraining = (req, res, next) => {
 			res.status(201).json(newObj);
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				let message = "";
+			if (err.name === 'SequelizeValidationError') {
+				let message = '';
 				for (let m of err.errors) {
-					message += m.message + "\n";
+					message += m.message + '\n';
 				}
 				res.status(403).json({
 					message,
@@ -50,33 +52,43 @@ exports.createTraining = (req, res, next) => {
 		});
 };
 
-exports.updateTraining = (req, res, next) => {
+exports.updateTraining = async (req, res, next) => {
 	const eduId = req.params.eduId;
-	TrainingRepository.updateTraining(eduId, req.body)
-		.then((result) => {
-			res.status(200).json({
-				message: "Szkolenie zaktualizowane!",
-				trn: result,
-			});
-		})
-		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				let message = "";
-				for (let m of err.errors) {
-					message += m.message + "\n";
-				}
-				res.status(403).json({
-					message,
-				});
-			} else {
-				if (!err.statusCode) {
-					err.statusCode = 500;
-				}
-				res.status(403).json({
-					message: `Nie udało się zaktualizować szkolenia`,
-				});
-			}
+	const appFor = await ApplicationFor.getApplicationForByEduId(eduId);
+	const partic = await Participation.getParticipationByEduId(eduId);
+
+	if (appFor.count > 0 || partic.count > 0) {
+		res.status(403).json({
+			message:
+				'Nie można modyfikować szkolenia, które przypisano w zaakceptowanych wnioskach lub szkoleniach',
 		});
+	} else {
+		TrainingRepository.updateTraining(eduId, req.body)
+			.then((result) => {
+				res.status(200).json({
+					message: 'Szkolenie zaktualizowane!',
+					trn: result,
+				});
+			})
+			.catch((err) => {
+				if (err.name === 'SequelizeValidationError') {
+					let message = '';
+					for (let m of err.errors) {
+						message += m.message + '\n';
+					}
+					res.status(403).json({
+						message,
+					});
+				} else {
+					if (!err.statusCode) {
+						err.statusCode = 500;
+					}
+					res.status(403).json({
+						message: `Nie udało się zaktualizować szkolenia`,
+					});
+				}
+			});
+	}
 };
 
 exports.deleteTraining = (req, res, next) => {
@@ -84,16 +96,16 @@ exports.deleteTraining = (req, res, next) => {
 	TrainingRepository.deleteTraining(eduId)
 		.then((result) => {
 			res.status(200).json({
-				message: "Usunięto szkolenie",
+				message: 'Usunięto szkolenie',
 				trn: result,
 			});
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeForeignKeyConstraintError") {
-				let msg = "Nie można usunąć szkolenia";
-				if (err.table == "training") {
+			if (err.name === 'SequelizeForeignKeyConstraintError') {
+				let msg = 'Nie można usunąć szkolenia';
+				if (err.table == 'training') {
 					msg = `${msg}, które posiada przypisane grupy`;
-				} else if (err.table == "education") {
+				} else if (err.table == 'education') {
 					msg = `${msg}, które posiada przypisanych uczestników lub wnioski`;
 				}
 				res.status(403).json({
@@ -102,7 +114,7 @@ exports.deleteTraining = (req, res, next) => {
 			} else {
 				err.statusCode = 500;
 				res.status(403).json({
-					message: "Nie udało się usunąć szkolenia!",
+					message: 'Nie udało się usunąć szkolenia!',
 				});
 			}
 		});
@@ -113,7 +125,7 @@ exports.getTrainingByInternal = (req, res, next) => {
 	TrainingRepository.getTrainingByInternal(int).then((trn) => {
 		if (!trn) {
 			res.status(404).json({
-				message: "Training with Internal: " + int + " not found",
+				message: 'Training with Internal: ' + int + ' not found',
 			});
 		} else {
 			res.status(200).json(trn);

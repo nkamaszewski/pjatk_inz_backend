@@ -2,8 +2,18 @@ const ApplicationForRefundRepository = require('../repository/sequelize/Applicat
 
 exports.getApplicationForRefunds = (req, res, next) => {
 	const params = req.query;
+	const uId = req.userId;
+	const uIdDepartment = req.userIdDepartment;
+	const uIdDivision = req.userIdDivision;
+	const uIdRole = req.userIdRole;
 
-	ApplicationForRefundRepository.getApplicationForRefunds(params)
+	ApplicationForRefundRepository.getApplicationForRefunds(
+		params,
+		uId,
+		uIdDepartment,
+		uIdDivision,
+		uIdRole
+	)
 		.then((appForRefs) => {
 			res.status(200).json(appForRefs);
 		})

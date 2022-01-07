@@ -321,7 +321,7 @@ exports.getPartOthersByEmpId = (empId) => {
 	});
 };
 
-exports.checkOwnersAccounts = () => {
+exports.getOwnersAccounts = () => {
 	return Employee.findAndCountAll({
 		where: {
 			OwnerAccount: 1,
