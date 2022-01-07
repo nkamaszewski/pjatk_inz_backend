@@ -93,7 +93,21 @@ exports.updateEmployment = (employmentId, data) => {
 	const IdDivision = data.IdDivision;
 	const idPosition = data.idPosition;
 	const idPerson = data.idPerson;
-	return Employment.update(data, { where: { IdEmployment: employmentId } });
+	const idRole = data.idRole;
+	if (!IdDivision) {
+		console.log('Nie ma IdDivision');
+		return Department.findOne({
+			where: { IdDepartment: idDepartment },
+		}).then((dep) => {
+			console.log(dep.IdDivision);
+			data.IdDivision = dep.IdDivision;
+			return Employment.update(data, { where: { IdEmployment: employmentId } });
+		});
+	} else {
+		console.log('Jest IdDivision');
+
+		return Employment.update(data, { where: { IdEmployment: employmentId } });
+	}
 };
 
 exports.getEmploymentById = (empId) => {
