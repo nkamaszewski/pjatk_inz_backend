@@ -45,10 +45,9 @@ exports.getApplicationFor = (params, ...userData) => {
 						model: Employment,
 						required: true,
 						as: 'employeeEmployment',
-						where: depId
-							? { IdDepartment: depId, DateTo: null }
-							: { DateTo: null },
-						where:
+						where: [
+							depId ? { IdDepartment: depId, DateTo: null } : { DateTo: null },
+							// divId ? { IdDivision: divId } : {},
 							userIdRole == Role.PRACOWNIK
 								? { IdPerson: userId }
 								: userIdRole == Role.KIEROWNIK
@@ -56,6 +55,7 @@ exports.getApplicationFor = (params, ...userData) => {
 								: userIdRole == Role.DYREKTOR
 								? { IdDivision: userIdDivision }
 								: {},
+						],
 						include: [
 							{
 								model: Department,

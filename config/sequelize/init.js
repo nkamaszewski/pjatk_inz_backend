@@ -700,20 +700,20 @@ module.exports = () => {
 		},
 	});
 	// do usunięcia
-	Role.hasMany(Employee, {
-		as: 'roleEmployee',
-		foreignKey: {
-			name: 'IdRole',
-			allowNull: false,
-		},
-	});
-	Employee.belongsTo(Role, {
-		as: 'employeeRole',
-		foreignKey: {
-			name: 'IdRole',
-			allowNull: false,
-		},
-	});
+	// Role.hasMany(Employee, {
+	// 	as: 'roleEmployee',
+	// 	foreignKey: {
+	// 		name: 'IdRole',
+	// 		allowNull: false,
+	// 	},
+	// });
+	// Employee.belongsTo(Role, {
+	// 	as: 'employeeRole',
+	// 	foreignKey: {
+	// 		name: 'IdRole',
+	// 		allowNull: false,
+	// 	},
+	// });
 	//
 	Role.hasMany(Employment, {
 		as: 'roleEmployment',
@@ -831,13 +831,13 @@ module.exports = () => {
 						{
 							IdPerson: '1',
 							Pesel: '85041234567',
-							Password: 'jakieshaslo',
+							Password: '*****',
 							IsActive: false,
 						},
 						{
 							IdPerson: '2',
 							Pesel: '89010223457',
-							Password: 'alamakota',
+							Password: '*****',
 							IsActive: true,
 						},
 					]);
@@ -1092,12 +1092,14 @@ module.exports = () => {
 						{
 							DateFrom: '2018-01-01',
 							IdDepartment: 1,
+							IdDivision: 1,
 							IdPosition: 1,
 							IdPerson: 1,
 						},
 						{
 							DateFrom: '2019-01-01',
 							IdDepartment: 1,
+							IdDivision: 1,
 							IdPosition: 2,
 							IdPerson: 2,
 						},

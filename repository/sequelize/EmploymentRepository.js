@@ -53,15 +53,31 @@ exports.getEmployments = (...userData) => {
 };
 
 exports.createEmployment = (newEmploymentData) => {
-	return Employment.create({
-		DateFrom: newEmploymentData.DateFrom,
-		DateTo: newEmploymentData.DateTo,
-		IdDepartment: newEmploymentData.IdDepartment,
-		IdDivision: newEmploymentData.IdDivision,
-		IdPosition: newEmploymentData.IdPosition,
-		IdPerson: newEmploymentData.IdPerson,
-		IdRole: newEmploymentData.IdRole,
-	});
+	if (!newEmploymentData.IdDivision) {
+		return Department.findOne({
+			where: { IdDepartment: newEmploymentData.IdDepartment },
+		}).then((dep) => {
+			return Employment.create({
+				DateFrom: newEmploymentData.DateFrom,
+				DateTo: newEmploymentData.DateTo,
+				IdDepartment: newEmploymentData.IdDepartment,
+				IdDivision: dep.IdDivision,
+				IdPosition: newEmploymentData.IdPosition,
+				IdPerson: newEmploymentData.IdPerson,
+				IdRole: newEmploymentData.IdRole,
+			});
+		});
+	} else {
+		return Employment.create({
+			DateFrom: newEmploymentData.DateFrom,
+			DateTo: newEmploymentData.DateTo,
+			IdDepartment: newEmploymentData.IdDepartment,
+			IdDivision: newEmploymentData.IdDivision,
+			IdPosition: newEmploymentData.IdPosition,
+			IdPerson: newEmploymentData.IdPerson,
+			IdRole: newEmploymentData.IdRole,
+		});
+	}
 };
 
 exports.deleteEmployment = (employmentId) => {

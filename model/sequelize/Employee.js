@@ -31,11 +31,6 @@ const Employee = sequelize.define(
 			},
 		},
 		Password: { type: Sequelize.STRING, allowNull: false },
-		IdRole: {
-			type: Sequelize.INTEGER,
-			allowNull: true,
-			defaultValue: '1',
-		},
 		IsActive: { type: Sequelize.BOOLEAN, allowNull: false },
 		OwnerAccount: {
 			type: Sequelize.BOOLEAN,
