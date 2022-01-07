@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../../config/sequelize/sequelize');
+const Op = Sequelize.Op;
 
 const Employment = sequelize.define(
 	'Employment',
@@ -22,6 +23,36 @@ const Employment = sequelize.define(
 				},
 				isDate: {
 					msg: 'Pole powinno być prawidłową datą',
+				},
+				isEmployed(value, next) {
+					const personId = this.IdPerson;
+					const employmentId = this.IdEmployment;
+					Employment.findAll({
+						where: {
+							IdEmployment: {
+								[Op.ne]: employmentId,
+							},
+							[Op.or]: [
+								{
+									DateTo: { [Op.is]: null },
+								},
+								{
+									DateTo: { [Op.gte]: value },
+								},
+							],
+							IdPerson: personId,
+						},
+					})
+						.then((meeting) => {
+							if (meeting.length != 0)
+								next(
+									new Error(
+										`Data początkowa zatrudnienia pokrywa się z wcześniejszym zatrudnieniem`
+									)
+								);
+							next();
+						})
+						.catch((onError) => console.log(onError));
 				},
 			},
 		},
