@@ -55,7 +55,7 @@ exports.createEmployment = (req, res, next) => {
 						err.statusCode = 500;
 					}
 					res.status(403).json({
-						message: `Nie udało się zaktualizować zatrudnienia`,
+						message: `Nie udało się dodać zatrudnienia`,
 					});
 				}
 			});

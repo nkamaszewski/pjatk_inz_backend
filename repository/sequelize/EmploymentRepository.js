@@ -15,12 +15,6 @@ exports.getEmployments = (...userData) => {
 			{
 				model: Department,
 				as: 'employmentsDepartment',
-				include: [
-					{
-						model: Division,
-						as: 'departmentsDivision',
-					},
-				],
 			},
 			{
 				model: Division,
@@ -53,31 +47,19 @@ exports.getEmployments = (...userData) => {
 };
 
 exports.createEmployment = (newEmploymentData) => {
-	if (!newEmploymentData.IdDivision) {
-		return Department.findOne({
-			where: { IdDepartment: newEmploymentData.IdDepartment },
-		}).then((dep) => {
-			return Employment.create({
-				DateFrom: newEmploymentData.DateFrom,
-				DateTo: newEmploymentData.DateTo,
-				IdDepartment: newEmploymentData.IdDepartment,
-				IdDivision: dep.IdDivision,
-				IdPosition: newEmploymentData.IdPosition,
-				IdPerson: newEmploymentData.IdPerson,
-				IdRole: newEmploymentData.IdRole,
-			});
-		});
-	} else {
-		return Employment.create({
-			DateFrom: newEmploymentData.DateFrom,
-			DateTo: newEmploymentData.DateTo,
-			IdDepartment: newEmploymentData.IdDepartment,
-			IdDivision: newEmploymentData.IdDivision,
-			IdPosition: newEmploymentData.IdPosition,
-			IdPerson: newEmploymentData.IdPerson,
-			IdRole: newEmploymentData.IdRole,
-		});
+	if (newEmploymentData.IdDepartment == '') {
+		newEmploymentData.IdDepartment = null;
 	}
+	console.log(newEmploymentData);
+	return Employment.create({
+		DateFrom: newEmploymentData.DateFrom,
+		DateTo: newEmploymentData.DateTo,
+		IdDepartment: newEmploymentData.IdDepartment,
+		IdDivision: newEmploymentData.IdDivision,
+		IdPosition: newEmploymentData.IdPosition,
+		IdPerson: newEmploymentData.IdPerson,
+		IdRole: newEmploymentData.IdRole,
+	});
 };
 
 exports.deleteEmployment = (employmentId) => {
@@ -87,27 +69,8 @@ exports.deleteEmployment = (employmentId) => {
 };
 
 exports.updateEmployment = (employmentId, data) => {
-	const dateFrom = data.DateFrom;
-	const dateTo = data.DateTo;
-	const idDepartment = data.IdDepartment;
-	const IdDivision = data.IdDivision;
-	const idPosition = data.idPosition;
-	const idPerson = data.idPerson;
-	const idRole = data.idRole;
-	if (!IdDivision) {
-		console.log('Nie ma IdDivision');
-		return Department.findOne({
-			where: { IdDepartment: idDepartment },
-		}).then((dep) => {
-			console.log(dep.IdDivision);
-			data.IdDivision = dep.IdDivision;
-			return Employment.update(data, { where: { IdEmployment: employmentId } });
-		});
-	} else {
-		console.log('Jest IdDivision');
-
-		return Employment.update(data, { where: { IdEmployment: employmentId } });
-	}
+	if (data.IdDepartment == '') data.IdDepartment = null;
+	return Employment.update(data, { where: { IdEmployment: employmentId } });
 };
 
 exports.getEmploymentById = (empId) => {
