@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../../config/sequelize/sequelize");
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/sequelize/sequelize');
 
 const Participation = sequelize.define(
-	"Participation",
+	'Participation',
 	{
 		IdParticipation: {
 			type: Sequelize.INTEGER,
@@ -15,10 +15,10 @@ const Participation = sequelize.define(
 			allowNull: false,
 			validate: {
 				notEmpty: {
-					msg: "Należy wybrać pracownika",
+					msg: 'Należy wybrać pracownika',
 				},
 				isNumeric: {
-					msg: "Należy wybrać pracownika",
+					msg: 'Należy wybrać pracownika',
 				},
 			},
 		},
@@ -27,10 +27,10 @@ const Participation = sequelize.define(
 			allowNull: false,
 			validate: {
 				notEmpty: {
-					msg: "Należy wybrać szkolenie",
+					msg: 'Należy wybrać szkolenie',
 				},
 				isNumeric: {
-					msg: "Należy wybrać szkolenie",
+					msg: 'Należy wybrać szkolenie',
 				},
 				isAccepted(value, next) {
 					const personId = this.IdPerson;
@@ -57,27 +57,27 @@ const Participation = sequelize.define(
 			defaultValue: Sequelize.NOW,
 			validate: {
 				notNull: {
-					msg: "Należy wstawić datę początkową zatrudnienia",
+					msg: 'Należy wstawić datę początkową zatrudnienia',
 				},
 				notEmpty: {
-					msg: "Należy wstawić datę początkową zatrudnienia",
+					msg: 'Należy wstawić datę początkową zatrudnienia',
 				},
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 			},
 		},
 		EndDate: { type: Sequelize.DATE, allowNull: true },
-		CertificateOfCompletion: { type: Sequelize.STRING, allowNull: true },
+		CertificateOfCompletion: { type: Sequelize.BLOB, allowNull: true },
 	},
 	{
 		timestamps: false,
-		tableName: "Participation",
+		tableName: 'Participation',
 		indexes: [
 			{
-				name: "idx_participation_idPerson_idEducation",
+				name: 'idx_participation_idPerson_idEducation',
 				unique: true,
-				fields: ["IdPerson", "IdEducation"],
+				fields: ['IdPerson', 'IdEducation'],
 			},
 		],
 	}
