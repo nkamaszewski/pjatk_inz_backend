@@ -156,22 +156,22 @@ module.exports = () => {
 		},
 	});
 
-	Issue.hasMany(QuestionnaireIssue, {
-		as: 'issuesQuestionnaireIssue',
-		foreignKey: {
-			name: 'IdIssue',
-			allowNull: false,
-		},
-		constraints: true,
-		onDelete: 'RESTRICT',
-	});
-	QuestionnaireIssue.belongsTo(Issue, {
-		as: 'questionnaireissuesIssue',
-		foreignKey: {
-			name: 'IdIssue',
-			allowNull: false,
-		},
-	});
+	// Issue.hasMany(QuestionnaireIssue, {
+	// 	as: 'issuesQuestionnaireIssue',
+	// 	foreignKey: {
+	// 		name: 'IdIssue',
+	// 		allowNull: false,
+	// 	},
+	// 	constraints: true,
+	// 	onDelete: 'RESTRICT',
+	// });
+	// QuestionnaireIssue.belongsTo(Issue, {
+	// 	as: 'questionnaireissuesIssue',
+	// 	foreignKey: {
+	// 		name: 'IdIssue',
+	// 		allowNull: false,
+	// 	},
+	// });
 
 	Room.hasMany(Meeting, {
 		as: 'roomMeeting',
@@ -1453,6 +1453,32 @@ module.exports = () => {
 							IdApplicationForRefund: 2,
 							IdReasonForRefund: 3,
 							IdStatus: 1,
+						},
+					]);
+				} else {
+					return appReasons;
+				}
+			})
+			.then(() => {
+				return Issue.findAll();
+			})
+			.then((issues) => {
+				if (!issues || issues.length == 0) {
+					return Issue.bulkCreate([
+						{
+							Description: 'Metody szkoleniowe',
+						},
+						{
+							Description: 'Materiały i pomoce',
+						},
+						{
+							Description: 'Organizacja szkolenia',
+						},
+						{
+							Description: 'Miejsce szkolenia',
+						},
+						{
+							Description: 'Ocena prowadzącego',
 						},
 					]);
 				} else {
