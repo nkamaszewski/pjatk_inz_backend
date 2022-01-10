@@ -76,7 +76,7 @@ const Employment = sequelize.define(
 		},
 		IdDivision: {
 			type: Sequelize.INTEGER,
-			allowNull: true,
+			allowNull: false,
 		},
 		IdPosition: {
 			type: Sequelize.INTEGER,
