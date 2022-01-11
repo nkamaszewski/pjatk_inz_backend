@@ -10,7 +10,6 @@ exports.getParticipations = () => {
 			'IdEducation',
 			'DateOfRegistration',
 			'EndDate',
-			'CertificateOfCompletion',
 		],
 		include: [
 			{
@@ -81,5 +80,12 @@ exports.getParticipationById = (participId) => {
 exports.getParticipationByEduId = (eduId) => {
 	return Participation.findAndCountAll({
 		where: { IdEducation: eduId },
+	});
+};
+
+exports.getCertificateByPartId = (participId) => {
+	return Participation.findAll({
+		attributes: ['CertificateOfCompletion'],
+		where: { IdParticipation: participId },
 	});
 };

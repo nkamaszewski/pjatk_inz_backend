@@ -5,10 +5,13 @@ const participApiController = require('../../api/ParticipationAPI');
 router.get('/', participApiController.getParticipations);
 router.get('/:participId', participApiController.getParticipationById);
 router.get(
-  '/education/:idEducation',
-  participApiController.getParticipationsByIdEducation
+	'/education/:idEducation',
+	participApiController.getParticipationsByIdEducation
 );
-
+router.get(
+	'/certificate/:participId',
+	participApiController.getCertificateByPartId
+);
 router.post('/', participApiController.createParticipation);
 router.put('/:participId', participApiController.updateParticipation);
 router.delete('/:participId', participApiController.deleteParticipation);
