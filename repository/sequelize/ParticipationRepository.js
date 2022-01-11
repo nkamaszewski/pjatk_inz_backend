@@ -84,7 +84,7 @@ exports.getParticipationByEduId = (eduId) => {
 };
 
 exports.getCertificateByPartId = (participId) => {
-	return Participation.findAll({
+	return Participation.findOne({
 		attributes: ['CertificateOfCompletion'],
 		where: { IdParticipation: participId },
 	});

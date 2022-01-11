@@ -158,13 +158,8 @@ exports.getCertificateByPartId = (req, res, next) => {
 					message: 'Participation with id: ' + participId + ' not found',
 				});
 			} else {
-				// const formData = new multiparty.Form();
-				// formData.parse(particip, (err, fields, files) => {
-				// 	const data = {
-				// 		CertificateOfCompletion: files.CertificateOfCompletion[0],
-				// 	};
-				// 	res.status(200).json(data);
-				res.status(200).json(particip);
+				const file = particip.dataValues.CertificateOfCompletion;
+				res.status(200).end(Buffer.from(file, 'binary'));
 			}
 		}
 	);

@@ -5,11 +5,11 @@ const participApiController = require('../../api/ParticipationAPI');
 router.get('/', participApiController.getParticipations);
 router.get('/:participId', participApiController.getParticipationById);
 router.get(
-	'/education/:idEducation',
+	'/:idEducation/education',
 	participApiController.getParticipationsByIdEducation
 );
 router.get(
-	'/certificate/:participId',
+	'/:participId/certificate',
 	participApiController.getCertificateByPartId
 );
 router.post('/', participApiController.createParticipation);
