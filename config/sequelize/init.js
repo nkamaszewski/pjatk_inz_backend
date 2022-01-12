@@ -122,14 +122,14 @@ module.exports = () => {
 		},
 	});
 
-	Participation.hasMany(Questionnaire, {
+	Participation.hasOne(Questionnaire, {
 		as: 'participationQuestionnaires',
 		foreignKey: {
 			name: 'IdParticipation',
 			allowNull: false,
 		},
 		constraints: true,
-		onDelete: 'RESTRICT',
+		onDelete: 'CASCADE',
 	});
 	Questionnaire.belongsTo(Participation, {
 		as: 'questionnairesParticipation',
@@ -139,22 +139,22 @@ module.exports = () => {
 		},
 	});
 
-	Questionnaire.hasMany(QuestionnaireIssue, {
-		as: 'questionnaireQuestionnaireIssues',
-		foreignKey: {
-			name: 'IdQuestionnaire',
-			allowNull: false,
-		},
-		constraints: true,
-		onDelete: 'RESTRICT',
-	});
-	QuestionnaireIssue.belongsTo(Questionnaire, {
-		as: 'questionnaireissuesQuestionnaire',
-		foreignKey: {
-			name: 'IdQuestionnaire',
-			allowNull: false,
-		},
-	});
+	// Questionnaire.hasMany(QuestionnaireIssue, {
+	// 	as: 'questionnaireQuestionnaireIssues',
+	// 	foreignKey: {
+	// 		name: 'IdQuestionnaire',
+	// 		allowNull: false,
+	// 	},
+	// 	constraints: true,
+	// 	onDelete: 'RESTRICT',
+	// });
+	// QuestionnaireIssue.belongsTo(Questionnaire, {
+	// 	as: 'questionnaireissuesQuestionnaire',
+	// 	foreignKey: {
+	// 		name: 'IdQuestionnaire',
+	// 		allowNull: false,
+	// 	},
+	// });
 
 	// Issue.hasMany(QuestionnaireIssue, {
 	// 	as: 'issuesQuestionnaireIssue',
@@ -732,10 +732,10 @@ module.exports = () => {
 
 	return (
 		sequelize
-			// .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
-			.sync({
-				alter: true,
-			})
+			.sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+			// .sync({
+			// 	alter: true,
+			// })
 			.then(() => {
 				return Division.findAll();
 			})
@@ -1482,6 +1482,26 @@ module.exports = () => {
 					]);
 				} else {
 					return issues;
+				}
+			})
+			.then(() => {
+				return Questionnaire.findAll();
+			})
+			.then((questionnaires) => {
+				if (!questionnaires || questionnaires.length == 0) {
+					return Questionnaire.bulkCreate([
+						{
+							IdParticipation: 1,
+							Date: '2022-01-21',
+							Issue1: 5,
+							Issue2: 4,
+							Issue3: 3,
+							Issue4: 4,
+							Issue5: 5,
+						},
+					]);
+				} else {
+					return questionnaires;
 				}
 			})
 	);
