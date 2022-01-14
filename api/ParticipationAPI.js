@@ -1,4 +1,5 @@
 const ParticipationRepository = require('../repository/sequelize/ParticipationRepository');
+const ParticipationRepositoryMySql2 = require('../repository/mysql2/ParticipationRepository');
 const Role = require('../model/Role');
 
 exports.getParticipations = (req, res, next) => {
@@ -161,4 +162,16 @@ exports.getCertificateByPartId = (req, res, next) => {
 			}
 		}
 	);
+};
+
+exports.getParticipationsWithoutQuest = (req, res, next) => {
+	const uId = req.userId;
+
+	ParticipationRepositoryMySql2.getParticipationsWithoutQuest(uId)
+		.then((particip) => {
+			res.status(200).json(particip);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 };
