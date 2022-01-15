@@ -92,39 +92,75 @@ exports.updateApplicationFor = (applicationForId, userId, userIdRole, data) => {
 	const Compatibility = data.Compatibility;
 	const IdPerson = data.IdPerson;
 
+	return ApplicationFor.update(
+		{
+			IdStatus: IdStatus,
+			Compatibility: Compatibility,
+			IdEducation: IdEducation,
+		},
+		{
+			where: { IdApplicationFor: applicationForId },
+		}
+	);
+};
+
+exports.updateApplicationForUser = (
+	applicationForId,
+	userId,
+	userIdRole,
+	data
+) => {
+	const { IdPerson, DateOfSubmission, IdEducation, IdStatus, Compatibility } =
+		data;
+
 	return ApplicationFor.findOne({
 		where: {
 			IdApplicationFor: applicationForId,
 			IdPerson: userId,
-			IdStatus: 1,
+			IdStatus: status.ZLOZONY,
 		},
 	}).then(function (appFor) {
-		if (appFor) {
-			return appFor.update({ IdEducation: IdEducation });
+		if (appFor && IdStatus == status.ZLOZONY) {
+			return appFor.update({
+				Compatibility: Compatibility,
+				IdEducation: IdEducation,
+			});
 		} else {
 			return -1;
 		}
 	});
-	// if(IdPerson==userId) {
-	//   console.log("Własny wniosek");
-	//   return ApplicationFor.update({ IdEducation: IdEducation }, {
-	//     where: { IdApplicationFor: applicationForId,
-	//             IdPerson: userId
-	//          },
-	// })}
+};
 
-	// if(IdPerson!=userId && (userIdRole==Role.KIEROWNIK || userIdRole==Role.DYREKTOR))
-	// {
-	//   return ApplicationFor.update({ IdStatus: IdStatus }, {
-	//     where: { IdApplicationFor: applicationForId },
-	//   })}
+exports.updateApplicationForManager = (
+	applicationForId,
+	userId,
+	userIdRole,
+	data
+) => {
+	const { IdPerson, DateOfSubmission, IdEducation, IdStatus, Compatibility } =
+		data;
 
-	return -1;
-	// return ApplicationFor.update(
-	//   { IdStatus: IdStatus, Compatibility: Compatibility, IdEducation: IdEducation  },
-	//   {
-	//   where: { IdApplicationFor: applicationForId },
-	// });
+	return ApplicationFor.findOne({
+		where: {
+			IdApplicationFor: applicationForId,
+			IdStatus: { [Op.ne]: status.ZATWIERDZONY_DYR },
+		},
+	}).then(function (appFor) {
+		if (appFor) {
+			if (appFor.IdPerson != userId) {
+				if (appFor.IdEducation != IdEducation) return -1;
+				else return appFor.update({ IdStatus: IdStatus });
+			} else {
+				return appFor.update({
+					Compatibility: Compatibility,
+					IdEducation: IdEducation,
+					IdStatus: IdStatus,
+				});
+			}
+		} else {
+			return -1;
+		}
+	});
 };
 
 exports.getApplicationForById = (appForId) => {

@@ -66,6 +66,9 @@ exports.getApplicationForById = (req, res, next) => {
 };
 
 exports.createApplicationFor = (req, res, next) => {
+	if (req.userIdRole != Role.ADMIN) {
+		req.body.IdStatus = Status.ZLOZONY;
+	}
 	ApplicationForRepository.createApplicationFor(req.body)
 		.then((newObj) => {
 			res.status(201).json(newObj);
@@ -96,50 +99,182 @@ exports.createApplicationFor = (req, res, next) => {
 
 exports.updateApplicationFor = (req, res, next) => {
 	const appForId = req.params.appForId;
+
 	const uId = req.userId;
-	const uIdDepartment = req.userIdDepartment;
+	const uIdDepartment = req.userId;
 	const uIdDivision = req.userIdDivision;
 	const uIdRole = req.userIdRole;
 
-	ApplicationForRepository.updateApplicationFor(
-		appForId,
-		uId,
-		uIdRole,
-		req.body
-	)
-		.then((result) => {
-			if (result == -1) {
-				res.status(403).json({ message: 'Brak uprawnień!' });
-			} else {
-				res.status(200).json({
-					message: 'Wniosek zaktualizowany',
-					appFor: result,
-				});
-			}
-		})
-		.catch((err) => {
-			if (err.name === 'SequelizeUniqueConstraintError') {
-				res.status(403).json({
-					message: 'Użytkownik już złożył wniosek o to szkolenie',
-				});
-			} else if (err.name === 'SequelizeValidationError') {
-				let message = '';
-				for (let m of err.errors) {
-					message += m.message + '\n';
+	if (uIdRole == Role.PRACOWNIK)
+		ApplicationForRepository.updateApplicationForUser(
+			appForId,
+			uId,
+			uIdRole,
+			req.body
+		)
+			.then((result) => {
+				if (result == -1) {
+					res.status(403).json({
+						message: 'Brak uprawnień do zmiany!',
+					});
+				} else {
+					res.status(200).json({
+						message: 'Wniosek zaktualizowany',
+						appFor: result,
+					});
 				}
-				res.status(403).json({
-					message,
-				});
-			} else {
-				if (!err.statusCode) {
-					err.statusCode = 500;
+			})
+			.catch((err) => {
+				if (err.name === 'SequelizeUniqueConstraintError') {
+					res.status(403).json({
+						message: 'Użytkownik już złożył wniosek o to szkolenie',
+					});
+				} else if (err.name === 'SequelizeValidationError') {
+					let message = '';
+					for (let m of err.errors) {
+						message += m.message + '\n';
+					}
+					res.status(403).json({
+						message,
+					});
+				} else {
+					if (!err.statusCode) {
+						err.statusCode = 500;
+					}
+					res.status(403).json({
+						message: `Nie udało się zaktualizować wniosku`,
+					});
 				}
-				res.status(403).json({
-					message: `Nie udało się zaktualizować wniosku`,
-				});
-			}
-		});
+			});
+
+	if (
+		uIdRole == Role.KIEROWNIK &&
+		req.body.IdStatus == Status.ZATWIERDZONY_DYR
+	) {
+		req.body.IdStatus = Status.ZATWIERDZONY_KIER;
+	}
+	if (uIdRole == Role.KIEROWNIK || uIdRole == Role.DYREKTOR)
+		ApplicationForRepository.updateApplicationForManager(
+			appForId,
+			uId,
+			uIdRole,
+			req.body
+		)
+			.then((result) => {
+				if (result == -1) {
+					res.status(403).json({ message: 'Brak uprawnień do zmiany!' });
+				} else {
+					res.status(200).json({
+						message: 'Status wniosku zaktualizowany',
+						appFor: result,
+					});
+				}
+			})
+			.catch((err) => {
+				if (err.name === 'SequelizeUniqueConstraintError') {
+					res.status(403).json({
+						message: 'Użytkownik już złożył wniosek o to szkolenie',
+					});
+				} else if (err.name === 'SequelizeValidationError') {
+					let message = '';
+					for (let m of err.errors) {
+						message += m.message + '\n';
+					}
+					res.status(403).json({
+						message,
+					});
+				} else {
+					if (!err.statusCode) {
+						err.statusCode = 500;
+					}
+					res.status(403).json({
+						message: `Nie udało się zaktualizować wniosku`,
+					});
+				}
+			});
+
+	if (uIdRole == Role.ADMIN)
+		ApplicationForRepository.updateApplicationFor(
+			appForId,
+			uId,
+			uIdRole,
+			req.body
+		)
+			.then((result) => {
+				if (result == -1) {
+					res.status(403).json({ message: 'Brak uprawnień!' });
+				} else {
+					res.status(200).json({
+						message: 'Wniosek zaktualizowany',
+						appFor: result,
+					});
+				}
+			})
+			.catch((err) => {
+				if (err.name === 'SequelizeUniqueConstraintError') {
+					res.status(403).json({
+						message: 'Użytkownik już złożył wniosek o to szkolenie',
+					});
+				} else if (err.name === 'SequelizeValidationError') {
+					let message = '';
+					for (let m of err.errors) {
+						message += m.message + '\n';
+					}
+					res.status(403).json({
+						message,
+					});
+				} else {
+					if (!err.statusCode) {
+						err.statusCode = 500;
+					}
+					res.status(403).json({
+						message: `Nie udało się zaktualizować wniosku`,
+					});
+				}
+			});
 };
+
+// if(uIdRole==Role.ADMIN) {
+// ApplicationForRepository.updateApplicationFor(
+// 	appForId,
+// 	uId,
+// 	uIdRole,
+// 	req.body
+// )
+// 	.then((result) => {
+// 		if (result == -1) {
+// 			res.status(403).json({ message: 'Brak uprawnień!' });
+// 		} else {
+// 			res.status(200).json({
+// 				message: 'Wniosek zaktualizowany',
+// 				appFor: result,
+// 			});
+// 		}
+// 	})
+// 	.catch((err) => {
+// 		if (err.name === 'SequelizeUniqueConstraintError') {
+// 			res.status(403).json({
+// 				message: 'Użytkownik już złożył wniosek o to szkolenie',
+// 			});
+// 		} else if (err.name === 'SequelizeValidationError') {
+// 			let message = '';
+// 			for (let m of err.errors) {
+// 				message += m.message + '\n';
+// 			}
+// 			res.status(403).json({
+// 				message,
+// 			});
+// 		} else {
+// 			if (!err.statusCode) {
+// 				err.statusCode = 500;
+// 			}
+// 			res.status(403).json({
+// 				message: `Nie udało się zaktualizować wniosku`,
+// 			});
+// 		}
+// 	});
+// }
+// };
 
 exports.deleteApplicationFor = (req, res, next) => {
 	const appForId = req.params.appForId;

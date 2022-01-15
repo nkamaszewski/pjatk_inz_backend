@@ -88,9 +88,14 @@ exports.updateParticipation = (req, res, next) => {
 		});
 	} else {
 		const participId = req.params.participId;
+		if (req.body.EndDate == '') req.body.EndDate = null;
+		let buffer = null;
+		if (req.file) {
+			buffer = req.file.buffer;
+		}
 		const data = {
 			...req.body,
-			CertificateOfCompletion: req.file.buffer,
+			CertificateOfCompletion: buffer,
 		};
 		ParticipationRepository.updateParticipation(participId, data)
 			.then((result) => {
