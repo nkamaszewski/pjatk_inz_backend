@@ -39,6 +39,7 @@ exports.getApplicationForRefunds = (params, ...userData) => {
 						required: true,
 						as: 'applicationForEmployee',
 						attributes: ['IdPerson'],
+						where: userIdRole == Role.PRACOWNIK ? { IdPerson: userId } : {},
 						include: [
 							{
 								model: Employment,
@@ -49,9 +50,7 @@ exports.getApplicationForRefunds = (params, ...userData) => {
 										? { IdDepartment: depId, DateTo: null }
 										: { DateTo: null },
 									divId ? { IdDivision: divId } : {},
-									userIdRole == Role.PRACOWNIK
-										? { IdPerson: userId }
-										: userIdRole == Role.KIEROWNIK
+									userIdRole == Role.KIEROWNIK
 										? { IdDepartment: userIdDepartment }
 										: userIdRole == Role.DYREKTOR
 										? { IdDivision: userIdDivision }
