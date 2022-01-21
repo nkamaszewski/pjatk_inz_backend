@@ -732,7 +732,7 @@ module.exports = () => {
 
   return (
     sequelize
-      //   .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+      // .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
       .sync({
         alter: true,
       })
