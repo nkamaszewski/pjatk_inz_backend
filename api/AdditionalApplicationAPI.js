@@ -4,69 +4,71 @@ const ApplicationForRefundRepository = require('../repository/sequelize/Applicat
 const ApplicationForReasonsRepository = require('../repository/sequelize/ApplicationForReasonsRepository');
 
 exports.createAdditionalApplication = async (req, res, next) => {
-  const { Id, Name, DateOfSubmission } = req.body;
+	const { IdApplicationFor, IdReasonForRefund, DateOfSubmission, IdStatus } =
+		req.body;
 
-  let appFor = null;
-  let IdReasonForRefund = null;
-  let appForRefund = null;
+	console.log(req.body);
+	let appFor = null;
+	let appForRefund = null;
 
-  try {
-    appFor = await ApplicationForRepository.getApplicationForById(Id);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({
-      message: 'Wybrany wniosek szkoleniowy nie istnieje w bazie danych',
-    });
-  }
+	try {
+		appFor = await ApplicationForRepository.getApplicationForById(
+			IdApplicationFor
+		);
+	} catch (e) {
+		console.error(e);
+		res.status(500).json({
+			message: 'Wybrany wniosek szkoleniowy nie istnieje w bazie danych',
+		});
+	}
 
-  try {
-    const reasonForRefund =
-      await ReasonForRefundRepository.createReasonForRefund({
-        Name,
-      });
-    IdReasonForRefund = reasonForRefund.dataValues.IdReasonForRefund;
-  } catch (e) {
-    console.error(e);
+	try {
+		const appForInDB =
+			await ApplicationForRefundRepository.getApplicationForRefundByAppForId(
+				IdApplicationFor
+			);
 
-    res.status(500).json({
-      message:
-        'Wystąpił błąd przy dodawaniu wniosku (internal: reasonForRefund)',
-    });
-  }
-
-  try {
-    const appForInDB =
-      await ApplicationForRefundRepository.getApplicationForRefundByAppForId(
-        Id
-      );
-
-    if (appForInDB[0]) {
-      appForRefund = appForInDB[0];
-    } else {
-      appForRefund =
-        await ApplicationForRefundRepository.createApplicationForRefund({
-          IdApplicationFor: Id,
-          IdStatus: appFor.IdStatus,
-          DateOfSubmission,
-        });
-    }
-  } catch (e) {
-    res.status(500).json({
-      message: 'Wystąpił błąd przy dodawaniu wniosku (internal: appForRefund)',
-    });
-  }
-
-  try {
-    const appForReasons =
-      await ApplicationForReasonsRepository.createApplicationForReasons({
-        IdReasonForRefund,
-        IdApplicationForRefund: appForRefund.IdApplicationForRefund,
-        IdStatus: appFor.IdStatus,
-      });
-    res.status(201).json(appForReasons);
-  } catch (e) {
-    res.status(500).json({
-      message: 'Wystąpił błąd przy dodawaniu wniosku (internal: appForReasons)',
-    });
-  }
+		if (appForInDB[0]) {
+			appForRefund = appForInDB[0];
+		} else {
+			appForRefund =
+				await ApplicationForRefundRepository.createApplicationForRefund({
+					IdApplicationFor,
+					IdStatus: appFor.IdStatus,
+					DateOfSubmission,
+				});
+		}
+		console.log(appForRefund);
+		const appForReasons =
+			await ApplicationForReasonsRepository.createApplicationForReasons({
+				IdReasonForRefund,
+				IdApplicationForRefund: appForRefund.IdApplicationForRefund,
+				IdStatus,
+			});
+		res.status(201).json(appForReasons);
+	} catch (err) {
+		// res.status(500).json({
+		// 	message: 'Wystąpił błąd przy dodawaniu wniosku (internal: appForRefund)',
+		// });
+		if (err.name === 'SequelizeUniqueConstraintError') {
+			res.status(403).json({
+				message: 'Użytkownik już złożył taki wniosek',
+			});
+		} else if (err.name === 'SequelizeValidationError') {
+			let message = '';
+			for (let m of err.errors) {
+				message += m.message + '\n';
+			}
+			res.status(403).json({
+				message,
+			});
+		} else {
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			res.status(403).json({
+				message: `Nie udało się utworzyć wniosku`,
+			});
+		}
+	}
 };
