@@ -63,7 +63,6 @@ exports.updatePerson = (req, res, next) => {
 	const perId = req.params.perId;
 
 	if (req.userId != perId && req.userIdRole != Role.ADMIN) {
-		console.log('Brak uprawnień');
 		res.status(403).json({
 			message: 'Brak uprawnień',
 		});

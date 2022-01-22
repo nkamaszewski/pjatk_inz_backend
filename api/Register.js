@@ -1,5 +1,7 @@
 const EmployeeRepository = require('../repository/sequelize/EmployeeRepository');
 const PersonRepository = require('../repository/sequelize/PersonRepository');
+const EmploymentRepository = require('../repository/sequelize/EmploymentRepository');
+
 const bcrypt = require('bcrypt');
 const salt = require('../auth/saltRound');
 const jwt = require('jsonwebtoken');
@@ -47,6 +49,16 @@ exports.register = (req, res, next) => {
 									res.status(200).json({
 										user: { ...newPerson.dataValues, IdRole: Role.ADMIN },
 										token,
+									});
+								})
+								.then((newObj) => {
+									EmploymentRepository.createEmployment({
+										IdPerson,
+										DateFrom: new Date(),
+										IdPosition: 1,
+										IdDivision: 1,
+										IdDepartment: 1,
+										IdRole: 4,
 									});
 								})
 								.catch((err) => {

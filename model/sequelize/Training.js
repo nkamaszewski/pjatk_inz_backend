@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize");
-const sequelize = require("../../config/sequelize/sequelize");
+const Sequelize = require('sequelize');
+const sequelize = require('../../config/sequelize/sequelize');
 
 const Training = sequelize.define(
-	"Training",
+	'Training',
 	{
 		IdEducation: {
 			type: Sequelize.INTEGER,
@@ -15,10 +15,10 @@ const Training = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy wybrać temat szkolenia",
+					msg: 'Należy wybrać temat szkolenia',
 				},
 				isInt: {
-					msg: "Należy wybrać temat szkolenia",
+					msg: 'Należy wybrać temat szkolenia',
 				},
 			},
 		},
@@ -27,10 +27,10 @@ const Training = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy wybrać organizatora szkolenia",
+					msg: 'Należy wybrać organizatora szkolenia',
 				},
 				isInt: {
-					msg: "Należy wybrać organizatora szkolenia",
+					msg: 'Należy wybrać organizatora szkolenia',
 				},
 			},
 		},
@@ -39,10 +39,10 @@ const Training = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Należy wybrać prowadzącego szkolenie",
+					msg: 'Należy wybrać prowadzącego szkolenie',
 				},
 				isInt: {
-					msg: "Należy wybrać prowadzącego szkolenie",
+					msg: 'Należy wybrać prowadzącego szkolenie',
 				},
 			},
 		},
@@ -56,10 +56,10 @@ const Training = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Data początkowa nie może być pusta",
+					msg: 'Data początkowa nie może być pusta',
 				},
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 			},
 		},
@@ -68,18 +68,14 @@ const Training = sequelize.define(
 			allowNull: false,
 			validate: {
 				notNull: {
-					msg: "Data końcowa nie może być pusta",
+					msg: 'Data końcowa nie może być pusta',
 				},
 				isDate: {
-					msg: "Pole powinno być prawidłową datą",
+					msg: 'Pole powinno być prawidłową datą',
 				},
 				isLessThanFrom(value) {
 					if (value < this.DateFrom) {
-						console.log("To " + value);
-						console.log("To " + this.DateFrom);
-						throw new Error(
-							`Data końcowa musi być późniejsza niż początkowa`
-						);
+						throw new Error(`Data końcowa musi być późniejsza niż początkowa`);
 					}
 				},
 			},
@@ -87,19 +83,19 @@ const Training = sequelize.define(
 	},
 	{
 		timestamps: false,
-		tableName: "Training",
+		tableName: 'Training',
 		indexes: [
 			{
-				name: "idx_training_idTopic",
-				fields: ["IdTopic"],
+				name: 'idx_training_idTopic',
+				fields: ['IdTopic'],
 			},
 			{
-				name: "idx_training_idCompany",
-				fields: ["IdCompany"],
+				name: 'idx_training_idCompany',
+				fields: ['IdCompany'],
 			},
 			{
-				name: "idx_training_idPerson",
-				fields: ["IdPerson"],
+				name: 'idx_training_idPerson',
+				fields: ['IdPerson'],
 			},
 		],
 	}

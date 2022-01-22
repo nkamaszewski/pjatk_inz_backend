@@ -50,7 +50,6 @@ exports.createEmployment = (newEmploymentData) => {
 	if (newEmploymentData.IdDepartment == '') {
 		newEmploymentData.IdDepartment = null;
 	}
-	console.log(newEmploymentData);
 	return Employment.create({
 		DateFrom: newEmploymentData.DateFrom,
 		DateTo: newEmploymentData.DateTo,

@@ -14,7 +14,6 @@ exports.getApplicationFor = (params, ...userData) => {
 	const divId = iddivision;
 	const statId = idstatus;
 	const [userId, userIdDepartment, userIdDivision, userIdRole] = userData;
-	console.log(userData);
 
 	return ApplicationFor.findAll({
 		attributes: [

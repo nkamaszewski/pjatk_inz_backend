@@ -1,4 +1,4 @@
-const OfferRepository = require("../repository/sequelize/OfferRepository");
+const OfferRepository = require('../repository/sequelize/OfferRepository');
 
 exports.getOffers = (req, res, next) => {
 	OfferRepository.getOffers()
@@ -15,7 +15,7 @@ exports.getOfferById = (req, res, next) => {
 	OfferRepository.getOfferById(offerId).then((offer) => {
 		if (!offer) {
 			res.status(404).json({
-				message: "Offer with id: " + offerId + " not found",
+				message: 'Offer with id: ' + offerId + ' not found',
 			});
 		} else {
 			res.status(200).json(offer);
@@ -26,13 +26,11 @@ exports.getOfferById = (req, res, next) => {
 exports.createOffer = (req, res, next) => {
 	const idQuestOffer = req.body.IdQuestionnaireOffer;
 
-	console.log(idQuestOffer);
 	OfferRepository.getNumberOfOffers(idQuestOffer)
 		.then((offers) => {
 			if (offers.count >= 4) {
-				console.log(offers.count);
 				res.status(403).json({
-					message: "Można zaproponować tylko 4 szkolenia",
+					message: 'Można zaproponować tylko 4 szkolenia',
 				});
 			} else {
 				OfferRepository.createOffer(req.body)
@@ -40,10 +38,10 @@ exports.createOffer = (req, res, next) => {
 						res.status(201).json(newObj);
 					})
 					.catch((err) => {
-						if (err.name === "SequelizeValidationError") {
-							let message = "";
+						if (err.name === 'SequelizeValidationError') {
+							let message = '';
 							for (let m of err.errors) {
-								message += m.message + "\n";
+								message += m.message + '\n';
 							}
 							res.status(403).json({
 								message,
@@ -76,18 +74,18 @@ exports.updateOffer = (req, res, next) => {
 	OfferRepository.updateOffer(offerId, userId, req.body)
 		.then((result) => {
 			if (result == -1) {
-				res.status(403).json({ message: "Brak uprawnień!" });
+				res.status(403).json({ message: 'Brak uprawnień!' });
 			} else {
 				res
 					.status(200)
-					.json({ message: "Wniosek zaktualizowany!", offer: result });
+					.json({ message: 'Wniosek zaktualizowany!', offer: result });
 			}
 		})
 		.catch((err) => {
-			if (err.name === "SequelizeValidationError") {
-				let message = "";
+			if (err.name === 'SequelizeValidationError') {
+				let message = '';
 				for (let m of err.errors) {
-					message += m.message + "\n";
+					message += m.message + '\n';
 				}
 				res.status(403).json({
 					message,
@@ -109,11 +107,11 @@ exports.deleteOffer = (req, res, next) => {
 	OfferRepository.deleteOffer(offerId, userId)
 		.then((result) => {
 			if (result == -1) {
-				res.status(403).json({ message: "Brak uprawnień!" });
+				res.status(403).json({ message: 'Brak uprawnień!' });
 			} else {
 				res
 					.status(200)
-					.json({ message: "Wniosek zaktualizowany!", offer: result });
+					.json({ message: 'Wniosek zaktualizowany!', offer: result });
 			}
 		})
 		.catch((err) => {

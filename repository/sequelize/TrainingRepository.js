@@ -1,38 +1,37 @@
-const Education = require("../../model/sequelize/Education");
-const Coach = require("../../model/sequelize/Coach");
-const Person = require("../../model/sequelize/Person");
-const Topic = require("../../model/sequelize/Topic");
-const Company = require("../../model/sequelize/Company");
-const Training = require("../../model/sequelize/Training");
-const Sequelize = require("sequelize");
+const Education = require('../../model/sequelize/Education');
+const Coach = require('../../model/sequelize/Coach');
+const Person = require('../../model/sequelize/Person');
+const Topic = require('../../model/sequelize/Topic');
+const Company = require('../../model/sequelize/Company');
+const Training = require('../../model/sequelize/Training');
+const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
 exports.getTrainings = (params) => {
 	const { internal, active, subject } = params;
-	console.log(internal);
 	return Training.findAll({
-		attributes: ["Internal", "DateFrom", "DateTo", "IdEducation"],
+		attributes: ['Internal', 'DateFrom', 'DateTo', 'IdEducation'],
 		include: [
 			{
 				model: Education,
-				as: "trainingEducation",
+				as: 'trainingEducation',
 			},
 			{
 				model: Company,
-				as: "trainingCompany",
+				as: 'trainingCompany',
 			},
 			{
 				model: Topic,
-				as: "trainingTopic",
+				as: 'trainingTopic',
 				where: [subject ? { IdSubject: subject } : {}],
 			},
 			{
 				model: Coach,
-				as: "trainingCoach",
+				as: 'trainingCoach',
 				include: [
 					{
 						model: Person,
-						as: "CoachPerson",
+						as: 'CoachPerson',
 					},
 				],
 			},
@@ -41,7 +40,7 @@ exports.getTrainings = (params) => {
 			internal ? { Internal: internal } : {},
 			active == 1 ? { DateTo: { [Op.gte]: new Date() } } : {},
 		],
-		order: [["DateFrom", "DESC"]],
+		order: [['DateFrom', 'DESC']],
 	});
 };
 
@@ -88,27 +87,27 @@ exports.getTrainingById = (eduId) => {
 
 exports.getTrainingByInternal = (int) => {
 	return Training.findAll({
-		attributes: ["Internal", "DateFrom", "DateTo"],
+		attributes: ['Internal', 'DateFrom', 'DateTo'],
 		include: [
 			{
 				model: Education,
-				as: "trainingEducation",
+				as: 'trainingEducation',
 			},
 			{
 				model: Company,
-				as: "trainingCompany",
+				as: 'trainingCompany',
 			},
 			{
 				model: Topic,
-				as: "trainingTopic",
+				as: 'trainingTopic',
 			},
 			{
 				model: Coach,
-				as: "trainingCoach",
+				as: 'trainingCoach',
 				include: [
 					{
 						model: Person,
-						as: "CoachPerson",
+						as: 'CoachPerson',
 					},
 				],
 			},
