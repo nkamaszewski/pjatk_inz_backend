@@ -23,7 +23,6 @@ exports.getApplicationFor = (params, ...userData) => {
 								: 1
 						} `;
 	const sqlText = `
-    SELECT IdApplicationFor, DateOfSubmission, Status, Nazwa, Rodzaj, FirstName, LastName, Compatibility FROM (
         SELECT IdApplicationFor, DateOfSubmission, status.name as Status, topic.topic as Nazwa, 'Kurs' as Rodzaj, FirstName, LastName, Compatibility 
         FROM applicationfor INNER JOIN status ON applicationfor.IdStatus=status.IdStatus INNER JOIN education ON applicationfor.IdEducation=education.IdEducation INNER JOIN training ON education.IdEducation=training.IdEducation INNER JOIN topic ON training.IdTopic=topic.IdTopic INNER JOIN employee ON applicationfor.IdPerson=employee.IdPerson INNER JOIN employment ON employee.IdPerson=employment.IdPerson LEFT JOIN department ON employment.IdDepartment=department.IdDepartment INNER JOIN person ON person.IdPerson=employee.IdPerson
         WHERE  ${whereText}    
@@ -37,7 +36,6 @@ exports.getApplicationFor = (params, ...userData) => {
         SELECT IdApplicationFor, DateOfSubmission, status.name, otherEducation.Name as Nazwa, 'Inna edukacja' as Rodzaj, FirstName, LastName, Compatibility  
         FROM applicationfor INNER JOIN status ON applicationfor.IdStatus=status.IdStatus INNER JOIN education ON applicationfor.IdEducation=education.IdEducation INNER JOIN otherEducation ON education.IdEducation=otherEducation.IdEducation INNER JOIN employee ON applicationfor.IdPerson=employee.IdPerson INNER JOIN employment ON employee.IdPerson=employment.IdPerson LEFT JOIN department ON employment.IdDepartment=department.IdDepartment INNER JOIN person ON person.IdPerson=employee.IdPerson
         WHERE  ${whereText} 
-        ) as Edu
         ORDER BY IdApplicationFor DESC;
         `;
 	return db
