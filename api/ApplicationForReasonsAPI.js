@@ -11,7 +11,7 @@ exports.getApplicationForReasons = (req, res, next) => {
 };
 
 exports.getApplicationForReasonsById = (req, res, next) => {
-	const appForReasId = req.params.appForReasId;
+	const appForReasId = req.params.appForReasonsId;
 	ApplicationForReasonsRepository.getApplicationForReasonsById(
 		appForReasId
 	).then((appForReas) => {
@@ -41,7 +41,8 @@ exports.createApplicationForReasons = (req, res, next) => {
 };
 
 exports.updateApplicationForReasons = (req, res, next) => {
-	const appForReasId = req.params.appForReasId;
+	const appForReasId = req.params.appForReasonsId;
+	console.log(appForReasId);
 	ApplicationForReasonsRepository.updateApplicationForReasons(
 		appForReasId,
 		req.body
@@ -61,7 +62,7 @@ exports.updateApplicationForReasons = (req, res, next) => {
 };
 
 exports.deleteApplicationForReasons = (req, res, next) => {
-	const appForReasId = req.params.appForReasId;
+	const appForReasId = req.params.appForReasonsId;
 	ApplicationForReasonsRepository.deleteApplicationForReasons(appForReasId)
 		.then((result) => {
 			res.status(200).json({

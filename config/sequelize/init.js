@@ -683,10 +683,10 @@ module.exports = () => {
 
 	return (
 		sequelize
-			.sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
-			// .sync({
-			// 	alter: true,
-			// })
+			// .sync({ force: true }) //synchronizacja modelu z baza, force - usuniecie i ponowne utworzenie zmienionej tabeli
+			.sync({
+				alter: true,
+			})
 			.then(() => {
 				return Division.findAll();
 			})
