@@ -45,6 +45,7 @@ exports.getApplicationForRefunds = (params, ...userData) => {
 								model: Employment,
 								required: true,
 								as: 'employeeEmployment',
+								attributes: [],
 								where: [
 									depId
 										? { IdDepartment: depId, DateTo: null }
@@ -64,11 +65,6 @@ exports.getApplicationForRefunds = (params, ...userData) => {
 								attributes: ['FirstName', 'LastName'],
 							},
 						],
-					},
-					{
-						model: Education,
-						required: true,
-						as: 'applicationForEducation',
 					},
 				],
 			},

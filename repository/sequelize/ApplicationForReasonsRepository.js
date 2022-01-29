@@ -4,7 +4,7 @@ const ApplicationForReasons = require('../../model/sequelize/ApplicationForReaso
 
 ApplicationForReasons;
 
-exports.getApplicationForReasonss = () => {
+exports.getApplicationForReasons = () => {
 	return ApplicationForReasons.findAll();
 };
 
@@ -18,7 +18,7 @@ exports.createApplicationForReasons = (newApplicationForReasonsData) => {
 	});
 };
 
-exports.deleteReasonForFefund = (applicationForReasonsId) => {
+exports.deleteApplicationForReasons = (applicationForReasonsId) => {
 	return ApplicationForReasons.destroy({
 		where: { IdApplicationForReasons: applicationForReasonsId },
 	});

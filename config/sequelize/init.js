@@ -139,40 +139,6 @@ module.exports = () => {
 		},
 	});
 
-	// Questionnaire.hasMany(QuestionnaireIssue, {
-	// 	as: 'questionnaireQuestionnaireIssues',
-	// 	foreignKey: {
-	// 		name: 'IdQuestionnaire',
-	// 		allowNull: false,
-	// 	},
-	// 	constraints: true,
-	// 	onDelete: 'RESTRICT',
-	// });
-	// QuestionnaireIssue.belongsTo(Questionnaire, {
-	// 	as: 'questionnaireissuesQuestionnaire',
-	// 	foreignKey: {
-	// 		name: 'IdQuestionnaire',
-	// 		allowNull: false,
-	// 	},
-	// });
-
-	// Issue.hasMany(QuestionnaireIssue, {
-	// 	as: 'issuesQuestionnaireIssue',
-	// 	foreignKey: {
-	// 		name: 'IdIssue',
-	// 		allowNull: false,
-	// 	},
-	// 	constraints: true,
-	// 	onDelete: 'RESTRICT',
-	// });
-	// QuestionnaireIssue.belongsTo(Issue, {
-	// 	as: 'questionnaireissuesIssue',
-	// 	foreignKey: {
-	// 		name: 'IdIssue',
-	// 		allowNull: false,
-	// 	},
-	// });
-
 	Room.hasMany(Meeting, {
 		as: 'roomMeeting',
 		foreignKey: {

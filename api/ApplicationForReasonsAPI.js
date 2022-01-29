@@ -1,7 +1,7 @@
 const ApplicationForReasonsRepository = require('../repository/sequelize/ApplicationForReasonsRepository');
 
-exports.getApplicationForReasonss = (req, res, next) => {
-	ApplicationForReasonsRepository.getApplicationForReasonss()
+exports.getApplicationForReasons = (req, res, next) => {
+	ApplicationForReasonsRepository.getApplicationForReasons()
 		.then((appForReass) => {
 			res.status(200).json(appForReass);
 		})
@@ -47,12 +47,10 @@ exports.updateApplicationForReasons = (req, res, next) => {
 		req.body
 	)
 		.then((result) => {
-			res
-				.status(200)
-				.json({
-					message: 'Application for reason updated!',
-					appForReas: result,
-				});
+			res.status(200).json({
+				message: 'Application for reason updated!',
+				appForReas: result,
+			});
 		})
 		.catch((err) => {
 			if (!err.statusCode) {
@@ -66,12 +64,10 @@ exports.deleteApplicationForReasons = (req, res, next) => {
 	const appForReasId = req.params.appForReasId;
 	ApplicationForReasonsRepository.deleteApplicationForReasons(appForReasId)
 		.then((result) => {
-			res
-				.status(200)
-				.json({
-					message: 'Removed application for reason',
-					appForReas: result,
-				});
+			res.status(200).json({
+				message: 'Removed application for reason',
+				appForReas: result,
+			});
 		})
 		.catch((err) => {
 			if (!err.statusCode) {
