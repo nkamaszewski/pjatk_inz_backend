@@ -2,12 +2,13 @@ const ReasonForRefundRepository = require('../repository/sequelize/ReasonForRefu
 const ApplicationForRepository = require('../repository/sequelize/ApplicationForRepository');
 const ApplicationForRefundRepository = require('../repository/sequelize/ApplicationForRefundRepository');
 const ApplicationForReasonsRepository = require('../repository/sequelize/ApplicationForReasonsRepository');
+const Role = require('../model/Role');
+const Status = require('../model/Status');
 
 exports.createAdditionalApplication = async (req, res, next) => {
-	const { IdApplicationFor, IdReasonForRefund, DateOfSubmission, IdStatus } =
-		req.body;
+	const { IdApplicationFor, IdReasonForRefund, DateOfSubmission } = req.body;
 
-	console.log(req.body);
+	let IdStatus = req.body.IdStatus;
 	let appFor = null;
 	let appForRefund = null;
 
@@ -38,7 +39,13 @@ exports.createAdditionalApplication = async (req, res, next) => {
 					DateOfSubmission,
 				});
 		}
-		console.log(appForRefund);
+
+		const userIdRole = req.userIdRole;
+
+		if (userIdRole != Role.ADMIN) {
+			IdStatus = Status.ZLOZONY;
+		}
+
 		const appForReasons =
 			await ApplicationForReasonsRepository.createApplicationForReasons({
 				IdReasonForRefund,
@@ -47,9 +54,6 @@ exports.createAdditionalApplication = async (req, res, next) => {
 			});
 		res.status(201).json(appForReasons);
 	} catch (err) {
-		// res.status(500).json({
-		// 	message: 'Wystąpił błąd przy dodawaniu wniosku (internal: appForRefund)',
-		// });
 		if (err.name === 'SequelizeUniqueConstraintError') {
 			res.status(403).json({
 				message: 'Użytkownik już złożył taki wniosek',

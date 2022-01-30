@@ -107,6 +107,12 @@ exports.getApplicationForRefundById = (appForRefId) => {
 				model: ApplicationForReasons,
 				as: 'applicationForRefundApplicationForReasons',
 			},
+			{
+				model: ApplicationFor,
+				required: true,
+				as: 'applicationForRefundApplicationFor',
+				attributes: ['IdPerson'],
+			},
 		],
 	});
 };

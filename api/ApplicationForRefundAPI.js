@@ -1,4 +1,6 @@
 const ApplicationForRefundRepository = require('../repository/sequelize/ApplicationForRefundRepository');
+const Role = require('../model/Role');
+const Status = require('../model/Status');
 
 exports.getApplicationForRefunds = (req, res, next) => {
 	const params = req.query;
@@ -105,17 +107,51 @@ exports.updateApplicationForRefund = (req, res, next) => {
 
 exports.deleteApplicationForRefund = (req, res, next) => {
 	const appForRefundId = req.params.appForRefundId;
-	ApplicationForRefundRepository.deleteApplicationForRefund(appForRefundId)
-		.then((result) => {
-			res.status(200).json({
-				message: 'Usunięto wniosek dodatkowy',
-				appForRefundId: result,
-			});
+	const userId = req.userId;
+
+	ApplicationForRefundRepository.getApplicationForRefundById(appForRefundId)
+		.then((appFor) => {
+			const idPerson = appFor.applicationForRefundApplicationFor.IdPerson;
+			const appForReasons = appFor.applicationForRefundApplicationForReasons;
+			let status;
+			for (const app of appForReasons) {
+				if (app.IdStatus == Status.ZATWIERDZONY_DYR)
+					status = Status.ZATWIERDZONY_DYR;
+			}
+			if (idPerson != userId) {
+				res
+					.status(403)
+					.json({ message: 'Tylko właściciel wniosku może go usunąć' });
+			} else if (status == Status.ZATWIERDZONY_DYR) {
+				res
+					.status(403)
+					.json({ message: 'Nie można usunąć zaakceptowanego wniosku' });
+			} else {
+				ApplicationForRefundRepository.deleteApplicationForRefund(
+					appForRefundId
+				)
+					.then((result) => {
+						res.status(200).json({
+							message: 'Wniosek usunięty',
+							appFor: result,
+						});
+					})
+					.catch((err) => {
+						if (!err.statusCode) {
+							err.statusCode = 500;
+						}
+						res.status(403).json({
+							message: `Nie udało się usunąć wniosku`,
+						});
+					});
+			}
 		})
 		.catch((err) => {
 			if (!err.statusCode) {
 				err.statusCode = 500;
 			}
-			next(err);
+			res.status(403).json({
+				message: `Nie udało się usunąć wniosku`,
+			});
 		});
 };
